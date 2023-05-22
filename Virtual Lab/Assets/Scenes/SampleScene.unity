@@ -767,6 +767,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1422229359}
     m_Modifications:
+    - target: {fileID: 2852854816844937045, guid: e65a17d7ab7722148800406cc883e116, type: 3}
+      propertyPath: CurrentPinInfo.PinNumber
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 3226020027256994931, guid: e65a17d7ab7722148800406cc883e116, type: 3}
       propertyPath: m_Name
       value: InputPin (3)
@@ -1505,6 +1509,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1422229359}
     m_Modifications:
+    - target: {fileID: 2852854816844937045, guid: e65a17d7ab7722148800406cc883e116, type: 3}
+      propertyPath: CurrentPinInfo.PinNumber
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 3226020027256994931, guid: e65a17d7ab7722148800406cc883e116, type: 3}
       propertyPath: m_Name
       value: InputPin (1)
@@ -1607,6 +1615,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1422229359}
     m_Modifications:
+    - target: {fileID: 2852854816844937045, guid: e65a17d7ab7722148800406cc883e116, type: 3}
+      propertyPath: CurrentPinInfo.PinNumber
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 3226020027256994931, guid: e65a17d7ab7722148800406cc883e116, type: 3}
       propertyPath: m_Name
       value: InputPin (4)
@@ -2842,6 +2854,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1422229359}
     m_Modifications:
+    - target: {fileID: 2852854816844937045, guid: e65a17d7ab7722148800406cc883e116, type: 3}
+      propertyPath: CurrentPinInfo.PinNumber
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3226020027256994931, guid: e65a17d7ab7722148800406cc883e116, type: 3}
       propertyPath: m_Name
       value: InputPin
@@ -3396,6 +3412,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1422229359}
     m_Modifications:
+    - target: {fileID: 2852854816844937045, guid: e65a17d7ab7722148800406cc883e116, type: 3}
+      propertyPath: CurrentPinInfo.PinNumber
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 3226020027256994931, guid: e65a17d7ab7722148800406cc883e116, type: 3}
       propertyPath: m_Name
       value: InputPin (2)
@@ -3662,6 +3682,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4986304}
     m_Modifications:
+    - target: {fileID: -567130704218822576, guid: c2534ae463970d649b8dfae02bfcae13, type: 3}
+      propertyPath: CurrentPinInfo.PinNumber
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8933720443091507751, guid: c2534ae463970d649b8dfae02bfcae13, type: 3}
       propertyPath: m_Name
       value: VCC Pin
@@ -3719,6 +3743,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4986304}
     m_Modifications:
+    - target: {fileID: 367920104137611472, guid: af97c28c26310d746b62196c896ae989, type: 3}
+      propertyPath: CurrentPinInfo.PinNumber
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 9156050201195622808, guid: af97c28c26310d746b62196c896ae989, type: 3}
       propertyPath: m_RootOrder
       value: 1

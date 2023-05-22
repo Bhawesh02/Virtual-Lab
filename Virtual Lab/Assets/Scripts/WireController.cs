@@ -6,7 +6,8 @@ public class WireController : MonoBehaviour
 {
     [SerializeField]
     private LineRenderer lineRenderer;
-
+    public PinConnection initialPin;
+    public PinConnection finalPin;
     public void MakeWire(Vector3 startPos)
     {
         gameObject.SetActive(true);
@@ -18,5 +19,10 @@ public class WireController : MonoBehaviour
     {
         lineRenderer.SetPosition(1, endPos);
     }
+    public void MakeFinalConnection()
+    {
 
+        initialPin.ConnectedPinInfo = finalPin.CurrentPinInfo;
+        finalPin.ConnectedPinInfo = initialPin.CurrentPinInfo;
+    }
 }
