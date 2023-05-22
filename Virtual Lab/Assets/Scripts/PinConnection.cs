@@ -4,5 +4,6 @@ using UnityEngine;
 
 public class PinConnection : MonoBehaviour
 {
-
+    public PinInfo CurrentPinInfo;
+    public PinInfo ConnectedPinInfo;
 }

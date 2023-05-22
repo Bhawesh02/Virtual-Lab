@@ -1,6 +1,9 @@
-//All the different pin types in the simulator
-enum PinType
+
+using System;
+
+public enum PinType
 {
+    Null, // NO PIN-TYPE (FOR ERROR HANDELLING)
     Input,
     Output,
     Vcc,
@@ -9,4 +12,10 @@ enum PinType
     IcOutput,
     IcVcc,
     IcGnd
+}
+[Serializable]
+public class PinInfo
+{
+    public PinType Type;
+    public int PinNumber;
 }
