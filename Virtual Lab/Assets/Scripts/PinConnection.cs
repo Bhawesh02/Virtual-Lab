@@ -24,7 +24,7 @@ public class PinConnection : MonoBehaviour
         WireController wireController = SimulatorManager.Instance.Wire.GetComponent<WireController>();
         wireController.SetWireEnd(this.transform.position);
         wireController.finalPin = this;
-        wireController.MakeFinalConnection();
+        MakeFinalConnection(wireController);
 
     }
 
@@ -38,8 +38,10 @@ public class PinConnection : MonoBehaviour
         SimulatorManager.Instance.doingConnection = true;
     }
 
-    public void SetConnectPin(PinConnection connectedPin)
+    public void MakeFinalConnection(WireController wireController)
     {
 
+        wireController.initialPin.ConnectedPinInfo = wireController.finalPin.CurrentPinInfo;
+        wireController.finalPin.ConnectedPinInfo = wireController.initialPin.CurrentPinInfo;
     }
 }

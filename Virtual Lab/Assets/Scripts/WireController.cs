@@ -22,7 +22,5 @@ public class WireController : MonoBehaviour
     public void MakeFinalConnection()
     {
 
-        initialPin.ConnectedPinInfo = finalPin.CurrentPinInfo;
-        finalPin.ConnectedPinInfo = initialPin.CurrentPinInfo;
     }
 }
