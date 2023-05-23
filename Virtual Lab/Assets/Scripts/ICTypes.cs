@@ -3,22 +3,14 @@ using UnityEngine;
 
 public enum ICTypes
 {
-    OR,
-    AND
+    Or,
+    Ans,
+    Not
 }
 
 [Serializable]
 public class ICBase
 {
-    public GameObject ICSoccet;
+    public SpriteRenderer ICSprite;
     public GameObject[] Pins;
-}
-
-public class IC
-{
-    public Sprite IcSprite;
-    public int[] inputPins;
-    public int[] outputPins;
-    public int VccPin;
-    public int GndPin;
 }
