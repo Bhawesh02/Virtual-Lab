@@ -8,6 +8,6 @@ public class ICSelector : MonoBehaviour
     private void OnMouseDown()
     {
         ICSelection.SetActive(true);
-
+        
     }
 }
