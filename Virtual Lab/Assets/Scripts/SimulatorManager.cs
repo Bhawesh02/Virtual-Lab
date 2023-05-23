@@ -12,6 +12,9 @@ public class SimulatorManager : MonoBehaviour
     public GameObject Wire;
 
     public GameObject Wires;
+
+    public ICBase IcBase;
+
     private void Awake()
     {
         if (instance == null)
