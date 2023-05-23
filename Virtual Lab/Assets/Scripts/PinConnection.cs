@@ -42,5 +42,6 @@ public class PinConnection : MonoBehaviour
 
         wireController.initialPin.ConnectedPinInfo = wireController.finalPin.CurrentPinInfo;
         wireController.finalPin.ConnectedPinInfo = wireController.initialPin.CurrentPinInfo;
+        wireController.CheckConnection();
     }
 }
