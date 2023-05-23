@@ -10,6 +10,8 @@ public class PinConnection : MonoBehaviour
     private GameObject wireGameObject;
     private void OnMouseDown()
     {
+        if (CurrentPinInfo.Type == PinType.Null)
+            return;
         if (!SimulatorManager.Instance.doingConnection)
         {
             CreateNewWire();
@@ -42,6 +44,6 @@ public class PinConnection : MonoBehaviour
 
         wireController.initialPin.ConnectedPinInfo = wireController.finalPin.CurrentPinInfo;
         wireController.finalPin.ConnectedPinInfo = wireController.initialPin.CurrentPinInfo;
-        wireController.CheckConnection();
+        wireController.ConfirmConnection();
     }
 }
