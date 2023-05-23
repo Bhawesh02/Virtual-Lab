@@ -12,13 +12,22 @@ public class PinConnection : MonoBehaviour
     {
         if (!SimulatorManager.Instance.doingConnection)
         {
-            createNewWire();
+            CreateNewWire();
             return;
         }
-        completeExsistingWire();
+        CompleteExsistingWire();
+    }
+    private void CreateNewWire()
+    {
+        GameObject wire = Instantiate(wireGameObject, SimulatorManager.Instance.Wires.transform);
+        WireController wireController = wire.GetComponent<WireController>();
+        SimulatorManager.Instance.Wire = wire;
+        wireController.MakeWire(this.transform.position);
+        wireController.initialPin = this;
+        SimulatorManager.Instance.doingConnection = true;
     }
 
-    private void completeExsistingWire()
+    private void CompleteExsistingWire()
     {
         SimulatorManager.Instance.doingConnection = false;
         WireController wireController = SimulatorManager.Instance.Wire.GetComponent<WireController>();
@@ -26,16 +35,6 @@ public class PinConnection : MonoBehaviour
         wireController.finalPin = this;
         MakeFinalConnection(wireController);
 
-    }
-
-    private void createNewWire()
-    {
-        GameObject wire = Instantiate(wireGameObject);
-        WireController wireController = wire.GetComponent<WireController>();
-        SimulatorManager.Instance.Wire = wire;
-        wireController.MakeWire(this.transform.position);
-        wireController.initialPin = this;
-        SimulatorManager.Instance.doingConnection = true;
     }
 
     public void MakeFinalConnection(WireController wireController)

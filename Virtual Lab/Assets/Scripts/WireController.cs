@@ -19,8 +19,9 @@ public class WireController : MonoBehaviour
     {
         lineRenderer.SetPosition(1, endPos);
     }
-    public void MakeFinalConnection()
+    public void CheckConnection()
     {
-
+        if (initialPin == finalPin)
+            Destroy(gameObject);
     }
 }

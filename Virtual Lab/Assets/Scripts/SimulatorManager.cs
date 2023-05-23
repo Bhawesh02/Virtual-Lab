@@ -10,6 +10,8 @@ public class SimulatorManager : MonoBehaviour
     public bool doingConnection = false;
 
     public GameObject Wire;
+
+    public GameObject Wires;
     private void Awake()
     {
         if (instance == null)
