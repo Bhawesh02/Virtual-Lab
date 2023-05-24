@@ -21,20 +21,21 @@ public class ICLogic : MonoBehaviour
             return;
         foreach (PinMapping gate in Ic.pinMapping)
         {
-            int OutputPinNumber = gate.OutputPin - 1;
-            GameObject OutputPin = SimulatorManager.Instance.IcBase.Pins[OutputPinNumber];
+            int OutputPinIndex = gate.OutputPin - 1;
+            GameObject OutputPin = SimulatorManager.Instance.IcBase.Pins[OutputPinIndex];
             List<GameObject> InputPins = new();
             bool anyInputNull = false;
-            foreach (int inputPin in gate.InputPin)
+            foreach (int inputPinNumber in gate.InputPin)
             {
-                int InputPinNumber = inputPin - 1;
-                GameObject InputPin = SimulatorManager.Instance.IcBase.Pins[InputPinNumber];
-                InputPins.Add(InputPin);
+                int InputPinIndex = inputPinNumber - 1;
+                GameObject InputPin = SimulatorManager.Instance.IcBase.Pins[InputPinIndex];
                 if (InputPin.GetComponent<PinConnection>().value == PinValue.Null)
                 {
                     anyInputNull = true;
                     break;
                 }
+                InputPins.Add(InputPin);
+
             }
             if (anyInputNull)
             {
@@ -51,14 +52,19 @@ public class ICLogic : MonoBehaviour
         switch (Ic.ICType)
         {
             case ICTypes.Not:
-                if (inputPins[0].GetComponent<PinConnection>().value == PinValue.Negative)
-                    outputPin.GetComponent<PinConnection>().value = PinValue.Positive;
-                else
-                    outputPin.GetComponent<PinConnection>().value = PinValue.Negative;
+                NotGateLogic(outputPin, inputPins);
                 break;
             default:
                 Debug.Log("Wrong IC type");
                 break;
         }
+    }
+
+    private static void NotGateLogic(GameObject outputPin, List<GameObject> inputPins)
+    {
+        if (inputPins[0].GetComponent<PinConnection>().value == PinValue.Negative)
+            outputPin.GetComponent<PinConnection>().value = PinValue.Positive;
+        else
+            outputPin.GetComponent<PinConnection>().value = PinValue.Negative;
     }
 }
