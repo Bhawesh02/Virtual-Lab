@@ -1536,6 +1536,7 @@ MonoBehaviour:
   Wires: {fileID: 213149996}
   IcBase:
     ICSprite: {fileID: 976956263}
+    IcLogic: {fileID: 976956267}
     Pins:
     - {fileID: 1454335463}
     - {fileID: 1407629685}
@@ -2253,6 +2254,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbd4e86ac0d05aa4b9f161b2cdf815f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Ic: {fileID: 0}
 --- !u!1 &1003385343
 GameObject:
   m_ObjectHideFlags: 0
