@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PinConnection : MonoBehaviour
 {
-    public PinValue value ;
+    public PinValue value;
     public PinInfo CurrentPinInfo;
     public PinInfo ConnectedPinInfo;
     public Sprite PinPostive;
@@ -18,6 +18,11 @@ public class PinConnection : MonoBehaviour
     {
         value = PinValue.Null;
         spriteRenderer = GetComponent<SpriteRenderer>();
+    }
+    private void Start()
+    {
+        if (CurrentPinInfo.Type == PinType.Input)
+            value = PinValue.Negative;
     }
     private void Update()
     {
@@ -39,7 +44,7 @@ public class PinConnection : MonoBehaviour
         }
     }
 
-        private void OnMouseDown()
+    private void OnMouseDown()
     {
         if (CurrentPinInfo.Type == PinType.Null)
             return;
@@ -75,7 +80,7 @@ public class PinConnection : MonoBehaviour
 
         wireController.initialPin.ConnectedPinInfo = wireController.finalPin.CurrentPinInfo;
         wireController.finalPin.ConnectedPinInfo = wireController.initialPin.CurrentPinInfo;
-        
+
 
         wireController.ConfirmConnection();
     }
