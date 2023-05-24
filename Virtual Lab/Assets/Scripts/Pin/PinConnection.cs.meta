@@ -3,7 +3,12 @@ guid: bce882e7e8f69364d822dab1d09afd7f
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - PinPostive: {fileID: 21300000, guid: ada3eac32b7deef4b94351b744d6def1, type: 3}
+  - PinNegative: {fileID: 21300000, guid: c574890688a36b54aa3f163fcde2e153, type: 3}
+  - PinNull: {fileID: 21300000, guid: 34fda3865cceebf4a9096f0c98be6a7e, type: 3}
+  - CurrentSprite: {instanceID: 0}
+  - wireGameObject: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

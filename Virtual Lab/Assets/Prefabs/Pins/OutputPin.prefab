@@ -129,10 +129,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bce882e7e8f69364d822dab1d09afd7f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  value: 0
   CurrentPinInfo:
     Type: 2
     PinNumber: 1
   ConnectedPinInfo:
     Type: 0
     PinNumber: 0
+  PinPostive: {fileID: 21300000, guid: ada3eac32b7deef4b94351b744d6def1, type: 3}
+  PinNegative: {fileID: 21300000, guid: c574890688a36b54aa3f163fcde2e153, type: 3}
+  PinNull: {fileID: 21300000, guid: 34fda3865cceebf4a9096f0c98be6a7e, type: 3}
+  spriteRenderer: {fileID: 0}
   wireGameObject: {fileID: 672502254965901130, guid: cda496722f5381943aabdb0782fd1ca3, type: 3}

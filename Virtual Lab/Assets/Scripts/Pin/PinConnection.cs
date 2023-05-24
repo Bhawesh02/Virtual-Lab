@@ -7,13 +7,39 @@ public class PinConnection : MonoBehaviour
     public PinValue value ;
     public PinInfo CurrentPinInfo;
     public PinInfo ConnectedPinInfo;
+    public Sprite PinPostive;
+    public Sprite PinNegative;
+    public Sprite PinNull;
+    public SpriteRenderer spriteRenderer;
+
     [SerializeField]
     private GameObject wireGameObject;
     private void Awake()
     {
         value = PinValue.Null;
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
-    private void OnMouseDown()
+    private void Update()
+    {
+        if (spriteRenderer != null)
+        {
+            switch (value)
+            {
+                case PinValue.Null:
+                    spriteRenderer.sprite = PinNull;
+                    break;
+                case PinValue.Positive:
+                    spriteRenderer.sprite = PinPostive;
+                    break;
+                case PinValue.Negative:
+                    spriteRenderer.sprite = PinNegative;
+                    break;
+
+            }
+        }
+    }
+
+        private void OnMouseDown()
     {
         if (CurrentPinInfo.Type == PinType.Null)
             return;

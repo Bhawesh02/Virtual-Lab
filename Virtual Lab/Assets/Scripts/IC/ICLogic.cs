@@ -13,6 +13,7 @@ public class ICLogic : MonoBehaviour
 
     private void Update()
     {
+        //if(SimulationRunning)
         RunIcLogic();
     }
     public void RunIcLogic()
