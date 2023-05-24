@@ -15,6 +15,7 @@ public class ICChange : MonoBehaviour
     private GameObject ICSelection;
 
     private ICBase IcBase;
+
     private void Awake()
     {
         changeButton = GetComponent<Button>();
@@ -55,7 +56,7 @@ public class ICChange : MonoBehaviour
             //input pin
             int pinNumber = ic.inputPins[i] - 1;
             ChangePinType(pinNumber, PinType.IcInput);
-
+            IcBase.Pins[pinNumber].AddComponent<TakeValue>();
             //Output pin
             pinNumber = ic.outputPins[i] - 1;
             ChangePinType(pinNumber, PinType.IcOutput);
