@@ -14,3 +14,9 @@ public class ICBase
     public SpriteRenderer ICSprite;
     public GameObject[] Pins;
 }
+[Serializable]
+public class PinMapping
+{
+    public int OutputPin;
+    public int[] InputPin;
+}
