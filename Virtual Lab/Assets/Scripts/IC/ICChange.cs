@@ -28,6 +28,8 @@ public class ICChange : MonoBehaviour
     {
         IcBase = SimulatorManager.Instance.IcBase;
         IcBase.ICSprite.sprite = ic.IcSprite;
+        IcBase.IcLogic.enabled = true;
+        IcBase.IcLogic.Ic = ic;
         SetInputAndOutputPins();
         SetVccAndGndPin();
         ICSelection.SetActive(false);

@@ -5,6 +5,7 @@ using UnityEngine;
 public class IC : ScriptableObject
 {
     public Sprite IcSprite;
+    public ICTypes ICType;
     public int[] inputPins;
     public int[] outputPins;
     public PinMapping[] pinMapping;

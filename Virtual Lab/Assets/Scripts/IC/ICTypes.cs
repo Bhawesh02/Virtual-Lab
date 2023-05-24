@@ -3,6 +3,7 @@ using UnityEngine;
 
 public enum ICTypes
 {
+    Null,
     Or,
     Ans,
     Not
@@ -12,6 +13,7 @@ public enum ICTypes
 public class ICBase
 {
     public SpriteRenderer ICSprite;
+    public ICLogic IcLogic;
     public GameObject[] Pins;
 }
 [Serializable]
