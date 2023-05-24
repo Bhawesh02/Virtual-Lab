@@ -18,5 +18,15 @@ MonoBehaviour:
   pinMapping:
   - OutputPin: 2
     InputPin: 01000000
+  - OutputPin: 4
+    InputPin: 03000000
+  - OutputPin: 6
+    InputPin: 05000000
+  - OutputPin: 8
+    InputPin: 09000000
+  - OutputPin: 10
+    InputPin: 0b000000
+  - OutputPin: 12
+    InputPin: 0d000000
   VccPin: 14
   GndPin: 7

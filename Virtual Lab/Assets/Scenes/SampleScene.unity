@@ -3273,6 +3273,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 1422229359}
     m_Modifications:
     - target: {fileID: 2852854816844937045, guid: e65a17d7ab7722148800406cc883e116, type: 3}
+      propertyPath: value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2852854816844937045, guid: e65a17d7ab7722148800406cc883e116, type: 3}
       propertyPath: CurrentPinInfo.PinNumber
       value: 1
       objectReference: {fileID: 0}
