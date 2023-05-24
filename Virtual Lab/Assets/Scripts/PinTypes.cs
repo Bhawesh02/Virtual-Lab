@@ -13,6 +13,13 @@ public enum PinType
     IcVcc,
     IcGnd
 }
+
+public enum PinValue
+{
+    Null,
+    Positive,
+    Negative
+}
 [Serializable]
 public class PinInfo
 {

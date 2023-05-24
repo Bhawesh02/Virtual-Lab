@@ -21,7 +21,7 @@ public class WireController : MonoBehaviour
     }
     public void ConfirmConnection()
     {
-        if ((initialPin == finalPin) || (finalPin.CurrentPinInfo.Type == PinType.Null))
+        if ((initialPin == finalPin) || (finalPin.CurrentPinInfo.Type == PinType.Null) )
             Destroy(gameObject);
     }
 }

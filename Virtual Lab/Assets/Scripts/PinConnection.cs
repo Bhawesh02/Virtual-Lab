@@ -4,10 +4,15 @@ using UnityEngine;
 
 public class PinConnection : MonoBehaviour
 {
+    public PinValue value ;
     public PinInfo CurrentPinInfo;
     public PinInfo ConnectedPinInfo;
     [SerializeField]
     private GameObject wireGameObject;
+    private void Awake()
+    {
+        value = PinValue.Null;
+    }
     private void OnMouseDown()
     {
         if (CurrentPinInfo.Type == PinType.Null)
@@ -44,6 +49,8 @@ public class PinConnection : MonoBehaviour
 
         wireController.initialPin.ConnectedPinInfo = wireController.finalPin.CurrentPinInfo;
         wireController.finalPin.ConnectedPinInfo = wireController.initialPin.CurrentPinInfo;
+        
+
         wireController.ConfirmConnection();
     }
 }
