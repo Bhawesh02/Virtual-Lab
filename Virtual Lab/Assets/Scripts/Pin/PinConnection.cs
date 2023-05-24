@@ -18,6 +18,7 @@ public class PinConnection : MonoBehaviour
     {
         value = PinValue.Null;
         spriteRenderer = GetComponent<SpriteRenderer>();
+        CurrentPinInfo.pinConnection = this;
     }
     private void Start()
     {
