@@ -69,6 +69,7 @@ public class ICLogic : MonoBehaviour
             case ICTypes.Not:
                 NotGateLogic(outputPin, inputPins);
                 break;
+
             default:
                 Debug.Log("Wrong IC type");
                 break;
