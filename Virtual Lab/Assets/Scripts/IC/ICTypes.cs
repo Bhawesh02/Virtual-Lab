@@ -5,7 +5,7 @@ public enum ICTypes
 {
     Null,
     Or,
-    Ans,
+    And,
     Not
 }
 

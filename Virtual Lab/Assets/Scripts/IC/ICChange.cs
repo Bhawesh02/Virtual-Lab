@@ -59,12 +59,13 @@ public class ICChange : MonoBehaviour
             int pinNumber = ic.inputPins[i] - 1;
             ChangePinType(pinNumber, PinType.IcInput);
             SimulatorManager.Instance.valuePropagate.IcInputPins.Add(IcBase.Pins[pinNumber].GetComponent<PinConnection>());
+        }
+        for(int i = 0; i < ic.outputPins.Length; i++)
+        {
             //Output pin
-            pinNumber = ic.outputPins[i] - 1;
+            int pinNumber = ic.outputPins[i] - 1;
             ChangePinType(pinNumber, PinType.IcOutput);
             SimulatorManager.Instance.valuePropagate.IcOutputPins.Add(IcBase.Pins[pinNumber].GetComponent<PinConnection>());
-
-
         }
     }
 

@@ -71,13 +71,28 @@ public class ICLogic : MonoBehaviour
             case ICTypes.Not:
                 NotGateLogic(outputPin, inputPins);
                 break;
-
+            case ICTypes.Or:
+                OrGateLogic(outputPin, inputPins);
+                break;
             default:
                 Debug.Log("Wrong IC type");
                 break;
         }
         if (outputPin.GetComponent<PinConnection>().value != PinValue.Null)
             ValuePropagate.Instance.TransferData(outputPin.GetComponent<PinConnection>());
+
+    }
+
+    private void OrGateLogic(GameObject outputPin, List<GameObject> inputPins)
+    {
+        PinValue input1Value = inputPins[0].GetComponent<PinConnection>().value;
+        PinValue input2Value = inputPins[1].GetComponent<PinConnection>().value;
+        if(input1Value == PinValue.Positive || input2Value == PinValue.Positive)
+        {
+            outputPin.GetComponent<PinConnection>().value = PinValue.Positive;
+            return;
+        }
+        outputPin.GetComponent<PinConnection>().value = PinValue.Negative;
 
     }
 
