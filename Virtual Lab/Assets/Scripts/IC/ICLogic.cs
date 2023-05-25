@@ -23,6 +23,8 @@ public class ICLogic : MonoBehaviour
     {
         if (Ic == null)
             return;
+        if (!SimulatorManager.Instance.SimulationRunning)
+            return;
         if (!ranOnce)
             ranOnce = true;
         int VccPinNumber = Ic.VccPin - 1;
