@@ -39,9 +39,13 @@ public class ValuePropagate : MonoBehaviour
         
     }
 
-    public void StartTransfer()
+    public void StartButton()
     {
         SimulatorManager.Instance.SimulationRunning = true;
+        StartTransfer();
+    }
+    public void StartTransfer()
+    {
         if (SimulatorManager.Instance.Wires.Count == 0)
             return;
         SetWiresValuePropagetedToFalse();

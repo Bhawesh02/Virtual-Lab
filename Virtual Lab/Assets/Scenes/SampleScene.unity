@@ -3672,7 +3672,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1657204451}
         m_TargetAssemblyTypeName: ValuePropagate, Assembly-CSharp
-        m_MethodName: StartTransfer
+        m_MethodName: StartButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
