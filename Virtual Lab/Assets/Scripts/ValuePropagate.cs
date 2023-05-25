@@ -42,6 +42,7 @@ public class ValuePropagate : MonoBehaviour
     public void StartButton()
     {
         SimulatorManager.Instance.SimulationRunning = true;
+        SimulatorManager.Instance.SimulationStatus.text = "Simulation Running";
         StartTransfer();
     }
     public void StartTransfer()

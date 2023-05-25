@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class SimulatorManager : MonoBehaviour
@@ -20,6 +21,8 @@ public class SimulatorManager : MonoBehaviour
     public ValuePropagate valuePropagate;
 
     public bool SimulationRunning;
+
+    public TextMeshProUGUI SimulationStatus;
     private void Awake()
     {
         if (instance == null)
@@ -32,6 +35,7 @@ public class SimulatorManager : MonoBehaviour
             Destroy(gameObject);
         }
         SimulationRunning = false;
+        SimulationStatus.text = "Simulation not running";
     }
     private void Update()
     {
@@ -47,6 +51,7 @@ public class SimulatorManager : MonoBehaviour
     }
     public void stopSimulation()
     {
+        SimulationStatus.text = "Simulation not running";
         SimulationRunning = false;
     }
 
