@@ -8,6 +8,12 @@ public class WireController : MonoBehaviour
     private LineRenderer lineRenderer;
     public PinConnection initialPin;
     public PinConnection finalPin;
+    public bool valuePropagated;
+    private void Awake()
+    {
+        SimulatorManager.Instance.Wires.Add(this);
+        valuePropagated = false;
+    }
     public void MakeWire(Vector3 startPos)
     {
         gameObject.SetActive(true);
@@ -21,7 +27,16 @@ public class WireController : MonoBehaviour
     }
     public void ConfirmConnection()
     {
-        if ((initialPin == finalPin) || (finalPin.CurrentPinInfo.Type == PinType.Null) )
+        if ((initialPin == finalPin) || (finalPin.CurrentPinInfo.Type == PinType.Null))
+        {
             Destroy(gameObject);
+            return;
+        }
+        initialPin.Wires.Add(this);
+        finalPin.Wires.Add(this);
+    }
+    private void OnDestroy()
+    {
+        SimulatorManager.Instance.Wires.Remove(this);
     }
 }

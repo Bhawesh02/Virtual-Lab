@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,12 +7,14 @@ public class PinConnection : MonoBehaviour
 {
     public PinValue value;
     public PinInfo CurrentPinInfo;
-    public PinInfo ConnectedPinInfo;
-    public Sprite PinPostive;
-    public Sprite PinNegative;
-    public Sprite PinNull;
-    public SpriteRenderer spriteRenderer;
-
+    public List<WireController> Wires = new();
+    [SerializeField]
+    private Sprite PinPostive;
+    [SerializeField]
+    private Sprite PinNegative;
+    [SerializeField]
+    private Sprite PinNull;
+    private SpriteRenderer spriteRenderer;
     [SerializeField]
     private GameObject wireGameObject;
     private void Awake()
@@ -20,10 +23,41 @@ public class PinConnection : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         CurrentPinInfo.pinConnection = this;
     }
+    
+    
+
     private void Start()
     {
         if (CurrentPinInfo.Type == PinType.Input)
             value = PinValue.Negative;
+        if (CurrentPinInfo.Type == PinType.Vcc)
+            value = PinValue.Vcc;
+        if (CurrentPinInfo.Type == PinType.Gnd)
+            value = PinValue.Gnd;
+
+        AddToValuePropagator();
+
+    }
+    private void AddToValuePropagator()
+    {
+        ValuePropagate valuePropagate = SimulatorManager.Instance.valuePropagate;
+        switch (CurrentPinInfo.Type)
+        {
+            case PinType.Null:
+                break;
+            case PinType.Gnd:
+                valuePropagate.GndPins.Add(this);
+                break;
+            case PinType.Input:
+                valuePropagate.InputPins.Add(this);
+                break;
+            case PinType.Output:
+                valuePropagate.OutputPins.Add(this);
+                break;
+            case PinType.Vcc:
+                valuePropagate.VccPins.Add(this);
+                break;
+        }
     }
     private void Update()
     {
@@ -58,7 +92,7 @@ public class PinConnection : MonoBehaviour
     }
     private void CreateNewWire()
     {
-        GameObject wire = Instantiate(wireGameObject, SimulatorManager.Instance.Wires.transform);
+        GameObject wire = Instantiate(wireGameObject, SimulatorManager.Instance.WiresGameObject.transform);
         WireController wireController = wire.GetComponent<WireController>();
         SimulatorManager.Instance.Wire = wire;
         wireController.MakeWire(this.transform.position);
@@ -72,17 +106,9 @@ public class PinConnection : MonoBehaviour
         WireController wireController = SimulatorManager.Instance.Wire.GetComponent<WireController>();
         wireController.SetWireEnd(this.transform.position);
         wireController.finalPin = this;
-        MakeFinalConnection(wireController);
-
-    }
-
-    public void MakeFinalConnection(WireController wireController)
-    {
-
-        wireController.initialPin.ConnectedPinInfo = wireController.finalPin.CurrentPinInfo;
-        wireController.finalPin.ConnectedPinInfo = wireController.initialPin.CurrentPinInfo;
-
-
         wireController.ConfirmConnection();
+
+
     }
+
 }

@@ -11,10 +11,13 @@ public class SimulatorManager : MonoBehaviour
 
     public GameObject Wire;
 
-    public GameObject Wires;
+    public GameObject WiresGameObject;
 
     public ICBase IcBase;
 
+    public List<WireController> Wires;
+
+    public ValuePropagate valuePropagate;
     private void Awake()
     {
         if (instance == null)
@@ -35,6 +38,9 @@ public class SimulatorManager : MonoBehaviour
             Vector3 endPosition = new Vector3(mousePosition.x, mousePosition.y,mousePosition.z);
             Wire.GetComponent<WireController>().SetWireEnd(endPosition);
         }
+
+
+
     }
 
 }

@@ -18,7 +18,9 @@ public enum PinValue
 {
     Null,
     Positive,
-    Negative
+    Negative,
+    Vcc,
+    Gnd
 }
 [Serializable]
 public class PinInfo

@@ -41,11 +41,13 @@ public class ICChange : MonoBehaviour
         // VCC pin
         int pinNumber = ic.VccPin - 1;
         ChangePinType(pinNumber, PinType.IcVcc);
+        SimulatorManager.Instance.valuePropagate.IcVccPin = (IcBase.Pins[pinNumber].GetComponent<PinConnection>());
 
 
         //Gnd pin
         pinNumber = ic.GndPin - 1;
         ChangePinType(pinNumber, PinType.IcGnd);
+        SimulatorManager.Instance.valuePropagate.IcGndPin = (IcBase.Pins[pinNumber].GetComponent<PinConnection>());
 
     }
 
@@ -56,10 +58,11 @@ public class ICChange : MonoBehaviour
             //input pin
             int pinNumber = ic.inputPins[i] - 1;
             ChangePinType(pinNumber, PinType.IcInput);
-            IcBase.Pins[pinNumber].AddComponent<TakeValue>();
+            SimulatorManager.Instance.valuePropagate.IcInputPins.Add(IcBase.Pins[pinNumber].GetComponent<PinConnection>());
             //Output pin
             pinNumber = ic.outputPins[i] - 1;
             ChangePinType(pinNumber, PinType.IcOutput);
+            SimulatorManager.Instance.valuePropagate.IcOutputPins.Add(IcBase.Pins[pinNumber].GetComponent<PinConnection>());
 
 
         }
@@ -70,5 +73,6 @@ public class ICChange : MonoBehaviour
         PinInfo currentPinInfo = IcBase.Pins[PinNumber].GetComponent<PinConnection>().CurrentPinInfo;
         currentPinInfo.PinNumber = PinNumber + 1;
         currentPinInfo.Type = type;
+
     }
 }

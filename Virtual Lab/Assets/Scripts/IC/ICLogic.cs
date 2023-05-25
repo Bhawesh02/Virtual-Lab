@@ -6,18 +6,32 @@ using UnityEngine;
 public class ICLogic : MonoBehaviour
 {
     public IC Ic;
+    private bool ranOnce;
     private void Awake()
     {
         this.enabled = false;
+        ranOnce = false;
     }
 
     private void Update()
     {
         //if(SimulationRunning)
+        if(ranOnce)
         RunIcLogic();
     }
     public void RunIcLogic()
     {
+        if (Ic == null)
+            return;
+        if (!ranOnce)
+            ranOnce = true;
+        int VccPinNumber = Ic.VccPin - 1;
+        int GndPinNumber = Ic.GndPin - 1;
+        PinConnection VccPin = SimulatorManager.Instance.IcBase.Pins[VccPinNumber].GetComponent<PinConnection>();
+        PinConnection GndPin = SimulatorManager.Instance.IcBase.Pins[GndPinNumber].GetComponent<PinConnection>();
+
+        if (VccPin.value != PinValue.Vcc || GndPin.value != PinValue.Gnd)
+            return;
         if (Ic.ICType == ICTypes.Null)
             return;
         foreach (PinMapping gate in Ic.pinMapping)
@@ -59,6 +73,9 @@ public class ICLogic : MonoBehaviour
                 Debug.Log("Wrong IC type");
                 break;
         }
+        if (outputPin.GetComponent<PinConnection>().value != PinValue.Null)
+            ValuePropagate.Instance.TransferData(outputPin.GetComponent<PinConnection>());
+
     }
 
     private static void NotGateLogic(GameObject outputPin, List<GameObject> inputPins)

@@ -17,6 +17,7 @@ public class SwitchInputValue : MonoBehaviour
     private void Start()
     {
         button.onClick.AddListener(ChangeInputValue);
+        button.onClick.AddListener(ValuePropagate.Instance.StartTransfer);
     }
 
     private void ChangeInputValue()
