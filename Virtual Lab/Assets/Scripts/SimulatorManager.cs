@@ -18,6 +18,8 @@ public class SimulatorManager : MonoBehaviour
     public List<WireController> Wires;
 
     public ValuePropagate valuePropagate;
+
+    public bool SimulationRunning;
     private void Awake()
     {
         if (instance == null)
@@ -29,6 +31,7 @@ public class SimulatorManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        SimulationRunning = false;
     }
     private void Update()
     {
@@ -41,6 +44,10 @@ public class SimulatorManager : MonoBehaviour
 
 
 
+    }
+    public void stopSimulation()
+    {
+        SimulationRunning = false;
     }
 
 }

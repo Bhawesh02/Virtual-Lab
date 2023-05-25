@@ -81,6 +81,8 @@ public class PinConnection : MonoBehaviour
 
     private void OnMouseDown()
     {
+        if (SimulatorManager.Instance.SimulationRunning)
+            return;
         if (CurrentPinInfo.Type == PinType.Null)
             return;
         if (!SimulatorManager.Instance.doingConnection)

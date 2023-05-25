@@ -7,6 +7,8 @@ public class ICSelector : MonoBehaviour
     public GameObject ICSelection;
     private void OnMouseDown()
     {
+        if (SimulatorManager.Instance.SimulationRunning)
+            return;
         ICSelection.SetActive(true);
         
     }
