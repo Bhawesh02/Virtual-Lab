@@ -77,6 +77,9 @@ public class ICLogic : MonoBehaviour
             case ICTypes.And:
                 AndGateLogic(outputPin, inputPins);
                 break;
+            case ICTypes.Xor:
+                XorGateLogic(outputPin, inputPins);
+                break;
             default:
                 Debug.Log("IC Logic Not given");
                 break;
@@ -117,5 +120,16 @@ public class ICLogic : MonoBehaviour
             outputPin.GetComponent<PinConnection>().value = PinValue.Positive;
         else
             outputPin.GetComponent<PinConnection>().value = PinValue.Negative;
+    }
+    private void XorGateLogic(GameObject outputPin, List<GameObject> inputPins) {
+        PinValue inputValue1 = inputPins[0].GetComponent<PinConnection>().value;
+        PinValue inputValue2 = inputPins[1].GetComponent<PinConnection>().value;
+        if(inputValue1 != inputValue2) 
+        {
+            outputPin.GetComponent<PinConnection>().value = PinValue.Positive;   
+        }   
+        else{
+            outputPin.GetComponent<PinConnection>().value = PinValue.Negative;
+        }
     }
 }

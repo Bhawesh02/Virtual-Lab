@@ -6,7 +6,8 @@ public enum ICTypes
     Null,
     Or,
     And,
-    Not
+    Not,
+    Xor
 }
 
 [Serializable]
