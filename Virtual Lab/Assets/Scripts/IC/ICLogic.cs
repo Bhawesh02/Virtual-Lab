@@ -16,8 +16,8 @@ public class ICLogic : MonoBehaviour
     private void Update()
     {
         //if(SimulationRunning)
-        if(ranOnce)
-        RunIcLogic();
+        if (ranOnce)
+            RunIcLogic();
     }
     public void RunIcLogic()
     {
@@ -33,7 +33,10 @@ public class ICLogic : MonoBehaviour
         PinConnection GndPin = SimulatorManager.Instance.IcBase.Pins[GndPinNumber].GetComponent<PinConnection>();
 
         if (VccPin.value != PinValue.Vcc || GndPin.value != PinValue.Gnd)
+        {
+            Debug.Log("VCC or Gnd notConnected / WrongConnected");
             return;
+        }
         if (Ic.ICType == ICTypes.Null)
             return;
         foreach (PinMapping gate in Ic.pinMapping)
@@ -105,7 +108,7 @@ public class ICLogic : MonoBehaviour
     {
         PinValue input1Value = inputPins[0].GetComponent<PinConnection>().value;
         PinValue input2Value = inputPins[1].GetComponent<PinConnection>().value;
-        if(input1Value == PinValue.Positive || input2Value == PinValue.Positive)
+        if (input1Value == PinValue.Positive || input2Value == PinValue.Positive)
         {
             outputPin.GetComponent<PinConnection>().value = PinValue.Positive;
             return;
@@ -114,21 +117,23 @@ public class ICLogic : MonoBehaviour
 
     }
 
-    private static void NotGateLogic(GameObject outputPin, List<GameObject> inputPins)
+    private void NotGateLogic(GameObject outputPin, List<GameObject> inputPins)
     {
         if (inputPins[0].GetComponent<PinConnection>().value == PinValue.Negative)
             outputPin.GetComponent<PinConnection>().value = PinValue.Positive;
         else
             outputPin.GetComponent<PinConnection>().value = PinValue.Negative;
     }
-    private void XorGateLogic(GameObject outputPin, List<GameObject> inputPins) {
+    private void XorGateLogic(GameObject outputPin, List<GameObject> inputPins)
+    {
         PinValue inputValue1 = inputPins[0].GetComponent<PinConnection>().value;
         PinValue inputValue2 = inputPins[1].GetComponent<PinConnection>().value;
-        if(inputValue1 != inputValue2) 
+        if (inputValue1 != inputValue2)
         {
-            outputPin.GetComponent<PinConnection>().value = PinValue.Positive;   
-        }   
-        else{
+            outputPin.GetComponent<PinConnection>().value = PinValue.Positive;
+        }
+        else
+        {
             outputPin.GetComponent<PinConnection>().value = PinValue.Negative;
         }
     }
