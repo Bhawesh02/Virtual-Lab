@@ -25,5 +25,5 @@ MonoBehaviour:
     InputPin: 090000000a000000
   - OutputPin: 11
     InputPin: 0c0000000d000000
-  VccPin: 7
-  GndPin: 14
+  VccPin: 14
+  GndPin: 7
