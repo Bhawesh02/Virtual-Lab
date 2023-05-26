@@ -24,6 +24,6 @@ public class ResetConnection : MonoBehaviour
 
     private void resetConnection()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        SceneManager.LoadScene(0);
     }
 }

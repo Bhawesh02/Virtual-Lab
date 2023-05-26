@@ -26,7 +26,6 @@ public class ValuePropagate : MonoBehaviour
         if (instance == null)
         {
             instance = this;
-            DontDestroyOnLoad(instance);
         }
         else
         {
