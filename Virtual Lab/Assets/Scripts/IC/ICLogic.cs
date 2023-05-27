@@ -83,6 +83,9 @@ public class ICLogic : MonoBehaviour
             case ICTypes.Xor:
                 XorGateLogic(outputPin, inputPins);
                 break;
+            case ICTypes.Nor:
+                NorGateLogic(outputPin, inputPins);
+                break;
             default:
                 Debug.Log("IC Logic Not given");
                 break;
@@ -90,6 +93,18 @@ public class ICLogic : MonoBehaviour
         if (outputPin.GetComponent<PinConnection>().value != PinValue.Null)
             ValuePropagate.Instance.TransferData(outputPin.GetComponent<PinConnection>());
 
+    }
+
+    private void NorGateLogic(GameObject outputPin, List<GameObject> inputPins)
+    {
+        PinValue input1Value = inputPins[0].GetComponent<PinConnection>().value;
+        PinValue input2Value = inputPins[1].GetComponent<PinConnection>().value;
+        if (input1Value == PinValue.Negative && input2Value == PinValue.Negative)
+        {
+            outputPin.GetComponent<PinConnection>().value = PinValue.Positive ;
+            return;
+        }
+        outputPin.GetComponent<PinConnection>().value = PinValue.Negative ;
     }
 
     private void AndGateLogic(GameObject outputPin, List<GameObject> inputPins)
