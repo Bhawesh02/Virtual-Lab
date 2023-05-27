@@ -32,11 +32,6 @@ public class ValuePropagate : MonoBehaviour
             Destroy(gameObject);
         }
     }
-    private void Update()
-    {
-
-        
-    }
 
     public void StartButton()
     {

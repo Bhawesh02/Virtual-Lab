@@ -23,6 +23,17 @@ public class SimulatorManager : MonoBehaviour
     public bool SimulationRunning;
 
     public TextMeshProUGUI SimulationStatus;
+
+    public Sprite PinPostive;
+
+    public Sprite PinNegative;
+    
+    public Sprite PinNull;
+
+    /*public Texture2D cursorTexture;
+    public CursorMode cursorMode = CursorMode.Auto;
+    public Vector2 hotSpot = Vector2.zero;*/
+
     private void Awake()
     {
         if (instance == null)

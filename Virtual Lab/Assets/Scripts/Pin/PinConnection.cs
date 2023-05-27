@@ -8,15 +8,11 @@ public class PinConnection : MonoBehaviour
     public PinValue value;
     public PinInfo CurrentPinInfo;
     public List<WireController> Wires = new();
-    [SerializeField]
-    private Sprite PinPostive;
-    [SerializeField]
-    private Sprite PinNegative;
-    [SerializeField]
-    private Sprite PinNull;
     private SpriteRenderer spriteRenderer;
     [SerializeField]
     private GameObject wireGameObject;
+
+
     private void Awake()
     {
         value = PinValue.Null;
@@ -28,17 +24,18 @@ public class PinConnection : MonoBehaviour
 
     private void Start()
     {
+
         if (CurrentPinInfo.Type == PinType.Input)
             value = PinValue.Negative;
         if (CurrentPinInfo.Type == PinType.Vcc)
             value = PinValue.Vcc;
         if (CurrentPinInfo.Type == PinType.Gnd)
             value = PinValue.Gnd;
-
-        AddToValuePropagator();
-
+        
+        SendReferenceToValuePropagator();
     }
-    private void AddToValuePropagator()
+
+    private void SendReferenceToValuePropagator()
     {
         ValuePropagate valuePropagate = SimulatorManager.Instance.valuePropagate;
         switch (CurrentPinInfo.Type)
@@ -61,18 +58,23 @@ public class PinConnection : MonoBehaviour
     }
     private void Update()
     {
+        ChangeSpriteBasedOnValue();
+    }
+
+    private void ChangeSpriteBasedOnValue()
+    {
         if (spriteRenderer != null)
         {
             switch (value)
             {
                 case PinValue.Null:
-                    spriteRenderer.sprite = PinNull;
+                    spriteRenderer.sprite = SimulatorManager.Instance.PinNull;
                     break;
                 case PinValue.Positive:
-                    spriteRenderer.sprite = PinPostive;
+                    spriteRenderer.sprite = SimulatorManager.Instance.PinPostive;
                     break;
                 case PinValue.Negative:
-                    spriteRenderer.sprite = PinNegative;
+                    spriteRenderer.sprite = SimulatorManager.Instance.PinNegative;
                     break;
 
             }
@@ -92,6 +94,16 @@ public class PinConnection : MonoBehaviour
         }
         CompleteExsistingWire();
     }
+
+    /*private void OnMouseEnter()
+    {
+        Cursor.SetCursor(SimulatorManager.Instance.cursorTexture, SimulatorManager.Instance.hotSpot,SimulatorManager.Instance.cursorMode);
+    }
+    private void OnMouseExit()
+    {
+        Cursor.SetCursor(null, SimulatorManager.Instance.hotSpot,SimulatorManager.Instance.cursorMode);
+
+    }*/
     private void CreateNewWire()
     {
         GameObject wire = Instantiate(wireGameObject, SimulatorManager.Instance.WiresGameObject.transform);
