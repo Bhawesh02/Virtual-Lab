@@ -40,14 +40,26 @@ public class SimulatorManager : MonoBehaviour
     {
         if (doingConnection)
         {
-            Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Vector3 endPosition = new Vector3(mousePosition.x, mousePosition.y,mousePosition.z);
-            Wire.GetComponent<WireController>().SetWireEnd(endPosition);
+            SetWireEndToMousePointer();
+            if (Input.GetMouseButtonDown(1))
+            { 
+                Destroy(Wire);
+                Wire = null;
+                doingConnection = false;
+            }
         }
 
 
 
     }
+
+    private void SetWireEndToMousePointer()
+    {
+        Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector3 endPosition = new Vector3(mousePosition.x, mousePosition.y, mousePosition.z);
+        Wire.GetComponent<WireController>().SetWireEnd(endPosition);
+    }
+
     public void stopSimulation()
     {
         SimulationStatus.text = "Simulation not running";
