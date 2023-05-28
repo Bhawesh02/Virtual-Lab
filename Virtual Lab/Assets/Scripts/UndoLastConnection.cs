@@ -28,41 +28,72 @@ public class UndoLastConnection : MonoBehaviour
         lastWire = SimulatorManager.Instance.Wires[^1];
         PinConnection inititalPin = lastWire.initialPin;
         PinConnection finalPin = lastWire.finalPin;
-        switch (inititalPin.CurrentPinInfo.Type)
-        {
-            case PinType.Input:
-                inititalPin.value = PinValue.Negative;
-                break;
-            case PinType.Vcc:
-                inititalPin.value = PinValue.Vcc;
-                break;
-            case PinType.Gnd:
-                inititalPin.value = PinValue.Gnd;
-                break;
-            default:
-                inititalPin.value = PinValue.Null;
-                break;
-        }
-        switch (finalPin.CurrentPinInfo.Type)
-        {
-            case PinType.Input:
-                finalPin.value = PinValue.Negative;
-                break;
-            case PinType.Vcc:
-                finalPin.value = PinValue.Vcc;
-                break;
-            case PinType.Gnd:
-                finalPin.value = PinValue.Gnd;
-                break;
-            default:
-                finalPin.value = PinValue.Null;
-                break;
-        }
+        ChangePinValue(inititalPin);
+        ChangePinValue(finalPin);
+        RemoveInputPinConnected();
+        
         SimulatorManager.Instance.Wires.Remove(lastWire);
         inititalPin.Wires.Remove(lastWire);
         finalPin.Wires.Remove(lastWire);
         Destroy(lastWire.gameObject);
-        
 
+
+    }
+
+    private void RemoveInputPinConnected()
+    {
+        if (lastWire.connectionDirection == ConnectionDirection.Null)
+            return;
+        if (lastWire.connectionDirection == ConnectionDirection.InititalToFinal)
+        {
+            lastWire.connectionDirection = ConnectionDirection.Null;
+            MakeIsInputConnectedFalse(lastWire.finalPin);
+            return;
+        }
+        lastWire.connectionDirection = ConnectionDirection.Null;
+        MakeIsInputConnectedFalse(lastWire.initialPin);
+
+    }
+
+    private void MakeIsInputConnectedFalse(PinConnection pin)
+    {
+        if (pin.GetComponent<OutputPinConnectionCheck>() == null)
+            return;
+        pin.GetComponent<OutputPinConnectionCheck>().IsInputPinConnected = false;
+        foreach(WireController wire in pin.Wires)
+        {
+            if (wire.connectionDirection == ConnectionDirection.Null)
+                continue;
+            wire.connectionDirection = ConnectionDirection.Null;
+            if(pin == wire.initialPin)
+            {
+                MakeIsInputConnectedFalse(wire.finalPin);
+            }
+            else
+            {
+                MakeIsInputConnectedFalse(wire.initialPin);
+
+            }
+        }
+
+    }
+
+    private static void ChangePinValue(PinConnection pin)
+    {
+        switch (pin.CurrentPinInfo.Type)
+        {
+            case PinType.Input:
+                pin.value = PinValue.Negative;
+                break;
+            case PinType.Vcc:
+                pin.value = PinValue.Vcc;
+                break;
+            case PinType.Gnd:
+                pin.value = PinValue.Gnd;
+                break;
+            default:
+                pin.value = PinValue.Null;
+                break;
+        }
     }
 }

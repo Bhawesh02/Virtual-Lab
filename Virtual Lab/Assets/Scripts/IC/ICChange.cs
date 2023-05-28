@@ -42,13 +42,13 @@ public class ICChange : MonoBehaviour
         int pinNumber = ic.VccPin - 1;
         ChangePinType(pinNumber, PinType.IcVcc);
         SimulatorManager.Instance.valuePropagate.IcVccPin = (IcBase.Pins[pinNumber].GetComponent<PinConnection>());
-
+        IcBase.Pins[pinNumber].AddComponent<OutputPinConnectionCheck>();
 
         //Gnd pin
         pinNumber = ic.GndPin - 1;
         ChangePinType(pinNumber, PinType.IcGnd);
         SimulatorManager.Instance.valuePropagate.IcGndPin = (IcBase.Pins[pinNumber].GetComponent<PinConnection>());
-
+        IcBase.Pins[pinNumber].AddComponent<OutputPinConnectionCheck>();
     }
 
     private void SetInputAndOutputPins()
@@ -59,6 +59,7 @@ public class ICChange : MonoBehaviour
             int pinNumber = ic.inputPins[i] - 1;
             ChangePinType(pinNumber, PinType.IcInput);
             SimulatorManager.Instance.valuePropagate.IcInputPins.Add(IcBase.Pins[pinNumber].GetComponent<PinConnection>());
+            IcBase.Pins[pinNumber].AddComponent<OutputPinConnectionCheck>();
         }
         for(int i = 0; i < ic.outputPins.Length; i++)
         {

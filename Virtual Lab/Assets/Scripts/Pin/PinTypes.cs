@@ -14,6 +14,13 @@ public enum PinType
     IcGnd
 }
 
+public enum ConnectionDirection
+{
+    Null,
+    InititalToFinal,
+    FinalToInitial
+}
+
 public enum PinValue
 {
     Null,

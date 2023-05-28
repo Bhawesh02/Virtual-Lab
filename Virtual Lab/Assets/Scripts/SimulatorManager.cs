@@ -30,6 +30,8 @@ public class SimulatorManager : MonoBehaviour
     
     public Sprite PinNull;
 
+    public List<WireController> WiresConnectionChecked;
+
     /*public Texture2D cursorTexture;
     public CursorMode cursorMode = CursorMode.Auto;
     public Vector2 hotSpot = Vector2.zero;*/
