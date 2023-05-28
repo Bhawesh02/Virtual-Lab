@@ -29,8 +29,8 @@ public class SimulatorManager : MonoBehaviour
     public Sprite PinNegative;
     
     public Sprite PinNull;
-
-    public List<WireController> WiresConnectionChecked;
+/*
+    public List<WireController> WiresConnectionChecked;*/
 
     /*public Texture2D cursorTexture;
     public CursorMode cursorMode = CursorMode.Auto;

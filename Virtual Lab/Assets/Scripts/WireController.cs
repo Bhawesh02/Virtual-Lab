@@ -48,7 +48,7 @@ public class WireController : MonoBehaviour
     private void ChangeIsInputPinConnected(PinConnection pin)
     {
         pin.gameObject.GetComponent<OutputPinConnectionCheck>().IsInputPinConnected = true;
-        foreach(WireController wire in pin.Wires)
+        /*foreach(WireController wire in pin.Wires)
         {
             if (SimulatorManager.Instance.WiresConnectionChecked.Contains(wire))
                 continue;
@@ -57,12 +57,25 @@ public class WireController : MonoBehaviour
                 ChangeIsInputPinConnected(wire.finalPin);
             else
                 ChangeIsInputPinConnected(wire.initialPin);
-        }
+        }*/
+        foreach(WireController wire in pin.Wires)
+        {
+            if(wire.initialPin == pin)
+            {
+                if (wire.finalPin.GetComponent<OutputPinConnectionCheck>().IsInputPinConnected == true)
+                    continue;
+                ChangeIsInputPinConnected(wire.finalPin);
+                continue;
+            }
+            if (wire.initialPin.GetComponent<OutputPinConnectionCheck>().IsInputPinConnected == true)
+                continue;
+            ChangeIsInputPinConnected(wire.initialPin);
 
+        }
     }
     public void ConfirmConnection()
     {
-        SimulatorManager.Instance.WiresConnectionChecked.Clear();
+        /*SimulatorManager.Instance.WiresConnectionChecked.Clear();*/
         if ((initialPin == finalPin) || (finalPin.CurrentPinInfo.Type == PinType.Null) || (DoseThisPinGiveValue(initialPin) && DoseThisPinGiveValue(finalPin)))
         {
             Destroy(gameObject);
@@ -126,7 +139,7 @@ public class WireController : MonoBehaviour
         
         initialPin.Wires.Add(this);
         finalPin.Wires.Add(this);
-        SimulatorManager.Instance.WiresConnectionChecked.Clear();
+        /*SimulatorManager.Instance.WiresConnectionChecked.Clear();*/
 
     }
 
