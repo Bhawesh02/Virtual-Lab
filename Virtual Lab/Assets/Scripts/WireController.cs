@@ -68,6 +68,7 @@ public class WireController : MonoBehaviour
             Destroy(gameObject);
             return;
         }
+        //Initial Pin - Input , FinalPin - Output
         if(DoseThisPinGiveValue(initialPin) && DoseThisPinTakeValue(finalPin))
         {
             if (finalPin.gameObject.GetComponent<OutputPinConnectionCheck>().IsInputPinConnected)
@@ -81,6 +82,9 @@ public class WireController : MonoBehaviour
             ChangeDirectionForConnectedWires(finalPin);
 
         }
+
+        //Initial Pin - Output , FinalPin - Input
+
         if (DoseThisPinGiveValue(finalPin) && DoseThisPinTakeValue(initialPin))
         {
             if (initialPin.gameObject.GetComponent<OutputPinConnectionCheck>().IsInputPinConnected)
@@ -94,6 +98,10 @@ public class WireController : MonoBehaviour
 
 
         }
+
+        //Initial Pin - Output , FinalPin - Output
+
+
         if (DoseThisPinTakeValue(initialPin) && DoseThisPinTakeValue(finalPin))
         {
             if (initialPin.gameObject.GetComponent<OutputPinConnectionCheck>().IsInputPinConnected && finalPin.gameObject.GetComponent<OutputPinConnectionCheck>().IsInputPinConnected)
@@ -113,8 +121,6 @@ public class WireController : MonoBehaviour
                 ChangeIsInputPinConnected(initialPin);
                 connectionDirection = ConnectionDirection.FinalToInitial;
                 ChangeDirectionForConnectedWires(initialPin);
-
-
             }
         }
         
