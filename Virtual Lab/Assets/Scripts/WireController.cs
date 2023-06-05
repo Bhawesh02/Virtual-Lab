@@ -31,7 +31,7 @@ public class WireController : MonoBehaviour
         lineRenderer.SetPosition(1, endPos);
     }
 
-    private bool DoseThisPinGiveValue(PinConnection pin)
+    private bool IsAInputPin(PinConnection pin)
     {
         if (pin.CurrentPinInfo.Type == PinType.Input || pin.CurrentPinInfo.Type == PinType.IcOutput || pin.CurrentPinInfo.Type == PinType.Vcc || pin.CurrentPinInfo.Type == PinType.Gnd)
             return true;
@@ -40,9 +40,9 @@ public class WireController : MonoBehaviour
         return false;
     }
 
-    private bool DoseThisPinTakeValue(PinConnection pin)
+    private bool IsAOutputPin(PinConnection pin)
     {
-        return !DoseThisPinGiveValue(pin);
+        return !IsAInputPin(pin);
     }
 
     private void ChangeIsInputPinConnected(PinConnection pin)
@@ -76,13 +76,13 @@ public class WireController : MonoBehaviour
     public void ConfirmConnection()
     {
         /*SimulatorManager.Instance.WiresConnectionChecked.Clear();*/
-        if ((initialPin == finalPin) || (finalPin.CurrentPinInfo.Type == PinType.Null) || (DoseThisPinGiveValue(initialPin) && DoseThisPinGiveValue(finalPin)))
+        if ((initialPin == finalPin) || (finalPin.CurrentPinInfo.Type == PinType.Null) || (IsAInputPin(initialPin) && IsAInputPin(finalPin)))
         {
             Destroy(gameObject);
             return;
         }
         //Initial Pin - Input , FinalPin - Output
-        if(DoseThisPinGiveValue(initialPin) && DoseThisPinTakeValue(finalPin))
+        if(IsAInputPin(initialPin) && IsAOutputPin(finalPin))
         {
             if (finalPin.gameObject.GetComponent<OutputPinConnectionCheck>().IsInputPinConnected)
             {
@@ -98,7 +98,7 @@ public class WireController : MonoBehaviour
 
         //Initial Pin - Output , FinalPin - Input
 
-        if (DoseThisPinGiveValue(finalPin) && DoseThisPinTakeValue(initialPin))
+        if (IsAInputPin(finalPin) && IsAOutputPin(initialPin))
         {
             if (initialPin.gameObject.GetComponent<OutputPinConnectionCheck>().IsInputPinConnected)
             {
@@ -115,7 +115,7 @@ public class WireController : MonoBehaviour
         //Initial Pin - Output , FinalPin - Output
 
 
-        if (DoseThisPinTakeValue(initialPin) && DoseThisPinTakeValue(finalPin))
+        if (IsAOutputPin(initialPin) && IsAOutputPin(finalPin))
         {
             if (initialPin.gameObject.GetComponent<OutputPinConnectionCheck>().IsInputPinConnected && finalPin.gameObject.GetComponent<OutputPinConnectionCheck>().IsInputPinConnected)
             {
