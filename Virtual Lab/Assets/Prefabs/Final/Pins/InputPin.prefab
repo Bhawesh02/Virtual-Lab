@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 8331559604035333755}
   - component: {fileID: 4234848526961563139}
-  - component: {fileID: 5993620344200623841}
   - component: {fileID: 2852854816844937045}
+  - component: {fileID: 7199339638956302741}
   m_Layer: 0
   m_Name: InputPin
   m_TagString: Untagged
@@ -91,32 +91,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!61 &5993620344200623841
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3226020027256994931}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.56, y: 0.6933333}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 0.56, y: 0.6933333}
-  m_EdgeRadius: 0
 --- !u!114 &2852854816844937045
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -136,3 +110,19 @@ MonoBehaviour:
     pinConnection: {fileID: 0}
   Wires: []
   wireGameObject: {fileID: 672502254965901130, guid: cda496722f5381943aabdb0782fd1ca3, type: 3}
+--- !u!58 &7199339638956302741
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3226020027256994931}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.0038740635, y: 0.007309437}
+  serializedVersion: 2
+  m_Radius: 0.18957186
