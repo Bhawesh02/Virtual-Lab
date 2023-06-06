@@ -1,6 +1,4 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -27,13 +25,18 @@ public class ICChange : MonoBehaviour
 
     private void ChangeIc()
     {
-        IcBase = SimulatorManager.Instance.IcBase;
+        IcBase = SimulatorManager.Instance.SelectedIcBase;
+        if (IcBase.IcLogic != null)
+        {
+            ValuePropagate.Instance.ICLogics.Remove(IcBase.IcLogic);
+        }
         IcBase.ICSprite.sprite = ic.IcSprite;
         IcBase.IcLogic.enabled = true;
-        IcBase.IcLogic.Ic = ic;
+        IcBase.IcLogic.IcData = ic;
         SetInputAndOutputPins();
         SetVccAndGndPin();
         ICSelection.SetActive(false);
+        ValuePropagate.Instance.ICLogics.Add(IcBase.IcLogic);
     }
 
     private void SetVccAndGndPin()
@@ -41,13 +44,13 @@ public class ICChange : MonoBehaviour
         // VCC pin
         int pinNumber = ic.VccPin - 1;
         ChangePinType(pinNumber, PinType.IcVcc);
-        SimulatorManager.Instance.valuePropagate.IcVccPin = (IcBase.Pins[pinNumber].GetComponent<PinConnection>());
+        ValuePropagate.Instance.IcVccPin.Add(IcBase.Pins[pinNumber].GetComponent<PinController>());
         IcBase.Pins[pinNumber].AddComponent<OutputPinConnectionCheck>();
 
         //Gnd pin
         pinNumber = ic.GndPin - 1;
         ChangePinType(pinNumber, PinType.IcGnd);
-        SimulatorManager.Instance.valuePropagate.IcGndPin = (IcBase.Pins[pinNumber].GetComponent<PinConnection>());
+        ValuePropagate.Instance.IcGndPin.Add(IcBase.Pins[pinNumber].GetComponent<PinController>());
         IcBase.Pins[pinNumber].AddComponent<OutputPinConnectionCheck>();
     }
 
@@ -58,7 +61,7 @@ public class ICChange : MonoBehaviour
             //input pin
             int pinNumber = ic.inputPins[i] - 1;
             ChangePinType(pinNumber, PinType.IcInput);
-            SimulatorManager.Instance.valuePropagate.IcInputPins.Add(IcBase.Pins[pinNumber].GetComponent<PinConnection>());
+            ValuePropagate.Instance.IcInputPins.Add(IcBase.Pins[pinNumber].GetComponent<PinController>());
             IcBase.Pins[pinNumber].AddComponent<OutputPinConnectionCheck>();
         }
         for(int i = 0; i < ic.outputPins.Length; i++)
@@ -66,13 +69,13 @@ public class ICChange : MonoBehaviour
             //Output pin
             int pinNumber = ic.outputPins[i] - 1;
             ChangePinType(pinNumber, PinType.IcOutput);
-            SimulatorManager.Instance.valuePropagate.IcOutputPins.Add(IcBase.Pins[pinNumber].GetComponent<PinConnection>());
+            ValuePropagate.Instance.IcOutputPins.Add(IcBase.Pins[pinNumber].GetComponent<PinController>());
         }
     }
 
     private void ChangePinType(int PinNumber, PinType type)
     {
-        PinInfo currentPinInfo = IcBase.Pins[PinNumber].GetComponent<PinConnection>().CurrentPinInfo;
+        PinInfo currentPinInfo = IcBase.Pins[PinNumber].GetComponent<PinController>().CurrentPinInfo;
         currentPinInfo.PinNumber = PinNumber + 1;
         currentPinInfo.Type = type;
 

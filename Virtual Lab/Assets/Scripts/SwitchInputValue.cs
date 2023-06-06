@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class SwitchInputValue : MonoBehaviour
 {
     [SerializeField]
-    private PinConnection inputPin;
+    private PinController inputPin;
 
     private Button button;
     private void Awake()

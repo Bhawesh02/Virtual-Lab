@@ -1,9 +1,8 @@
-using System;
-using System.Collections;
+
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PinConnection : MonoBehaviour
+public class PinController : MonoBehaviour
 {
     public PinValue value;
     public PinInfo CurrentPinInfo;
@@ -37,7 +36,7 @@ public class PinConnection : MonoBehaviour
 
     private void SendReferenceToValuePropagator()
     {
-        ValuePropagate valuePropagate = SimulatorManager.Instance.valuePropagate;
+        ValuePropagate valuePropagate = ValuePropagate.Instance;
         switch (CurrentPinInfo.Type)
         {
             case PinType.Null:
@@ -63,7 +62,7 @@ public class PinConnection : MonoBehaviour
 
     private void ChangeSpriteBasedOnValue()
     {
-        if (spriteRenderer != null)
+        /*if (spriteRenderer != null)
         {
             switch (value)
             {
@@ -78,7 +77,7 @@ public class PinConnection : MonoBehaviour
                     break;
 
             }
-        }
+        }*/
     }
 
     private void OnMouseDown()

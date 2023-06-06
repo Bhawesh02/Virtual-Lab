@@ -1,5 +1,4 @@
-using System;
-using System.Collections;
+
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,20 +6,19 @@ public class ValuePropagate : MonoBehaviour
 {
     private static ValuePropagate instance;
     public static ValuePropagate Instance { get { return instance; } }
-    
-    public List<PinConnection> OutputPins;
 
-    public List<PinConnection> InputPins;
+    public List<PinController> OutputPins;
 
-    public List<PinConnection> VccPins;
-    public List<PinConnection> GndPins;
-    public List<PinConnection> IcInputPins;
-    public List<PinConnection> IcOutputPins;
-    public PinConnection IcVccPin;
-    public PinConnection IcGndPin;
+    public List<PinController> InputPins;
 
-    [SerializeField]
-    private ICLogic IcLogic;
+    public List<PinController> VccPins;
+    public List<PinController> GndPins;
+    public List<PinController> IcInputPins;
+    public List<PinController> IcOutputPins;
+    public List<PinController> IcVccPin;
+    public List<PinController> IcGndPin;
+
+    public List<ICLogic> ICLogics;
     private void Awake()
     {
         if (instance == null)
@@ -33,27 +31,22 @@ public class ValuePropagate : MonoBehaviour
         }
     }
 
-    public void StartButton()
-    {
-        SimulatorManager.Instance.SimulationRunning = true;
-        SimulatorManager.Instance.SimulationStatus.text = "Simulation Running";
-        StartTransfer();
-    }
+   
     public void StartTransfer()
     {
         if (SimulatorManager.Instance.Wires.Count == 0)
             return;
         SetWiresValuePropagetedToFalse();
-        foreach (PinConnection pin in VccPins)
+        foreach (PinController pin in VccPins)
             TransferData(pin);
-        foreach (PinConnection pin in GndPins)
+        foreach (PinController pin in GndPins)
             TransferData(pin);
-        foreach (PinConnection pin in InputPins)
+        foreach (PinController pin in InputPins)
         {
             TransferData(pin);
         }
-
-        IcLogic.RunIcLogic();
+        foreach (ICLogic IcLogic in ICLogics)
+            IcLogic.RunIcLogic();
 
     }
     private void SetWiresValuePropagetedToFalse()
@@ -65,7 +58,7 @@ public class ValuePropagate : MonoBehaviour
         }
     }
 
-    bool DoesThisPinTakeValue(PinConnection pin)
+    bool DoesThisPinTakeValue(PinController pin)
     {
         switch (pin.CurrentPinInfo.Type)
         {
@@ -80,25 +73,29 @@ public class ValuePropagate : MonoBehaviour
         }
     }
 
-    public void TransferData(PinConnection pin)
+    public void TransferData(PinController pin)
     {
         if (pin.value == PinValue.Null)
-                return;
+            return;
         if (pin.Wires.Count == 0)
-                return;/*
-        Debug.Log("Pin: "+pin.CurrentPinInfo.Type+" "+pin.CurrentPinInfo.PinNumber);*/
+            return;
+        Debug.Log("Pin: " + pin.CurrentPinInfo.Type + " " + pin.CurrentPinInfo.PinNumber);
         foreach (WireController wire in pin.Wires)
         {
             if (wire.valuePropagated)
                 continue;
             if (wire.initialPin == pin && DoesThisPinTakeValue(wire.finalPin))
             {
+                Debug.Log("Going from initial to final "+"Initial Pin: " + pin + " Final Pin: "+wire.finalPin);
+
                 wire.finalPin.value = wire.initialPin.value;
                 wire.valuePropagated = true;
                 TransferData(wire.finalPin);
             }
             else if (wire.finalPin == pin && DoesThisPinTakeValue(wire.initialPin))
             {
+                Debug.Log("Going from final to initial" + "Initial Pin: " + pin + " Final Pin: " + wire.initialPin);
+
                 wire.initialPin.value = wire.finalPin.value;
                 wire.valuePropagated = true;
                 TransferData(wire.initialPin);

@@ -34,5 +34,5 @@ public class PinInfo
 {
     public PinType Type;
     public int PinNumber;
-    public PinConnection pinConnection;
+    public PinController pinConnection;
 }

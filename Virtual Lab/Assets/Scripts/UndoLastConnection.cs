@@ -26,8 +26,8 @@ public class UndoLastConnection : MonoBehaviour
             return;
 
         lastWire = SimulatorManager.Instance.Wires[^1];
-        PinConnection inititalPin = lastWire.initialPin;
-        PinConnection finalPin = lastWire.finalPin;
+        PinController inititalPin = lastWire.initialPin;
+        PinController finalPin = lastWire.finalPin;
         ChangePinValue(inititalPin);
         ChangePinValue(finalPin);
         RemoveInputPinConnected();
@@ -55,7 +55,7 @@ public class UndoLastConnection : MonoBehaviour
 
     }
 
-    private void MakeIsInputConnectedFalse(PinConnection pin)
+    private void MakeIsInputConnectedFalse(PinController pin)
     {
         if (pin.GetComponent<OutputPinConnectionCheck>() == null)
             return;
@@ -78,7 +78,7 @@ public class UndoLastConnection : MonoBehaviour
 
     }
 
-    private static void ChangePinValue(PinConnection pin)
+    private static void ChangePinValue(PinController pin)
     {
         switch (pin.CurrentPinInfo.Type)
         {

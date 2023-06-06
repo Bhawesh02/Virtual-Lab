@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public enum ICTypes
@@ -16,7 +17,7 @@ public class ICBase
 {
     public SpriteRenderer ICSprite;
     public ICLogic IcLogic;
-    public GameObject[] Pins;
+    public List<GameObject> Pins;
 }
 [Serializable]
 public class PinMapping

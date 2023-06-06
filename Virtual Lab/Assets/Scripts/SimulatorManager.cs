@@ -1,7 +1,9 @@
-using System.Collections;
+
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class SimulatorManager : MonoBehaviour
 {
@@ -14,11 +16,12 @@ public class SimulatorManager : MonoBehaviour
 
     public GameObject WiresGameObject;
 
-    public ICBase IcBase;
+    public ICBase SelectedIcBase;
+
+    public List<ICBase> ICBases;
 
     public List<WireController> Wires;
 
-    public ValuePropagate valuePropagate;
 
     public bool SimulationRunning;
 
@@ -29,8 +32,20 @@ public class SimulatorManager : MonoBehaviour
     public Sprite PinNegative;
     
     public Sprite PinNull;
-/*
-    public List<WireController> WiresConnectionChecked;*/
+
+    public GameObject ICSelection;
+
+    [SerializeField]
+    private Button StartButton;
+
+    [SerializeField]
+    private Button StopButton;
+
+    [SerializeField]
+    private Button ResetButton;
+
+    /*
+        public List<WireController> WiresConnectionChecked;*/
 
     /*public Texture2D cursorTexture;
     public CursorMode cursorMode = CursorMode.Auto;
@@ -48,6 +63,14 @@ public class SimulatorManager : MonoBehaviour
         }
         SimulationRunning = false;
         SimulationStatus.text = "Simulation not running";
+    }
+
+    private void Start()
+    {
+        ICSelection.SetActive(false);
+        StartButton.onClick.AddListener(StartSimulation);
+        StopButton.onClick.AddListener(StopSimulation);
+        ResetButton.onClick.AddListener(ResetConnection);
     }
     private void Update()
     {
@@ -69,14 +92,23 @@ public class SimulatorManager : MonoBehaviour
     private void SetWireEndToMousePointer()
     {
         Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Vector3 endPosition = new Vector3(mousePosition.x, mousePosition.y, mousePosition.z);
+        Vector3 endPosition = new(mousePosition.x, mousePosition.y, mousePosition.z);
         Wire.GetComponent<WireController>().SetWireEnd(endPosition);
     }
-
-    public void stopSimulation()
+    public void StartSimulation()
+    {
+        SimulationRunning = true;
+        SimulationStatus.text = "Simulation Running";
+        ValuePropagate.Instance.StartTransfer();
+    }
+    public void StopSimulation()
     {
         SimulationStatus.text = "Simulation not running";
         SimulationRunning = false;
     }
 
+    private void ResetConnection()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
 }

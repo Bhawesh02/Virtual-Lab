@@ -1,14 +1,12 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
 
 public class WireController : MonoBehaviour
 {
     [SerializeField]
     private LineRenderer lineRenderer;
-    public PinConnection initialPin;
-    public PinConnection finalPin;
+    public PinController initialPin;
+    public PinController finalPin;
 
     public bool valuePropagated;
    
@@ -31,7 +29,7 @@ public class WireController : MonoBehaviour
         lineRenderer.SetPosition(1, endPos);
     }
 
-    private bool IsAInputPin(PinConnection pin)
+    private bool IsAInputPin(PinController pin)
     {
         if (pin.CurrentPinInfo.Type == PinType.Input || pin.CurrentPinInfo.Type == PinType.IcOutput || pin.CurrentPinInfo.Type == PinType.Vcc || pin.CurrentPinInfo.Type == PinType.Gnd)
             return true;
@@ -40,12 +38,12 @@ public class WireController : MonoBehaviour
         return false;
     }
 
-    private bool IsAOutputPin(PinConnection pin)
+    private bool IsAOutputPin(PinController pin)
     {
         return !IsAInputPin(pin);
     }
 
-    private void ChangeIsInputPinConnected(PinConnection pin)
+    private void ChangeIsInputPinConnected(PinController pin)
     {
         pin.gameObject.GetComponent<OutputPinConnectionCheck>().IsInputPinConnected = true;
         /*foreach(WireController wire in pin.Wires)
@@ -143,7 +141,7 @@ public class WireController : MonoBehaviour
 
     }
 
-    private void ChangeDirectionForConnectedWires(PinConnection pin)
+    private void ChangeDirectionForConnectedWires(PinController pin)
     {
         foreach (WireController wire in pin.Wires)
         {
