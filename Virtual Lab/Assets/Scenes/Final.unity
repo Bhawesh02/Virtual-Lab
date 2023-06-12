@@ -10638,6 +10638,26 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7563230793009488610, guid: 1d7b19d11fcd6d04f8ec61cf1bcfa742, type: 3}
+      propertyPath: colorList.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7563230793009488610, guid: 1d7b19d11fcd6d04f8ec61cf1bcfa742, type: 3}
+      propertyPath: colorList.Array.data[3].a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7563230793009488610, guid: 1d7b19d11fcd6d04f8ec61cf1bcfa742, type: 3}
+      propertyPath: colorList.Array.data[3].b
+      value: 0.1866076
+      objectReference: {fileID: 0}
+    - target: {fileID: 7563230793009488610, guid: 1d7b19d11fcd6d04f8ec61cf1bcfa742, type: 3}
+      propertyPath: colorList.Array.data[3].g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7563230793009488610, guid: 1d7b19d11fcd6d04f8ec61cf1bcfa742, type: 3}
+      propertyPath: colorList.Array.data[3].r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7563230793009488610, guid: 1d7b19d11fcd6d04f8ec61cf1bcfa742, type: 3}
       propertyPath: ICBases.Array.data[0].IcLogic
       value: 
       objectReference: {fileID: 671121243}
