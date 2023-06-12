@@ -9,7 +9,8 @@ public enum ICTypes
     And,
     Nor,
     Not,
-    Xor
+    Xor,
+    Nand
 }
 
 [Serializable]
