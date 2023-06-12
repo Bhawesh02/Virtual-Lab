@@ -21,6 +21,7 @@ public class WireController : MonoBehaviour
     {
         gameObject.SetActive(true);
         lineRenderer.positionCount = 2;
+        
         lineRenderer.SetPosition(0, startPos);
     }
 

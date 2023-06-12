@@ -7,16 +7,16 @@ public class PinController : MonoBehaviour
     public PinValue value;
     public PinInfo CurrentPinInfo;
     public List<WireController> Wires = new();
-    private SpriteRenderer spriteRenderer;
     [SerializeField]
     private GameObject wireGameObject;
 
+    private SpriteRenderer ShowColor;
 
     private void Awake()
     {
         value = PinValue.Null;
-        spriteRenderer = GetComponent<SpriteRenderer>();
         CurrentPinInfo.pinConnection = this;
+        ShowColor = null; 
     }
     
     
@@ -26,12 +26,19 @@ public class PinController : MonoBehaviour
 
         if (CurrentPinInfo.Type == PinType.Input)
             value = PinValue.Negative;
+
         if (CurrentPinInfo.Type == PinType.Vcc)
             value = PinValue.Vcc;
         if (CurrentPinInfo.Type == PinType.Gnd)
             value = PinValue.Gnd;
         
         SendReferenceToValuePropagator();
+
+        if(CurrentPinInfo.Type == PinType.Input || CurrentPinInfo.Type == PinType.Output)
+        {
+            ShowColor = transform.GetChild(0).GetComponent<SpriteRenderer>();
+            ShowColor.sortingOrder = 1;
+        }
     }
 
     private void SendReferenceToValuePropagator()
@@ -62,22 +69,23 @@ public class PinController : MonoBehaviour
 
     private void ChangeSpriteBasedOnValue()
     {
-        /*if (spriteRenderer != null)
+        if (ShowColor == null)
         {
-            switch (value)
-            {
-                case PinValue.Null:
-                    spriteRenderer.sprite = SimulatorManager.Instance.PinNull;
-                    break;
-                case PinValue.Positive:
-                    spriteRenderer.sprite = SimulatorManager.Instance.PinPostive;
-                    break;
-                case PinValue.Negative:
-                    spriteRenderer.sprite = SimulatorManager.Instance.PinNegative;
-                    break;
+            return;
+        }
+        switch (value)
+        {
+            case PinValue.Null:
+                ShowColor.sprite = null;
+                break;
+            case PinValue.Positive:
+                ShowColor.sprite = SimulatorManager.Instance.PinPostive;
+                break;
+            case PinValue.Negative:
+                ShowColor.sprite = SimulatorManager.Instance.PinNegative;
+                break;
 
-            }
-        }*/
+        }
     }
 
     private void OnMouseDown()
