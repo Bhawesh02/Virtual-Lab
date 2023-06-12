@@ -26,6 +26,11 @@ public class ICChange : MonoBehaviour
     private void ChangeIc()
     {
         IcBase = SimulatorManager.Instance.SelectedIcBase;
+        int numOfPinsInSelectedIcBase = IcBase.Pins.Count;
+        int numOfPinsInSelecetedIC = ic.inputPins.Length+ic.outputPins.Length+2;
+        if (numOfPinsInSelectedIcBase < numOfPinsInSelecetedIC )
+            return;
+
         if (IcBase.IcLogic != null)
         {
             ValuePropagate.Instance.ICLogics.Remove(IcBase.IcLogic);
