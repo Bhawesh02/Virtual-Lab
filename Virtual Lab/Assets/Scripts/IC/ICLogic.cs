@@ -85,6 +85,9 @@ public class ICLogic : MonoBehaviour
             case ICTypes.Nor:
                 NorGateLogic(outputPin, inputPins);
                 break;
+            case ICTypes.Nand:
+                NandGateLogic(outputPin,inputPins);
+                break;
             default:
                 Debug.Log("IC Logic Not given");
                 break;
@@ -93,7 +96,17 @@ public class ICLogic : MonoBehaviour
             ValuePropagate.Instance.TransferData(outputPin.GetComponent<PinController>());
 
     }
-
+    private void NandGateLogic(GameObject outputPin, List<GameObject> inputPins)
+    {
+        PinValue input1Value=inputPins[0].GetComponent<PinController>().value;
+        PinValue input2Value=inputPins[1].GetComponent<PinController>().value;
+        if (input1Value == PinValue.Positive && input2Value == PinValue.Positive)
+        {
+            outputPin.GetComponent<PinController>().value = PinValue.Negative;
+            return;
+        }
+        outputPin.GetComponent<PinController>().value = PinValue.Positive;
+    }
     private void NorGateLogic(GameObject outputPin, List<GameObject> inputPins)
     {
         PinValue input1Value = inputPins[0].GetComponent<PinController>().value;
