@@ -1,4 +1,5 @@
 
+using System.Collections.Generic;
 using UnityEngine;
 
 public class WireController : MonoBehaviour
@@ -11,6 +12,7 @@ public class WireController : MonoBehaviour
     public bool valuePropagated;
    
     public ConnectionDirection connectionDirection;
+
     private void Awake()
     {
         SimulatorManager.Instance.Wires.Add(this);
@@ -21,8 +23,16 @@ public class WireController : MonoBehaviour
     {
         gameObject.SetActive(true);
         lineRenderer.positionCount = 2;
-        
+        SetWireColor();
         lineRenderer.SetPosition(0, startPos);
+    }
+
+    private void SetWireColor()
+    {
+        int colorNum = Random.Range(0, SimulatorManager.Instance.colorList.Count);
+        Color color = SimulatorManager.Instance.colorList[colorNum];
+        lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
+        lineRenderer.SetColors(color, color);
     }
 
     public void SetWireEnd(Vector3 endPos)

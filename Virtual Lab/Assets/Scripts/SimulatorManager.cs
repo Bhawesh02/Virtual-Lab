@@ -44,6 +44,9 @@ public class SimulatorManager : MonoBehaviour
     [SerializeField]
     private Button ResetButton;
 
+
+    public List<Color> colorList = new() { Color.red, Color.black, Color.blue };
+
     /*
         public List<WireController> WiresConnectionChecked;*/
 
