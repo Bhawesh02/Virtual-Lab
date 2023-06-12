@@ -79,22 +79,18 @@ public class ValuePropagate : MonoBehaviour
             return;
         if (pin.Wires.Count == 0)
             return;
-        Debug.Log("Pin: " + pin.CurrentPinInfo.Type + " " + pin.CurrentPinInfo.PinNumber);
         foreach (WireController wire in pin.Wires)
         {
             if (wire.valuePropagated)
                 continue;
             if (wire.initialPin == pin && DoesThisPinTakeValue(wire.finalPin))
             {
-                Debug.Log("Going from initial to final "+"Initial Pin: " + pin + " Final Pin: "+wire.finalPin);
-
                 wire.finalPin.value = wire.initialPin.value;
                 wire.valuePropagated = true;
                 TransferData(wire.finalPin);
             }
             else if (wire.finalPin == pin && DoesThisPinTakeValue(wire.initialPin))
             {
-                Debug.Log("Going from final to initial" + "Initial Pin: " + pin + " Final Pin: " + wire.initialPin);
 
                 wire.initialPin.value = wire.finalPin.value;
                 wire.valuePropagated = true;
