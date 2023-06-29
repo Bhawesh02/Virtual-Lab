@@ -1,37 +1,20 @@
 
-using UnityEngine;
-using UnityEngine.UI;
+using Unity.VisualScripting;
 
-[RequireComponent(typeof(Button))]
-public class ICChange : MonoBehaviour
-{
-    [SerializeField]
-    private IC ic;
-
-    private Button changeButton;
-    [SerializeField]
-    private GameObject ICSelection;
+public class ICChange {
 
     private ICBase IcBase;
-
-    private void Awake()
-    {
-        changeButton = GetComponent<Button>();
-    }
-    private void Start()
-    {
-        changeButton.onClick.AddListener(ChangeIc);
-    }
-
+    private IC ic;
     private bool Is14pinbeingputin16pin(int numOfPinsInSelectedIcBase,int numOfPinsInSelecetedIC)
     {
         if(numOfPinsInSelectedIcBase == 16 && numOfPinsInSelecetedIC == 14)
             return true;
         return false;
     }
-    private void ChangeIc()
+    public void ChangeIc(ICBase _IcBase, IC _IcData)
     {
-        IcBase = SimulatorManager.Instance.SelectedIcBase;
+        IcBase = _IcBase;
+        ic = _IcData;
         int numOfPinsInSelectedIcBase = IcBase.Pins.Count;
         int numOfPinsInSelecetedIC = ic.inputPins.Length+ic.outputPins.Length+2;
         if (numOfPinsInSelectedIcBase < numOfPinsInSelecetedIC )
@@ -47,7 +30,6 @@ public class ICChange : MonoBehaviour
         IcBase.IcLogic.IcData = ic;
         SetInputAndOutputPins(smallIcInBigBase);
         SetVccAndGndPin(smallIcInBigBase);
-        ICSelection.SetActive(false);
         ValuePropagate.Instance.ICLogics.Add(IcBase.IcLogic);
     }
 
@@ -59,6 +41,7 @@ public class ICChange : MonoBehaviour
         ChangePinType(pinNumber, PinType.IcVcc);
         ValuePropagate.Instance.IcVccPin.Add(IcBase.Pins[pinNumber].GetComponent<PinController>());
         IcBase.Pins[pinNumber].AddComponent<OutputPinConnectionCheck>();
+        IcBase.IcLogic.gameObject.GetComponent<ICController>().VccPin = IcBase.Pins[pinNumber].GetComponent<PinController>();
 
         //Gnd pin
         pinNumber = ic.GndPin - 1;
@@ -67,9 +50,11 @@ public class ICChange : MonoBehaviour
         ChangePinType(pinNumber, PinType.IcGnd);
         ValuePropagate.Instance.IcGndPin.Add(IcBase.Pins[pinNumber].GetComponent<PinController>());
         IcBase.Pins[pinNumber].AddComponent<OutputPinConnectionCheck>();
+        IcBase.IcLogic.gameObject.GetComponent<ICController>().GndPin = IcBase.Pins[pinNumber].GetComponent<PinController>();
+
     }
 
-    
+
 
     private void SetInputAndOutputPins(bool smallIcInBigBase)
     {

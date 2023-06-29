@@ -6,10 +6,12 @@ public class ICLogic : MonoBehaviour
 {
     public IC IcData;
     private bool ranOnce;
+    private ICController iCController;
     private void Awake()
     {
         this.enabled = false;
         ranOnce = false;
+        iCController = GetComponent<ICController>();
     }
 
     private void Update()
@@ -26,10 +28,8 @@ public class ICLogic : MonoBehaviour
             return;
         if (!ranOnce)
             ranOnce = true;
-        int VccPinNumber = IcData.VccPin - 1;
-        int GndPinNumber = IcData.GndPin - 1;
-        PinController VccPin = SimulatorManager.Instance.SelectedIcBase.Pins[VccPinNumber].GetComponent<PinController>();
-        PinController GndPin = SimulatorManager.Instance.SelectedIcBase.Pins[GndPinNumber].GetComponent<PinController>();
+        PinController VccPin = iCController.VccPin;
+        PinController GndPin = iCController.GndPin;
 
         if (VccPin.value != PinValue.Vcc || GndPin.value != PinValue.Gnd)
         {

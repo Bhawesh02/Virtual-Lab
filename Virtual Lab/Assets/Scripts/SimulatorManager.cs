@@ -33,7 +33,6 @@ public class SimulatorManager : MonoBehaviour
     
     public Sprite PinNull;
 
-    public GameObject ICSelection;
 
     [SerializeField]
     private Button StartButton;
@@ -70,7 +69,6 @@ public class SimulatorManager : MonoBehaviour
 
     private void Start()
     {
-        ICSelection.SetActive(false);
         StartButton.onClick.AddListener(StartSimulation);
         StopButton.onClick.AddListener(StopSimulation);
         ResetButton.onClick.AddListener(ResetConnection);

@@ -9,13 +9,15 @@ public class ICController : MonoBehaviour
 
     public ICBase thisIC = new();
 
+    public PinController VccPin;
+    public PinController GndPin;
     private void Start()
     {
         GetPins();
-        SendToSimulationManager();
+        SetThisIC();
     }
 
-    private void SendToSimulationManager()
+    private void SetThisIC()
     {
         thisIC.IcLogic = GetComponent<ICLogic>();
         thisIC.ICSprite = GetComponent<SpriteRenderer>();
@@ -25,19 +27,11 @@ public class ICController : MonoBehaviour
 
     private void GetPins()
     {
-        Transform PinsGameObject = transform.GetChild(0);
+        Transform PinsGameObject = transform.GetChild(1);
         foreach (Transform child in PinsGameObject)
         {
             Pins.Add(child.gameObject);
         }
     }
 
-    private void OnMouseDown()
-    {
-        if (SimulatorManager.Instance.SimulationRunning)
-            return;
-        SimulatorManager.Instance.SelectedIcBase = thisIC;
-        SimulatorManager.Instance.ICSelection.SetActive(true);
-
-    }
 }
