@@ -28,10 +28,8 @@ public class ICLogic : MonoBehaviour
             ranOnce = true;
         int VccPinNumber = IcData.VccPin - 1;
         int GndPinNumber = IcData.GndPin - 1;
-        PinController VccPin = SimulatorManager.Instance.SelectedIcBase.Pins[VccPinNumber].GetComponent<PinController>();
-        PinController GndPin = SimulatorManager.Instance.SelectedIcBase.Pins[GndPinNumber].GetComponent<PinController>();
-
-        if (VccPin.value != PinValue.Vcc || GndPin.value != PinValue.Gnd)
+        GetVccAndGndPinInIC(VccPinNumber, GndPinNumber, out PinController VccPinInIc, out PinController GndPinInIc);
+        if (VccPinInIc.value != PinValue.Vcc || GndPinInIc.value != PinValue.Gnd)
         {
             Debug.Log("VCC or Gnd notConnected / WrongConnected");
             return;
@@ -64,6 +62,23 @@ public class ICLogic : MonoBehaviour
             GenerateOutputValue(OutputPin, InputPins);
 
         }
+    }
+
+    private static void GetVccAndGndPinInIC(int VccPinNumber, int GndPinNumber, out PinController VccPinInIc, out PinController GndPinInIc)
+    {
+        List<GameObject> pins = SimulatorManager.Instance.SelectedIcBase.Pins;
+        VccPinInIc = null;
+        GndPinInIc = null;
+
+        for (int i = 0;i< pins.Count; i++)
+        {
+            if (pins[i].GetComponent<PinController>().CurrentPinInfo.Type == PinType.IcVcc)
+                VccPinInIc = pins[i].GetComponent<PinController>();
+
+            if (pins[i].GetComponent<PinController>().CurrentPinInfo.Type == PinType.IcGnd)
+                GndPinInIc = pins[i].GetComponent<PinController>();
+        }
+
     }
 
     private void GenerateOutputValue(GameObject outputPin, List<GameObject> inputPins)
