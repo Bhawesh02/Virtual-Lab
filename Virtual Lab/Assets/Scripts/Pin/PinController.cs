@@ -12,6 +12,8 @@ public class PinController : MonoBehaviour
 
     private SpriteRenderer ShowColor;
 
+    private SimulatorManager simulationManager;
+
     private void Awake()
     {
         value = PinValue.Null;
@@ -23,7 +25,7 @@ public class PinController : MonoBehaviour
 
     private void Start()
     {
-
+        simulationManager = SimulatorManager.Instance;
         if (CurrentPinInfo.Type == PinType.Input)
             value = PinValue.Negative;
 
@@ -79,10 +81,10 @@ public class PinController : MonoBehaviour
                 ShowColor.sprite = null;
                 break;
             case PinValue.Positive:
-                ShowColor.sprite = SimulatorManager.Instance.PinPostive;
+                ShowColor.sprite = simulationManager.PinPostive;
                 break;
             case PinValue.Negative:
-                ShowColor.sprite = SimulatorManager.Instance.PinNegative;
+                ShowColor.sprite = simulationManager.PinNegative;
                 break;
 
         }
@@ -90,11 +92,11 @@ public class PinController : MonoBehaviour
 
     private void OnMouseDown()
     {
-        if (SimulatorManager.Instance.SimulationRunning)
+        if (simulationManager.SimulationRunning)
             return;
         if (CurrentPinInfo.Type == PinType.Null)
             return;
-        if (!SimulatorManager.Instance.doingConnection)
+        if (!simulationManager.doingConnection)
         {
             CreateNewWire();
             return;
@@ -102,29 +104,20 @@ public class PinController : MonoBehaviour
         CompleteExsistingWire();
     }
 
-    /*private void OnMouseEnter()
-    {
-        Cursor.SetCursor(SimulatorManager.Instance.cursorTexture, SimulatorManager.Instance.hotSpot,SimulatorManager.Instance.cursorMode);
-    }
-    private void OnMouseExit()
-    {
-        Cursor.SetCursor(null, SimulatorManager.Instance.hotSpot,SimulatorManager.Instance.cursorMode);
-
-    }*/
     private void CreateNewWire()
     {
-        GameObject wire = Instantiate(wireGameObject, SimulatorManager.Instance.WiresGameObject.transform);
+        GameObject wire = Instantiate(wireGameObject, simulationManager.WiresGameObject.transform);
         WireController wireController = wire.GetComponent<WireController>();
-        SimulatorManager.Instance.Wire = wire;
+        simulationManager.Wire = wire;
         wireController.MakeWire(this.transform.position);
         wireController.initialPin = this;
-        SimulatorManager.Instance.doingConnection = true;
+        simulationManager.doingConnection = true;
     }
 
     private void CompleteExsistingWire()
     {
-        SimulatorManager.Instance.doingConnection = false;
-        WireController wireController = SimulatorManager.Instance.Wire.GetComponent<WireController>();
+        simulationManager.doingConnection = false;
+        WireController wireController = simulationManager.Wire.GetComponent<WireController>();
         wireController.SetWireEnd(this.transform.position);
         wireController.finalPin = this;
         wireController.ConfirmConnection();

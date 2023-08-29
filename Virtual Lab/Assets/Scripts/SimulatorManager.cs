@@ -44,12 +44,6 @@ public class SimulatorManager : MonoGenericSingelton<SimulatorManager>
 
     public List<Color> colorList = new() { Color.red, Color.black, Color.blue };
 
-    /*
-        public List<WireController> WiresConnectionChecked;*/
-
-    /*public Texture2D cursorTexture;
-    public CursorMode cursorMode = CursorMode.Auto;
-    public Vector2 hotSpot = Vector2.zero;*/
 
     protected override void Awake()
     {

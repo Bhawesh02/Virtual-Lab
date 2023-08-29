@@ -156,7 +156,6 @@ public class WireController : MonoBehaviour
     {
         foreach (WireController wire in pin.Wires)
         {
-            Debug.Log(wire);
 
             if (wire.connectionDirection != ConnectionDirection.Null)
                 continue;
