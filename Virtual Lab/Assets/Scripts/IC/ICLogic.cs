@@ -6,10 +6,12 @@ public class ICLogic : MonoBehaviour
 {
     public IC IcData;
     private bool ranOnce;
+    private ICController iCController;
     private void Awake()
     {
         this.enabled = false;
         ranOnce = false;
+        iCController = GetComponent<ICController>();
     }
 
     private void Update()
