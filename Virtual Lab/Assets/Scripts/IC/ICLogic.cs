@@ -1,5 +1,6 @@
 
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ICLogic : MonoBehaviour
@@ -66,9 +67,9 @@ public class ICLogic : MonoBehaviour
         }
     }
 
-    private static void GetVccAndGndPinInIC(int VccPinNumber, int GndPinNumber, out PinController VccPinInIc, out PinController GndPinInIc)
+    private void GetVccAndGndPinInIC(int VccPinNumber, int GndPinNumber, out PinController VccPinInIc, out PinController GndPinInIc)
     {
-        List<GameObject> pins = SimulatorManager.Instance.SelectedIcBase.Pins;
+        List<GameObject> pins = iCController.thisIC.Pins;
         VccPinInIc = null;
         GndPinInIc = null;
 

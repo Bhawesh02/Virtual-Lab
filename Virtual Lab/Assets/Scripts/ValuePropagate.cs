@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ValuePropagate : MonoBehaviour
+public class ValuePropagate : MonoGenericSingelton<ValuePropagate> 
 {
-    private static ValuePropagate instance;
-    public static ValuePropagate Instance { get { return instance; } }
 
     public List<PinController> OutputPins;
 
@@ -19,19 +17,13 @@ public class ValuePropagate : MonoBehaviour
     public List<PinController> IcGndPin;
 
     public List<ICLogic> ICLogics;
-    private void Awake()
+
+    private SimulatorManager simulatorManager;
+    private void Start()
     {
-        if (instance == null)
-        {
-            instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+        simulatorManager =SimulatorManager.Instance;
     }
 
-   
     public void StartTransfer()
     {
         if (SimulatorManager.Instance.Wires.Count == 0)
@@ -52,10 +44,12 @@ public class ValuePropagate : MonoBehaviour
     private void SetWiresValuePropagetedToFalse()
     {
 
-        foreach (WireController wire in SimulatorManager.Instance.Wires)
+        for(int i = 0;i< simulatorManager.Wires.Count; i++)
         {
-            wire.valuePropagated = false;
+            simulatorManager.Wires[i].valuePropagated = false;
         }
+
+
     }
 
     bool DoesThisPinTakeValue(PinController pin)

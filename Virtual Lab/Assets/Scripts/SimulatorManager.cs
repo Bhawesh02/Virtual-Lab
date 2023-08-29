@@ -5,10 +5,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class SimulatorManager : MonoBehaviour
+public class SimulatorManager : MonoGenericSingelton<SimulatorManager>
 {
-    private static SimulatorManager instance;
-    public static SimulatorManager Instance { get { return instance; } }
 
     public bool doingConnection = false;
 
@@ -53,16 +51,9 @@ public class SimulatorManager : MonoBehaviour
     public CursorMode cursorMode = CursorMode.Auto;
     public Vector2 hotSpot = Vector2.zero;*/
 
-    private void Awake()
+    protected override void Awake()
     {
-        if (instance == null)
-        {
-            instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+        base.Awake();
         SimulationRunning = false;
         SimulationStatus.text = "Simulation not running";
     }
