@@ -13,6 +13,10 @@ public class ICDragAndDrop : MonoBehaviour
     [SerializeField]
     private float detectionRadius = 1f;
 
+    private float detectionDelay = 0.1f;
+
+    private float nextDetectionTime;
+
     private Collider2D collided;
     [SerializeField]
     private LayerMask IcBaseLayer;
@@ -22,6 +26,10 @@ public class ICDragAndDrop : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.sprite = IcData.IcSprite;
         initalPos = transform.position;
+    }
+    private void Start()
+    {
+        nextDetectionTime = Time.time;
     }
     private void OnMouseDrag()
     {
@@ -51,8 +59,11 @@ public class ICDragAndDrop : MonoBehaviour
 
     private void LateUpdate()
     {
-        collided = Physics2D.OverlapCircle(transform.position,detectionRadius,IcBaseLayer);
-
+        if (Time.time >= nextDetectionTime)
+        {
+            collided = Physics2D.OverlapCircle(transform.position, detectionRadius, IcBaseLayer);
+            nextDetectionTime = Time.time + detectionDelay;
+        }
     }
 
     private void OnDrawGizmos()
