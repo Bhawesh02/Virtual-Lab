@@ -1,6 +1,4 @@
 
-using Unity.VisualScripting;
-
 public class ICChange {
 
     private ICBase IcBase;

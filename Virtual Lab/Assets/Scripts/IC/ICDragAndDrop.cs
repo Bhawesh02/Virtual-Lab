@@ -8,46 +8,61 @@ public class ICDragAndDrop : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     private Vector3 initalPos;
     public IC IcData;
-    private bool inContactWithIcBase;
-    private ICBase IcBase = new();
     private ICChange IcChange = new();
+
+    [SerializeField]
+    private float detectionRadius = 1f;
+
+    private Collider2D collided;
+    [SerializeField]
+    private LayerMask IcBaseLayer;
+
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
-        spriteRenderer.sortingOrder = 1;
+        spriteRenderer.sprite = IcData.IcSprite;
         initalPos = transform.position;
     }
     private void OnMouseDrag()
     {
+        
         Vector3 newPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         newPos.z = 0;
         transform.position = newPos; 
-        
+        if(collided == null)
+        {
+            spriteRenderer.color = Color.red;
+        }
+        else
+        {
+            spriteRenderer.color = Color.green;
+        }
     }
+
     private void OnMouseUp()
     {
         transform.position = initalPos;
-        if (!inContactWithIcBase)
+        spriteRenderer.color = Color.white;
+        if (collided == null)
             return;
-        Debug.Log("ChangeIC");
+        ICBase IcBase = collided.transform.parent.GetComponent<ICController>().thisIC;
         IcChange.ChangeIc(IcBase,IcData);
     }
 
-
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void LateUpdate()
     {
-        ICController iCController = collision.transform.parent.GetComponent<ICController>();
-        if (iCController == null)
-            return;
-        Debug.Log("Collided");
-        inContactWithIcBase = true;
-        IcBase = iCController.thisIC;
+        collided = Physics2D.OverlapCircle(transform.position,detectionRadius,IcBaseLayer);
 
     }
-    private void OnTriggerExit2D(Collider2D collision)
+
+    private void OnDrawGizmos()
     {
-        if (collision.gameObject.transform.parent.GetComponent<ICController>() == null)
-            return;
-        inContactWithIcBase = false;
+        Gizmos.color = Color.white;
+        Gizmos.DrawWireSphere(transform.position, detectionRadius);
+        if (Application.isPlaying && collided != null)
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawSphere(collided.transform.position, 0.1f);
+        }
     }
 }
