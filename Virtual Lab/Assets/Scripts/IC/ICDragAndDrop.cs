@@ -1,12 +1,9 @@
 
-using System;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class ICDragAndDrop : MonoBehaviour
 {
     private SpriteRenderer spriteRenderer;
-    private Vector3 initalPos;
     public IC IcData;
     private ICChange IcChange = new();
 
@@ -20,22 +17,25 @@ public class ICDragAndDrop : MonoBehaviour
     private Collider2D collided;
     [SerializeField]
     private LayerMask IcBaseLayer;
+    private Camera mainCamera;
 
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
-        spriteRenderer.sprite = IcData.IcSprite;
-        initalPos = transform.position;
+        mainCamera = Camera.main;
     }
     private void Start()
     {
+        spriteRenderer.sprite = IcData.IcSprite;
         nextDetectionTime = Time.time;
     }
-    private void OnMouseDrag()
+    private void LateUpdate()
     {
-        
-        Vector3 newPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        newPos.z = 0;
+        if(Input.GetMouseButtonUp(0))
+        {
+            MouseReleased();
+        }
+        Vector2 newPos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
         transform.position = newPos; 
         if(collided == null)
         {
@@ -47,17 +47,18 @@ public class ICDragAndDrop : MonoBehaviour
         }
     }
 
-    private void OnMouseUp()
+    private void MouseReleased()
     {
-        transform.position = initalPos;
-        spriteRenderer.color = Color.white;
-        if (collided == null)
-            return;
-        ICBase IcBase = collided.transform.parent.GetComponent<ICController>().thisIC;
-        IcChange.ChangeIc(IcBase,IcData);
+        if(collided!=null)
+        {
+            ICBase IcBase = collided.transform.parent.GetComponent<ICController>().thisIC;
+            IcChange.ChangeIc(IcBase, IcData);
+        }
+        ICSpawner.Instance.gameObject.SetActive(true);
+        Destroy(gameObject);
     }
 
-    private void LateUpdate()
+    private void FixedUpdate()
     {
         if (Time.time >= nextDetectionTime)
         {

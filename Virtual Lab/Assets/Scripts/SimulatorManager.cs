@@ -100,11 +100,14 @@ public class SimulatorManager : MonoBehaviour
     {
         SimulationRunning = true;
         SimulationStatus.text = "Simulation Running";
+        ICSpawner.Instance.gameObject.SetActive(false);
         ValuePropagate.Instance.StartTransfer();
     }
     public void StopSimulation()
     {
         SimulationStatus.text = "Simulation not running";
+        ICSpawner.Instance.gameObject.SetActive(true);
+
         SimulationRunning = false;
     }
 
