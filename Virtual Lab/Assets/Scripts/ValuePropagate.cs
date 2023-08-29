@@ -29,17 +29,24 @@ public class ValuePropagate : MonoGenericSingelton<ValuePropagate>
         if (SimulatorManager.Instance.Wires.Count == 0)
             return;
         SetWiresValuePropagetedToFalse();
-        foreach (PinController pin in VccPins)
-            TransferData(pin);
-        foreach (PinController pin in GndPins)
-            TransferData(pin);
-        foreach (PinController pin in InputPins)
+        for (int i = 0; i < VccPins.Count; i++)
         {
-            TransferData(pin);
+            TransferData(VccPins[i]);
         }
-        foreach (ICLogic IcLogic in ICLogics)
-            IcLogic.RunIcLogic();
 
+        for (int i = 0; i < GndPins.Count; i++)
+        {
+            TransferData(GndPins[i]);
+        }
+
+        for (int i = 0; i < InputPins.Count; i++)
+        {
+            TransferData(InputPins[i]);
+        }
+        for (int i = 0; i < ICLogics.Count; i++)
+        {
+            ICLogics[i].RunIcLogic();
+        }
     }
     private void SetWiresValuePropagetedToFalse()
     {
