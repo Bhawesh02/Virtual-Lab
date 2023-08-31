@@ -42,6 +42,9 @@ public class SimulatorManager : MonoGenericSingelton<SimulatorManager>
     private Button ResetButton;
 
 
+    [SerializeField]
+    private CurrentStatusDisplayer currentStatusDisplayer;
+
     public List<Color> colorList = new() { Color.red, Color.black, Color.blue };
 
 
@@ -85,14 +88,16 @@ public class SimulatorManager : MonoGenericSingelton<SimulatorManager>
     {
         SimulationRunning = true;
         SimulationStatus.text = "Simulation Running";
-        EventService.Instance.InvokeSimulationStarted();
         ICSpawner.Instance.gameObject.SetActive(false);
+        currentStatusDisplayer.gameObject.SetActive(true);
+        EventService.Instance.InvokeSimulationStarted();
 
     }
     public void StopSimulation()
     {
         SimulationStatus.text = "Simulation not running";
         ICSpawner.Instance.gameObject.SetActive(true);
+        currentStatusDisplayer.gameObject.SetActive(false);
         EventService.Instance.InvokeSimulationStopped();
         SimulationRunning = false;
     }
