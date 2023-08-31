@@ -87,6 +87,7 @@ public class SimulatorManager : MonoGenericSingelton<SimulatorManager>
         SimulationStatus.text = "Simulation Running";
         ICSpawner.Instance.gameObject.SetActive(false);
         ValuePropagate.Instance.StartTransfer();
+
     }
     public void StopSimulation()
     {
