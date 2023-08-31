@@ -1,5 +1,4 @@
 
-using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,8 +15,11 @@ public class SwitchInputValue : MonoBehaviour
     }
     private void Start()
     {
-        button.onClick.AddListener(ChangeInputValue);
-        button.onClick.AddListener(ValuePropagate.Instance.StartTransfer);
+        button.onClick.AddListener(() =>
+        {
+            ChangeInputValue();
+            EventService.Instance.InvokeInputValueChanged();
+        });
     }
 
     private void ChangeInputValue()

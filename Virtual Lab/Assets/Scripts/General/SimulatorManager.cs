@@ -85,15 +85,15 @@ public class SimulatorManager : MonoGenericSingelton<SimulatorManager>
     {
         SimulationRunning = true;
         SimulationStatus.text = "Simulation Running";
+        EventService.Instance.InvokeSimulationStarted();
         ICSpawner.Instance.gameObject.SetActive(false);
-        ValuePropagate.Instance.StartTransfer();
 
     }
     public void StopSimulation()
     {
         SimulationStatus.text = "Simulation not running";
         ICSpawner.Instance.gameObject.SetActive(true);
-
+        EventService.Instance.InvokeSimulationStopped();
         SimulationRunning = false;
     }
 

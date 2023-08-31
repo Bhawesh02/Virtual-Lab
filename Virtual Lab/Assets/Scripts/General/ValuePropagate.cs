@@ -1,6 +1,5 @@
 
 using System.Collections.Generic;
-using UnityEngine;
 
 public class ValuePropagate : MonoGenericSingelton<ValuePropagate> 
 {
@@ -22,6 +21,8 @@ public class ValuePropagate : MonoGenericSingelton<ValuePropagate>
     private void Start()
     {
         simulatorManager =SimulatorManager.Instance;
+        EventService.Instance.SimulationStarted += StartTransfer;
+        EventService.Instance.InputValueChanged += StartTransfer;
     }
 
     public void StartTransfer()
@@ -47,6 +48,7 @@ public class ValuePropagate : MonoGenericSingelton<ValuePropagate>
         {
             ICLogics[i].RunIcLogic();
         }
+        EventService.Instance.InvokeAllValuePropagated();
     }
     private void SetWiresValuePropagetedToFalse()
     {
