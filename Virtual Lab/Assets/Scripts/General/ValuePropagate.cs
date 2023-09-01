@@ -5,16 +5,13 @@ public class ValuePropagate : MonoGenericSingelton<ValuePropagate>
 {
 
     public List<PinController> OutputPins;
-
     public List<PinController> InputPins;
-
     public List<PinController> VccPins;
     public List<PinController> GndPins;
     public List<PinController> IcInputPins;
     public List<PinController> IcOutputPins;
     public List<PinController> IcVccPin;
     public List<PinController> IcGndPin;
-
     public List<ICLogic> ICLogics;
 
     private SimulatorManager simulatorManager;
