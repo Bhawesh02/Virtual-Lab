@@ -11,13 +11,16 @@ public class ICLogic : MonoBehaviour
         this.enabled = false;
         iCController = GetComponent<ICController>();
     }
-
     
+    
+
+    #region Basic Ic Logic
+
     public void RunIcLogic()
     {
         if (IcData == null)
             return;
-        
+
         int VccPinNumber = IcData.VccPin - 1;
         int GndPinNumber = IcData.GndPin - 1;
         GetVccAndGndPinInIC(VccPinNumber, GndPinNumber, out PinController VccPinInIc, out PinController GndPinInIc);
@@ -28,24 +31,18 @@ public class ICLogic : MonoBehaviour
         }
         if (IcData.ICType == ICTypes.Null)
             return;
+        RunLogicForEachGate();
+    }
+
+    private void RunLogicForEachGate()
+    {
         foreach (PinMapping gate in IcData.pinMapping)
         {
             int OutputPinIndex = gate.OutputPin - 1;
             GameObject OutputPin = GetComponent<ICController>().Pins[OutputPinIndex];
             List<GameObject> InputPins = new();
             bool anyInputNull = false;
-            foreach (int inputPinNumber in gate.InputPin)
-            {
-                int InputPinIndex = inputPinNumber - 1;
-                GameObject InputPin = GetComponent<ICController>().Pins[InputPinIndex];
-                if (InputPin.GetComponent<PinController>().value == PinValue.Null)
-                {
-                    anyInputNull = true;
-                    break;
-                }
-                InputPins.Add(InputPin);
-
-            }
+            anyInputNull = CheckEachInputOfGate(gate, InputPins, anyInputNull);
             if (anyInputNull)
             {
                 OutputPin.GetComponent<PinController>().value = PinValue.Null;
@@ -54,6 +51,24 @@ public class ICLogic : MonoBehaviour
             GenerateOutputValue(OutputPin, InputPins);
 
         }
+    }
+
+    private bool CheckEachInputOfGate(PinMapping gate, List<GameObject> InputPins, bool anyInputNull)
+    {
+        foreach (int inputPinNumber in gate.InputPin)
+        {
+            int InputPinIndex = inputPinNumber - 1;
+            GameObject InputPin = GetComponent<ICController>().Pins[InputPinIndex];
+            if (InputPin.GetComponent<PinController>().value == PinValue.Null)
+            {
+                anyInputNull = true;
+                break;
+            }
+            InputPins.Add(InputPin);
+
+        }
+
+        return anyInputNull;
     }
 
     private void GetVccAndGndPinInIC(int VccPinNumber, int GndPinNumber, out PinController VccPinInIc, out PinController GndPinInIc)
@@ -103,6 +118,10 @@ public class ICLogic : MonoBehaviour
             ValuePropagateService.Instance.TransferData(outputPin.GetComponent<PinController>());
 
     }
+
+    #endregion
+
+    #region Gate Logic
     private void NandGateLogic(GameObject outputPin, List<GameObject> inputPins)
     {
         PinValue input1Value=inputPins[0].GetComponent<PinController>().value;
@@ -171,4 +190,6 @@ public class ICLogic : MonoBehaviour
             outputPin.GetComponent<PinController>().value = PinValue.Negative;
         }
     }
+
+    #endregion
 }
