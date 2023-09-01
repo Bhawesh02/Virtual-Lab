@@ -20,7 +20,7 @@ public class ICChange {
 
         if (IcBase.IcLogic != null)
         {
-            ValuePropagate.Instance.ICLogics.Remove(IcBase.IcLogic);
+            ValuePropagateService.Instance.ICLogics.Remove(IcBase.IcLogic);
         }
         bool smallIcInBigBase = Is14pinbeingputin16pin(numOfPinsInSelectedIcBase, numOfPinsInSelecetedIC);
         IcBase.ICSprite.sprite = ic.IcSprite;
@@ -28,7 +28,7 @@ public class ICChange {
         IcBase.IcLogic.IcData = ic;
         SetInputAndOutputPins(smallIcInBigBase);
         SetVccAndGndPin(smallIcInBigBase);
-        ValuePropagate.Instance.ICLogics.Add(IcBase.IcLogic);
+        ValuePropagateService.Instance.ICLogics.Add(IcBase.IcLogic);
     }
 
     private void SetVccAndGndPin(bool smallIcInBigBase)
@@ -37,7 +37,7 @@ public class ICChange {
         int pinNumber = ic.VccPin - 1;
         pinNumber = Skip8and9ifApplicable(smallIcInBigBase, pinNumber);
         ChangePinType(pinNumber, PinType.IcVcc);
-        ValuePropagate.Instance.IcVccPin.Add(IcBase.Pins[pinNumber].GetComponent<PinController>());
+        ValuePropagateService.Instance.IcVccPin.Add(IcBase.Pins[pinNumber].GetComponent<PinController>());
         IcBase.Pins[pinNumber].AddComponent<OutputPinConnectionCheck>();
         IcBase.IcLogic.gameObject.GetComponent<ICController>().VccPin = IcBase.Pins[pinNumber].GetComponent<PinController>();
 
@@ -46,7 +46,7 @@ public class ICChange {
         pinNumber = Skip8and9ifApplicable(smallIcInBigBase, pinNumber);
 
         ChangePinType(pinNumber, PinType.IcGnd);
-        ValuePropagate.Instance.IcGndPin.Add(IcBase.Pins[pinNumber].GetComponent<PinController>());
+        ValuePropagateService.Instance.IcGndPin.Add(IcBase.Pins[pinNumber].GetComponent<PinController>());
         IcBase.Pins[pinNumber].AddComponent<OutputPinConnectionCheck>();
         IcBase.IcLogic.gameObject.GetComponent<ICController>().GndPin = IcBase.Pins[pinNumber].GetComponent<PinController>();
 
@@ -63,7 +63,7 @@ public class ICChange {
             pinNumber = Skip8and9ifApplicable(smallIcInBigBase, pinNumber);
 
             ChangePinType(pinNumber, PinType.IcInput);
-            ValuePropagate.Instance.IcInputPins.Add(IcBase.Pins[pinNumber].GetComponent<PinController>());
+            ValuePropagateService.Instance.IcInputPins.Add(IcBase.Pins[pinNumber].GetComponent<PinController>());
             IcBase.Pins[pinNumber].AddComponent<OutputPinConnectionCheck>();
         }
         for(int i = 0; i < ic.outputPins.Length; i++)
@@ -73,7 +73,7 @@ public class ICChange {
             pinNumber = Skip8and9ifApplicable(smallIcInBigBase, pinNumber);
 
             ChangePinType(pinNumber, PinType.IcOutput);
-            ValuePropagate.Instance.IcOutputPins.Add(IcBase.Pins[pinNumber].GetComponent<PinController>());
+            ValuePropagateService.Instance.IcOutputPins.Add(IcBase.Pins[pinNumber].GetComponent<PinController>());
         }
     }
     private static int Skip8and9ifApplicable(bool smallIcInBigBase, int pinNumber)

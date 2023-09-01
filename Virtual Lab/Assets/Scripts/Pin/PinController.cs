@@ -14,6 +14,8 @@ public class PinController : MonoBehaviour
 
     private SimulatorManager simulationManager;
 
+    private WireService wireService;
+
     private void Awake()
     {
         value = PinValue.Null;
@@ -26,6 +28,8 @@ public class PinController : MonoBehaviour
     private void Start()
     {
         simulationManager = SimulatorManager.Instance;
+        wireService = WireService.Instance;
+        
         if (CurrentPinInfo.Type == PinType.Input)
             value = PinValue.Negative;
 
@@ -45,7 +49,7 @@ public class PinController : MonoBehaviour
 
     private void SendReferenceToValuePropagator()
     {
-        ValuePropagate valuePropagate = ValuePropagate.Instance;
+        ValuePropagateService valuePropagate = ValuePropagateService.Instance;
         switch (CurrentPinInfo.Type)
         {
             case PinType.Null:
@@ -96,7 +100,7 @@ public class PinController : MonoBehaviour
             return;
         if (CurrentPinInfo.Type == PinType.Null)
             return;
-        if (!simulationManager.doingConnection)
+        if (!wireService.doingConnection)
         {
             CreateNewWire();
             return;
@@ -108,16 +112,16 @@ public class PinController : MonoBehaviour
     {
         GameObject wire = Instantiate(wireGameObject, simulationManager.WiresGameObject.transform);
         WireController wireController = wire.GetComponent<WireController>();
-        simulationManager.Wire = wire;
+        wireService.Wire = wire;
         wireController.MakeWire(this.transform.position);
         wireController.initialPin = this;
-        simulationManager.doingConnection = true;
+        wireService.doingConnection = true;
     }
 
     private void CompleteExsistingWire()
     {
-        simulationManager.doingConnection = false;
-        WireController wireController = simulationManager.Wire.GetComponent<WireController>();
+        wireService.doingConnection = false;
+        WireController wireController = wireService.Wire.GetComponent<WireController>();
         wireController.SetWireEnd(this.transform.position);
         wireController.finalPin = this;
         wireController.ConfirmConnection();
