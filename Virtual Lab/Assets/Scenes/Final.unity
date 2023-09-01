@@ -2204,8 +2204,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 414140715}
+  - component: {fileID: 414140716}
   m_Layer: 0
-  m_Name: WireManager
+  m_Name: WireService
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2226,6 +2227,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &414140716
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 414140714}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7cb9a06fbee77c9429553a09fc10e2ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  doingConnection: 0
+  Wire: {fileID: 0}
 --- !u!1 &415368144 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6988316626425718295, guid: 358c6fd2475661045909b9372a94748f, type: 3}
@@ -7829,8 +7844,35 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8064906978962162179, guid: f617414e08dbcf04694c52dc105830a9, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: f617414e08dbcf04694c52dc105830a9, type: 3}
+--- !u!1 &1377710577 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3980322289930879654, guid: f617414e08dbcf04694c52dc105830a9, type: 3}
+  m_PrefabInstance: {fileID: 1377710576}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1377710578
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1377710577}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7eba48dd134f3aa488cc6e883b75246e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OutputPins: []
+  InputPins: []
+  VccPins: []
+  GndPins: []
+  IcInputPins: []
+  IcOutputPins: []
+  IcVccPin: []
+  IcGndPin: []
+  ICLogics: []
 --- !u!1001 &1384086587
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9892,7 +9934,7 @@ PrefabInstance:
     - target: {fileID: 7563230793009488610, guid: 1d7b19d11fcd6d04f8ec61cf1bcfa742, type: 3}
       propertyPath: valuePropagate
       value: 
-      objectReference: {fileID: 1633673188}
+      objectReference: {fileID: 0}
     - target: {fileID: 7563230793009488610, guid: 1d7b19d11fcd6d04f8ec61cf1bcfa742, type: 3}
       propertyPath: WiresGameObject
       value: 
@@ -10241,17 +10283,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 9156050201195622808, guid: c3253037836445f4ab086735c4a0bb46, type: 3}
   m_PrefabInstance: {fileID: 1622055967}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1633673188 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8064906978962162179, guid: f617414e08dbcf04694c52dc105830a9, type: 3}
-  m_PrefabInstance: {fileID: 1377710576}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8476ec3b7eaece44ea8c0cb90f4fd206, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1640015834
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -1,7 +1,7 @@
 
 using System.Collections.Generic;
 
-public class ValuePropagate : MonoGenericSingelton<ValuePropagate> 
+public class ValuePropagateService : MonoGenericSingelton<ValuePropagateService> 
 {
 
     public List<PinController> OutputPins;

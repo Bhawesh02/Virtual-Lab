@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class CurrentStatusDisplayer : MonoBehaviour
 {
-    private ValuePropagate valuePropogate;
+    private ValuePropagateService valuePropogate;
     private List<PinController> inputPinsWithWire;
     private List<PinController> outputPinsWithWire;
 
@@ -30,12 +30,12 @@ public class CurrentStatusDisplayer : MonoBehaviour
     }
     private void Start()
     {
-        valuePropogate = ValuePropagate.Instance;
+        valuePropogate = ValuePropagateService.Instance;
 
     }
     private void ShowStatus()
     {
-        valuePropogate ??= ValuePropagate.Instance;
+        valuePropogate ??= ValuePropagateService.Instance;
         DestroyExsistingStatus();
         GetInputAndOuptPinsWithWires();
         ShowPinsStatusOfInputAndOutput();

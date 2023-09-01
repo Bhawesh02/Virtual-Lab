@@ -9,9 +9,7 @@ using UnityEngine.UI;
 public class SimulatorManager : MonoGenericSingelton<SimulatorManager>
 {
 
-    public bool doingConnection = false;
 
-    public GameObject Wire;
 
     public GameObject WiresGameObject;
 
@@ -52,25 +50,6 @@ public class SimulatorManager : MonoGenericSingelton<SimulatorManager>
         };
     }
 
-    private void Update()
-    {
-        if (doingConnection)
-        {
-            SetWireEndToMousePointer();
-            if (Input.GetMouseButtonDown(1))
-            { 
-                Destroy(Wire);
-                Wire = null;
-                doingConnection = false;
-            }
-        }
-    }
-
-    private void SetWireEndToMousePointer()
-    {
-        Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Vector3 endPosition = new(mousePosition.x, mousePosition.y, mousePosition.z);
-        Wire.GetComponent<WireController>().SetWireEnd(endPosition);
-    }
+    
     
 }

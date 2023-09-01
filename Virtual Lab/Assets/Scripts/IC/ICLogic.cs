@@ -5,29 +5,19 @@ using UnityEngine;
 public class ICLogic : MonoBehaviour
 {
     public IC IcData;
-    private bool ranOnce;
     private ICController iCController;
     private void Awake()
     {
         this.enabled = false;
-        ranOnce = false;
         iCController = GetComponent<ICController>();
     }
 
-    private void Update()
-    {
-        //if(SimulationRunning)
-        if (ranOnce)
-            RunIcLogic();
-    }
+    
     public void RunIcLogic()
     {
         if (IcData == null)
             return;
-        if (!SimulatorManager.Instance.SimulationRunning)
-            return;
-        if (!ranOnce)
-            ranOnce = true;
+        
         int VccPinNumber = IcData.VccPin - 1;
         int GndPinNumber = IcData.GndPin - 1;
         GetVccAndGndPinInIC(VccPinNumber, GndPinNumber, out PinController VccPinInIc, out PinController GndPinInIc);
@@ -110,7 +100,7 @@ public class ICLogic : MonoBehaviour
                 break;
         }
         if (outputPin.GetComponent<PinController>().value != PinValue.Null)
-            ValuePropagate.Instance.TransferData(outputPin.GetComponent<PinController>());
+            ValuePropagateService.Instance.TransferData(outputPin.GetComponent<PinController>());
 
     }
     private void NandGateLogic(GameObject outputPin, List<GameObject> inputPins)
