@@ -1,41 +1,97 @@
 
 using System;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CurrentStatusDisplayer : MonoBehaviour
 {
-    private ValuePropagate valuPropogate;
-    private List<PinController> inputPinswithwire = new();
-    private List<PinController> outputPinswithwire = new();
+    private ValuePropagate valuePropogate;
+    private List<PinController> inputPinsWithWire;
+    private List<PinController> outputPinsWithWire;
+
+    [SerializeField]
+    private GameObject pinStatusTemplate;
+    [SerializeField]
+    private ContentSizeFitter inputPinsContent;
+    [SerializeField]
+    private ContentSizeFitter outputPinsContent;
+
+    private Stack<GameObject> statuShowing;
+
+
     private void Awake()
     {
         EventService.Instance.AllValuePropagated += ShowStatus;
-
+        inputPinsWithWire = new();
+        outputPinsWithWire = new();
+        statuShowing = new();
     }
     private void Start()
     {
-        valuPropogate = ValuePropagate.Instance;
+        valuePropogate = ValuePropagate.Instance;
+
     }
     private void ShowStatus()
     {
-        //Get info of all inout and output pins
-        GetInputAndOuptPins();
+        valuePropogate ??= ValuePropagate.Instance;
+        DestroyExsistingStatus();
+        GetInputAndOuptPinsWithWires();
+        ShowPinsStatusOfInputAndOutput();
     }
 
-    private void GetInputAndOuptPins()
+    private void DestroyExsistingStatus()
     {
-        for(int i = 0; i < valuPropogate.InputPins.Count; i++) 
-        { 
-            if(valuPropogate.InputPins[i].Wires.Count>0){
-                inputPinswithwire.Add(valuPropogate.InputPins[i]);
-            }   
-        }
-        for (int i = 0; i < valuPropogate.OutputPins.Count; i++)
+        GameObject pinStatus;
+        while(statuShowing.Count > 0)
         {
-            if(valuPropogate.OutputPins[i].Wires.Count>0){
-                outputPinswithwire.Add(valuPropogate.OutputPins[i]);
-            }   
+            pinStatus = statuShowing.Pop();
+            Destroy(pinStatus);
+        }
+    }
+
+    private void GetInputAndOuptPinsWithWires()
+    {
+        inputPinsWithWire.Clear();
+        outputPinsWithWire.Clear();
+        for (int i = 0; i < valuePropogate.InputPins.Count; i++)
+        {
+            if (valuePropogate.InputPins[i].Wires.Count > 0)
+            {
+                inputPinsWithWire.Add(valuePropogate.InputPins[i]);
+            }
+        }
+        for (int i = 0; i < valuePropogate.OutputPins.Count; i++)
+        {
+            if (valuePropogate.OutputPins[i].Wires.Count > 0)
+            {
+                outputPinsWithWire.Add(valuePropogate.OutputPins[i]);
+            }
+        }
+    }
+    private void ShowPinsStatusOfInputAndOutput()
+    {
+        ShowPinStatus(inputPinsWithWire,inputPinsContent);
+        ShowPinStatus(outputPinsWithWire,outputPinsContent);
+    }
+
+    private void ShowPinStatus(List<PinController> pins,ContentSizeFitter content)
+    {
+        GameObject pinStatus;
+        TextMeshProUGUI index;
+        TextMeshProUGUI status;
+        for (int i = 0; i < pins.Count; i++)
+        {
+            pinStatus = Instantiate(pinStatusTemplate, content.transform);
+            index = pinStatus.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+            status = pinStatus.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
+            index.text = i.ToString();
+            if (pins[i].value == PinValue.Positive || pins[i].value == PinValue.Vcc)
+                status.text = "1";
+            else if (pins[i].value == PinValue.Negative || pins[i].value == PinValue.Gnd)
+                status.text = "0";
+            statuShowing.Push(pinStatus);
         }
     }
 }
