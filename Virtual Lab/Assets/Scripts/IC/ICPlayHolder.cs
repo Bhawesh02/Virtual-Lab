@@ -15,9 +15,16 @@ public class ICPlayHolder : MonoBehaviour, IPointerDownHandler
     }
     public void OnPointerDown(PointerEventData eventData)
     {
-        ICSpawner.Instance.SpawnIC(IcData);
+        if (eventData.button == PointerEventData.InputButton.Left)
+        {
+            ICSpawner.Instance.SpawnIC(IcData);
+        }
+        else if(eventData.button == PointerEventData.InputButton.Right)
+        {
+            Debug.Log("Show TT");
+        }
     }
-    
 
-   
+
+
 }
