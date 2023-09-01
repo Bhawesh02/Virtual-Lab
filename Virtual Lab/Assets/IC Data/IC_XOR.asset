@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: IC_XOR
   m_EditorClassIdentifier: 
   IcSprite: {fileID: 21300000, guid: e1bed8b89f5e80f4b977f7a509331aac, type: 3}
+  TruthTable: {fileID: 21300000, guid: 2c584fc2b577c614d85d586eec65c971, type: 3}
   ICType: 5
   inputPins: 01000000020000000400000005000000090000000a0000000c0000000d000000
   outputPins: 0300000006000000080000000b000000

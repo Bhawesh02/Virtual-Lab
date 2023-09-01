@@ -8,13 +8,13 @@ public class ICSpawner : MonoGenericSingelton<ICSpawner>
     [SerializeField]
     private ICDragAndDrop iCPrefab;
     [SerializeField]
-    private ICPlayHolder iCPlayHolderPrefab;
+    private ICPlaceHolder iCPlaceHolderPrefab;
     private void Start()
     {
         for(int i = 0; i < Ics.IcList.Count; i++)
         {
-            iCPlayHolderPrefab.IcData = Ics.IcList[i];
-            Instantiate(iCPlayHolderPrefab, transform);
+            iCPlaceHolderPrefab.IcData = Ics.IcList[i];
+            Instantiate(iCPlaceHolderPrefab, transform);
         }
         
     }

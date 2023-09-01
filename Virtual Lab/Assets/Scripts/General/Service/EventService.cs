@@ -8,6 +8,7 @@ public class EventService : GenericSingelton<EventService>
     public event Action SimulationStopped;
     public event Action AllValuePropagated;
     public event Action InputValueChanged;
+    public event Action<IC> RightClickOnIC;
     public void InvokeSimulationStarted()
     {
         SimulationStarted?.Invoke();
@@ -23,5 +24,9 @@ public class EventService : GenericSingelton<EventService>
     public void InvokeInputValueChanged()
     {
         InputValueChanged?.Invoke();
+    }
+    public void InvokeRightClickOnIC(IC ic)
+    {
+        RightClickOnIC?.Invoke(ic);
     }
 }

@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
-public class ICPlayHolder : MonoBehaviour, IPointerDownHandler
+public class ICPlaceHolder : MonoBehaviour, IPointerDownHandler
 {
     public IC IcData;
 
@@ -21,7 +21,7 @@ public class ICPlayHolder : MonoBehaviour, IPointerDownHandler
         }
         else if(eventData.button == PointerEventData.InputButton.Right)
         {
-            Debug.Log("Show TT");
+            EventService.Instance.InvokeRightClickOnIC(IcData);
         }
     }
 

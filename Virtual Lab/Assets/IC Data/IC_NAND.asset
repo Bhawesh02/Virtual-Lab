@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: IC_NAND
   m_EditorClassIdentifier: 
   IcSprite: {fileID: 21300000, guid: db9800c7d0e9d2e4c9d3ff89d2f746d2, type: 3}
+  TruthTable: {fileID: 21300000, guid: 2045438150dc4ac44a80bbf9463150e6, type: 3}
   ICType: 6
   inputPins: 01000000020000000400000005000000090000000a0000000c0000000d000000
   outputPins: 0300000006000000080000000b000000

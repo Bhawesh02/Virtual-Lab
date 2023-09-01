@@ -5,6 +5,7 @@ using UnityEngine;
 public class IC : ScriptableObject
 {
     public Sprite IcSprite;
+    public Sprite TruthTable;
     public ICTypes ICType;
     public int[] inputPins;
     public int[] outputPins;

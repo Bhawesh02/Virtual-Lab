@@ -6,8 +6,8 @@ using UnityEngine.UI;
 
 public class UIService : MonoGenericSingelton<UIService>
 {
-
-    public TextMeshProUGUI SimulationStatus;
+    [SerializeField]
+    private TextMeshProUGUI SimulationStatus;
 
 
     [SerializeField]
@@ -18,10 +18,17 @@ public class UIService : MonoGenericSingelton<UIService>
 
     [SerializeField]
     private Button ResetButton;
-
+    [SerializeField]
+    private Button BackButton;
 
     [SerializeField]
     private CurrentStatusDisplayer currentStatusDisplayer;
+
+
+    [SerializeField]
+    private Image TruthTable;
+
+
     protected override void Awake()
     {
         base.Awake();
@@ -33,6 +40,12 @@ public class UIService : MonoGenericSingelton<UIService>
         StartButton.onClick.AddListener(StartSimulation);
         StopButton.onClick.AddListener(StopSimulation);
         ResetButton.onClick.AddListener(ResetConnection);
+        BackButton.onClick.AddListener(() =>
+          {
+              BackButton.transform.parent.gameObject.SetActive(false);
+          });
+
+        EventService.Instance.RightClickOnIC += ShowTruthTable;
     }
 
     public void StartSimulation()
@@ -54,5 +67,13 @@ public class UIService : MonoGenericSingelton<UIService>
     private void ResetConnection()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+
+    public void ShowTruthTable(IC icData)
+    {
+        TruthTable.sprite = icData.TruthTable;
+        TruthTable.SetNativeSize();
+        TruthTable.transform.parent.gameObject.SetActive(true);
     }
 }

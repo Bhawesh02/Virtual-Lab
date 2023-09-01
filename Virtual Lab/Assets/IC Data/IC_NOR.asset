@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: IC_NOR
   m_EditorClassIdentifier: 
   IcSprite: {fileID: 21300000, guid: 28d0b1ad03ff6a247bb70f02b22f6bc6, type: 3}
+  TruthTable: {fileID: 21300000, guid: 251a93f3f0f98804592b875eb15a3b32, type: 3}
   ICType: 3
   inputPins: 0200000003000000050000000600000008000000090000000b0000000c000000
   outputPins: 01000000040000000a0000000d000000
