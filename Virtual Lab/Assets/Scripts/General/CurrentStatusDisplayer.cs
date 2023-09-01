@@ -6,9 +6,8 @@ using UnityEngine;
 public class CurrentStatusDisplayer : MonoBehaviour
 {
     private ValuePropagate valuPropogate;
-    private List<PinController> inputPins;
-    private List<PinController> outputPins;
-    
+    private List<PinController> inputPinswithwire = new();
+    private List<PinController> outputPinswithwire = new();
     private void Awake()
     {
         EventService.Instance.AllValuePropagated += ShowStatus;
@@ -28,11 +27,15 @@ public class CurrentStatusDisplayer : MonoBehaviour
     {
         for(int i = 0; i < valuPropogate.InputPins.Count; i++) 
         { 
-            
+            if(valuPropogate.InputPins[i].Wires.Count>0){
+                inputPinswithwire.Add(valuPropogate.InputPins[i]);
+            }   
         }
         for (int i = 0; i < valuPropogate.OutputPins.Count; i++)
         {
-
+            if(valuPropogate.OutputPins[i].Wires.Count>0){
+                outputPinswithwire.Add(valuPropogate.OutputPins[i]);
+            }   
         }
     }
 }
