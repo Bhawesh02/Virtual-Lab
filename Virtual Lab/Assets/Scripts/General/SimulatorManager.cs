@@ -1,6 +1,7 @@
 
 using System.Collections.Generic;
 using TMPro;
+using UnityEditor.MPE;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -14,7 +15,6 @@ public class SimulatorManager : MonoGenericSingelton<SimulatorManager>
 
     public GameObject WiresGameObject;
 
-    public ICBase SelectedIcBase;
 
     public List<ICBase> ICBases;
 
@@ -23,8 +23,6 @@ public class SimulatorManager : MonoGenericSingelton<SimulatorManager>
 
     public bool SimulationRunning;
 
-    public TextMeshProUGUI SimulationStatus;
-
     public Sprite PinPostive;
 
     public Sprite PinNegative;
@@ -32,18 +30,7 @@ public class SimulatorManager : MonoGenericSingelton<SimulatorManager>
     public Sprite PinNull;
 
 
-    [SerializeField]
-    private Button StartButton;
-
-    [SerializeField]
-    private Button StopButton;
-
-    [SerializeField]
-    private Button ResetButton;
-
-
-    [SerializeField]
-    private CurrentStatusDisplayer currentStatusDisplayer;
+    private EventService eventService;
 
     public List<Color> colorList = new() { Color.red, Color.black, Color.blue };
 
@@ -52,15 +39,19 @@ public class SimulatorManager : MonoGenericSingelton<SimulatorManager>
     {
         base.Awake();
         SimulationRunning = false;
-        SimulationStatus.text = "Simulation not running";
     }
-
     private void Start()
     {
-        StartButton.onClick.AddListener(StartSimulation);
-        StopButton.onClick.AddListener(StopSimulation);
-        ResetButton.onClick.AddListener(ResetConnection);
+        eventService = EventService.Instance;
+        eventService.SimulationStarted += () => {
+            SimulationRunning = true;
+        };
+        eventService.SimulationStopped += () =>
+        {
+            SimulationRunning = false;
+        };
     }
+
     private void Update()
     {
         if (doingConnection)
@@ -73,9 +64,6 @@ public class SimulatorManager : MonoGenericSingelton<SimulatorManager>
                 doingConnection = false;
             }
         }
-
-
-
     }
 
     private void SetWireEndToMousePointer()
@@ -84,26 +72,5 @@ public class SimulatorManager : MonoGenericSingelton<SimulatorManager>
         Vector3 endPosition = new(mousePosition.x, mousePosition.y, mousePosition.z);
         Wire.GetComponent<WireController>().SetWireEnd(endPosition);
     }
-    public void StartSimulation()
-    {
-        SimulationRunning = true;
-        SimulationStatus.text = "Simulation Running";
-        ICSpawner.Instance.gameObject.SetActive(false);
-        currentStatusDisplayer.gameObject.SetActive(true);
-        EventService.Instance.InvokeSimulationStarted();
-
-    }
-    public void StopSimulation()
-    {
-        SimulationStatus.text = "Simulation not running";
-        ICSpawner.Instance.gameObject.SetActive(true);
-        currentStatusDisplayer.gameObject.SetActive(false);
-        EventService.Instance.InvokeSimulationStopped();
-        SimulationRunning = false;
-    }
-
-    private void ResetConnection()
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-    }
+    
 }
