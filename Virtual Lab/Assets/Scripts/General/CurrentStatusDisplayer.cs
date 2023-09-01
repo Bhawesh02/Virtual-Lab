@@ -1,9 +1,14 @@
 
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class CurrentStatusDisplayer : MonoBehaviour
 {
-    private SimulatorManager simulatorManager;    
+    private ValuePropagate valuPropogate;
+    private List<PinController> inputPins;
+    private List<PinController> outputPins;
+    
     private void Awake()
     {
         EventService.Instance.AllValuePropagated += ShowStatus;
@@ -11,11 +16,23 @@ public class CurrentStatusDisplayer : MonoBehaviour
     }
     private void Start()
     {
-        simulatorManager = SimulatorManager.Instance;
+        valuPropogate = ValuePropagate.Instance;
     }
     private void ShowStatus()
     {
         //Get info of all inout and output pins
+        GetInputAndOuptPins();
+    }
 
+    private void GetInputAndOuptPins()
+    {
+        for(int i = 0; i < valuPropogate.InputPins.Count; i++) 
+        { 
+            
+        }
+        for (int i = 0; i < valuPropogate.OutputPins.Count; i++)
+        {
+
+        }
     }
 }
