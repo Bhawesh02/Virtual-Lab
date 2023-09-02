@@ -95,6 +95,8 @@ public class CurrentStatusDisplayer : MonoBehaviour
                 status.text = "1";
             else if (pins[i].value == PinValue.Negative || pins[i].value == PinValue.Gnd)
                 status.text = "0";
+            else
+                status.text = "Null";
             statuShowing.Push(pinStatus);
         }
     }
