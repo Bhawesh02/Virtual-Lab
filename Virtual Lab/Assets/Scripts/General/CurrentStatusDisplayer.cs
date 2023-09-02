@@ -44,7 +44,7 @@ public class CurrentStatusDisplayer : MonoBehaviour
     private void DestroyExsistingStatus()
     {
         GameObject pinStatus;
-        while(statuShowing.Count > 0)
+        while (statuShowing.Count > 0)
         {
             pinStatus = statuShowing.Pop();
             Destroy(pinStatus);
@@ -60,6 +60,8 @@ public class CurrentStatusDisplayer : MonoBehaviour
             if (valuePropogate.InputPins[i].Wires.Count > 0)
             {
                 inputPinsWithWire.Add(valuePropogate.InputPins[i]);
+                valuePropogate.InputPins[i].GetComponent<IndexController>().SetPinIndex(inputPinsWithWire.Count - 1);
+
             }
         }
         for (int i = 0; i < valuePropogate.OutputPins.Count; i++)
@@ -67,16 +69,18 @@ public class CurrentStatusDisplayer : MonoBehaviour
             if (valuePropogate.OutputPins[i].Wires.Count > 0)
             {
                 outputPinsWithWire.Add(valuePropogate.OutputPins[i]);
+                valuePropogate.OutputPins[i].GetComponent<IndexController>().SetPinIndex(outputPinsWithWire.Count - 1);
+
             }
         }
     }
     private void ShowPinsStatusOfInputAndOutput()
     {
-        ShowPinStatus(inputPinsWithWire,inputPinsContent);
-        ShowPinStatus(outputPinsWithWire,outputPinsContent);
+        ShowPinStatus(inputPinsWithWire, inputPinsContent);
+        ShowPinStatus(outputPinsWithWire, outputPinsContent);
     }
 
-    private void ShowPinStatus(List<PinController> pins,ContentSizeFitter content)
+    private void ShowPinStatus(List<PinController> pins, ContentSizeFitter content)
     {
         GameObject pinStatus;
         TextMeshProUGUI index;

@@ -5,14 +5,15 @@ using UnityEngine;
 public class ICLogic : MonoBehaviour
 {
     public IC IcData;
+    [SerializeField]
     private ICController iCController;
     private void Awake()
     {
         this.enabled = false;
-        iCController = GetComponent<ICController>();
+        
     }
     
-    
+
 
     #region Basic Ic Logic
 
@@ -76,13 +77,14 @@ public class ICLogic : MonoBehaviour
         List<GameObject> pins = iCController.thisIC.Pins;
         VccPinInIc = null;
         GndPinInIc = null;
-
+        PinController pinController;
         for (int i = 0;i< pins.Count; i++)
         {
-            if (pins[i].GetComponent<PinController>().CurrentPinInfo.Type == PinType.IcVcc)
+            pinController = pins[i].GetComponent<PinController>();
+            if (pinController.CurrentPinInfo.Type == PinType.IcVcc)
                 VccPinInIc = pins[i].GetComponent<PinController>();
 
-            if (pins[i].GetComponent<PinController>().CurrentPinInfo.Type == PinType.IcGnd)
+            else if (pinController.CurrentPinInfo.Type == PinType.IcGnd)
                 GndPinInIc = pins[i].GetComponent<PinController>();
         }
 

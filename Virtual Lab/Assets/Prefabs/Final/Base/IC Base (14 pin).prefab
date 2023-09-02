@@ -101,6 +101,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IcData: {fileID: 0}
+  iCController: {fileID: 1964574943}
 --- !u!114 &1964574943
 MonoBehaviour:
   m_ObjectHideFlags: 0
