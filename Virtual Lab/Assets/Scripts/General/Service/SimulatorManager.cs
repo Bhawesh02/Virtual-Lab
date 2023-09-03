@@ -11,7 +11,6 @@ public class SimulatorManager : MonoGenericSingelton<SimulatorManager>
 
 
 
-    public GameObject WiresGameObject;
 
 
     public List<ICBase> ICBases;
