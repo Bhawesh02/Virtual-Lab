@@ -1,5 +1,4 @@
 
-using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -87,7 +86,8 @@ public class CurrentStatusDisplayer : MonoBehaviour
         TextMeshProUGUI status;
         for (int i = 0; i < pins.Count; i++)
         {
-            pinStatus = Instantiate(pinStatusTemplate, content.transform);
+            pinStatus = Instantiate(pinStatusTemplate);
+            pinStatus.transform.SetParent(content.transform);
             index = pinStatus.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
             status = pinStatus.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
             index.text = i.ToString();
