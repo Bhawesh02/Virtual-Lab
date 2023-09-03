@@ -8,8 +8,6 @@ public class IndexController : MonoBehaviour
 
     private PinController pinController;
 
-    [SerializeField]
-    private IndexBubbleController indexBubblePrfab;
 
     private IndexBubbleController indexBubble;
 

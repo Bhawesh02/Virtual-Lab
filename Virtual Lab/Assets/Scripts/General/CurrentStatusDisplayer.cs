@@ -11,13 +11,11 @@ public class CurrentStatusDisplayer : MonoBehaviour
     private List<PinController> outputPinsWithWire;
 
     [SerializeField]
-    private GameObject pinStatusTemplate;
-    [SerializeField]
     private ContentSizeFitter inputPinsContent;
     [SerializeField]
     private ContentSizeFitter outputPinsContent;
 
-    private Stack<GameObject> statuShowing;
+    private Stack<RectTransform> statuShowing;
 
 
     private void Awake()
@@ -30,23 +28,24 @@ public class CurrentStatusDisplayer : MonoBehaviour
     private void Start()
     {
         valuePropogate = ValuePropagateService.Instance;
-
+        EventService.Instance.SimulationStopped += RemoveExsistingStatus;
     }
+    
     private void ShowStatus()
     {
         valuePropogate ??= ValuePropagateService.Instance;
-        DestroyExsistingStatus();
+        RemoveExsistingStatus();
         GetInputAndOuptPinsWithWires();
         ShowPinsStatusOfInputAndOutput();
     }
 
-    private void DestroyExsistingStatus()
+    private void RemoveExsistingStatus()
     {
-        GameObject pinStatus;
+        RectTransform pinStatus;
         while (statuShowing.Count > 0)
         {
             pinStatus = statuShowing.Pop();
-            Destroy(pinStatus);
+            StatusTemplatePoolService.Instance.ReturnTemplate(pinStatus);
         }
     }
 
@@ -81,12 +80,12 @@ public class CurrentStatusDisplayer : MonoBehaviour
 
     private void ShowPinStatus(List<PinController> pins, ContentSizeFitter content)
     {
-        GameObject pinStatus;
+        RectTransform pinStatus;
         TextMeshProUGUI index;
         TextMeshProUGUI status;
         for (int i = 0; i < pins.Count; i++)
         {
-            pinStatus = Instantiate(pinStatusTemplate);
+            pinStatus = StatusTemplatePoolService.Instance.GetTemplate();
             pinStatus.transform.SetParent(content.transform);
             index = pinStatus.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
             status = pinStatus.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
