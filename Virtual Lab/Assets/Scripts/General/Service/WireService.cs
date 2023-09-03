@@ -1,15 +1,24 @@
 
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class WireService : MonoGenericSingelton<WireService>
 {
     public bool doingConnection = false;
 
-    private WireController LatestWire;
+    
 
     [SerializeField]
     private WireController wirePrefab;
 
+
+    private WireController NewWireMakingConnection;
+
+    private WirePool wirePool;
+    private void Start()
+    {
+        wirePool = new(wirePrefab);
+    }
     private void Update()
     {
         if (doingConnection)
@@ -17,8 +26,8 @@ public class WireService : MonoGenericSingelton<WireService>
             SetWireEndToMousePointer();
             if (Input.GetMouseButtonDown(1))
             {
-                Destroy(LatestWire.gameObject);
-                LatestWire = null;
+                ReturnWire(NewWireMakingConnection);
+                NewWireMakingConnection = null;
                 doingConnection = false;
             }
         }
@@ -28,25 +37,27 @@ public class WireService : MonoGenericSingelton<WireService>
     {
         Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector3 endPosition = new(mousePosition.x, mousePosition.y, mousePosition.z);
-        LatestWire.SetWireEnd(endPosition);
+        NewWireMakingConnection.SetWireEnd(endPosition);
     }
 
     public void CreateNewWire(PinController initialPinController)
     {
-        LatestWire = Instantiate(wirePrefab);
-        LatestWire.transform.SetParent(transform);
-        LatestWire.MakeWire(initialPinController.transform.position);
-        LatestWire.initialPin = initialPinController;
+        NewWireMakingConnection = wirePool.GetItem();
+        NewWireMakingConnection.transform.SetParent(transform);
+        NewWireMakingConnection.MakeWire(initialPinController.transform.position);
+        NewWireMakingConnection.initialPin = initialPinController;
         doingConnection = true;
     }
 
     public void CompleteExsistingWire(PinController finalPinController)
     {
         doingConnection = false;
-        LatestWire.SetWireEnd(finalPinController.transform.position);
-        LatestWire.finalPin = finalPinController;
-        LatestWire.ConfirmConnection();
-
-
+        NewWireMakingConnection.SetWireEnd(finalPinController.transform.position);
+        NewWireMakingConnection.finalPin = finalPinController;
+        NewWireMakingConnection.ConfirmConnection();
+    }
+    public void ReturnWire(WireController wireToReturn)
+    {
+        wirePool.ReturnItem(wireToReturn);
     }
 }

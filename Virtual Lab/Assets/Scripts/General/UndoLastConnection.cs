@@ -24,20 +24,16 @@ public class UndoLastConnection : MonoBehaviour
             return;
         if (SimulatorManager.Instance.Wires.Count == 0)
             return;
-
         lastWire = SimulatorManager.Instance.Wires[^1];
         PinController inititalPin = lastWire.initialPin;
         PinController finalPin = lastWire.finalPin;
         ChangePinValue(inititalPin);
         ChangePinValue(finalPin);
         RemoveInputPinConnected();
-        
         SimulatorManager.Instance.Wires.Remove(lastWire);
         inititalPin.Wires.Remove(lastWire);
         finalPin.Wires.Remove(lastWire);
-        Destroy(lastWire.gameObject);
-
-
+        WireService.Instance.ReturnWire(lastWire);
     }
 
     private void RemoveInputPinConnected()
@@ -52,7 +48,6 @@ public class UndoLastConnection : MonoBehaviour
         }
         lastWire.connectionDirection = ConnectionDirection.Null;
         MakeIsInputConnectedFalse(lastWire.initialPin);
-
     }
 
     private void MakeIsInputConnectedFalse(PinController pin)
@@ -75,7 +70,6 @@ public class UndoLastConnection : MonoBehaviour
 
             }
         }
-
     }
 
     private static void ChangePinValue(PinController pin)
