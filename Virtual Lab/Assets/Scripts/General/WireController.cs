@@ -13,7 +13,7 @@ public class WireController : MonoBehaviour
    
     public ConnectionDirection connectionDirection;
 
-    private void Awake()
+    private void OnEnable()
     {
         SimulatorManager.Instance.Wires.Add(this);
         valuePropagated = false;
@@ -87,7 +87,7 @@ public class WireController : MonoBehaviour
         /*SimulatorManager.Instance.WiresConnectionChecked.Clear();*/
         if ((initialPin == finalPin) || (finalPin.CurrentPinInfo.Type == PinType.Null) || (IsAInputPin(initialPin) && IsAInputPin(finalPin)))
         {
-            Destroy(gameObject);
+            WireService.Instance.ReturnWire(this);
             return;
         }
         //Initial Pin - Input , FinalPin - Output
@@ -95,7 +95,7 @@ public class WireController : MonoBehaviour
         {
             if (finalPin.gameObject.GetComponent<OutputPinConnectionCheck>().IsInputPinConnected)
             {
-                Destroy(gameObject);
+                WireService.Instance.ReturnWire(this);
                 return;
             }
             
@@ -111,7 +111,7 @@ public class WireController : MonoBehaviour
         {
             if (initialPin.gameObject.GetComponent<OutputPinConnectionCheck>().IsInputPinConnected)
             {
-                Destroy(gameObject);
+                WireService.Instance.ReturnWire(this);
                 return;
             }
             ChangeIsInputPinConnected(initialPin);
@@ -128,7 +128,7 @@ public class WireController : MonoBehaviour
         {
             if (initialPin.gameObject.GetComponent<OutputPinConnectionCheck>().IsInputPinConnected && finalPin.gameObject.GetComponent<OutputPinConnectionCheck>().IsInputPinConnected)
             {
-                Destroy(gameObject);
+                WireService.Instance.ReturnWire(this);
                 return;
             }
             if (initialPin.gameObject.GetComponent<OutputPinConnectionCheck>().IsInputPinConnected)
@@ -173,7 +173,7 @@ public class WireController : MonoBehaviour
         }
     }
 
-    private void OnDestroy()
+    private void OnDisable()
     {
         SimulatorManager.Instance.Wires.Remove(this);
     }

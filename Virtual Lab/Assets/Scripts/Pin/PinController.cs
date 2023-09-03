@@ -7,8 +7,7 @@ public class PinController : MonoBehaviour
     public PinValue value;
     public PinInfo CurrentPinInfo;
     public List<WireController> Wires = new();
-    [SerializeField]
-    private GameObject wireGameObject;
+    
 
     private SpriteRenderer ShowColor;
 
@@ -102,31 +101,12 @@ public class PinController : MonoBehaviour
             return;
         if (!wireService.doingConnection)
         {
-            CreateNewWire();
+            wireService.CreateNewWire(this);
             return;
         }
-        CompleteExsistingWire();
+        wireService.CompleteExsistingWire(this);
     }
 
-    private void CreateNewWire()
-    {
-        GameObject wire = Instantiate(wireGameObject, simulationManager.WiresGameObject.transform);
-        WireController wireController = wire.GetComponent<WireController>();
-        wireService.Wire = wire;
-        wireController.MakeWire(this.transform.position);
-        wireController.initialPin = this;
-        wireService.doingConnection = true;
-    }
-
-    private void CompleteExsistingWire()
-    {
-        wireService.doingConnection = false;
-        WireController wireController = wireService.Wire.GetComponent<WireController>();
-        wireController.SetWireEnd(this.transform.position);
-        wireController.finalPin = this;
-        wireController.ConfirmConnection();
-
-
-    }
+    
 
 }
