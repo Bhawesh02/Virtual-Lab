@@ -17,7 +17,7 @@ public class WireService : MonoGenericSingelton<WireService>
             SetWireEndToMousePointer();
             if (Input.GetMouseButtonDown(1))
             {
-                Destroy(LatestWire);
+                Destroy(LatestWire.gameObject);
                 LatestWire = null;
                 doingConnection = false;
             }
