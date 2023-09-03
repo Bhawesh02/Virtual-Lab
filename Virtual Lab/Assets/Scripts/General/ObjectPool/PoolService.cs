@@ -13,7 +13,7 @@ public abstract class PoolService<T>
 
     private List<PooledItem<T>> pooledItem = new();
 
-    protected T GetItem()
+    public virtual T GetItem()
     {
         if(pooledItem.Count > 0)
         {
@@ -40,7 +40,7 @@ public abstract class PoolService<T>
 
     protected abstract T CreateItem();
 
-    protected virtual void ReturnItem(T item)
+    public virtual void ReturnItem(T item)
     {
         PooledItem<T> usedItem = pooledItem.Find(x=>x.Item.Equals(item));
         usedItem.IsUsed = false;
