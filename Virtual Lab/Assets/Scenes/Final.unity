@@ -2374,7 +2374,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   doingConnection: 0
-  Wire: {fileID: 0}
+  wirePrefab: {fileID: 7519305150921889627, guid: b2d1f5f9e460686478455663ad828c93, type: 3}
 --- !u!1 &415368144 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6988316626425718295, guid: 358c6fd2475661045909b9372a94748f, type: 3}
