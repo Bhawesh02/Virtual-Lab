@@ -26,14 +26,15 @@ public class IndexController : MonoBehaviour
         if (!SimulatorManager.Instance.SimulationRunning || pinController.Wires.Count == 0)
             return;
         
-        indexBubble = Instantiate(indexBubblePrfab, transform);
+        indexBubble = IndexBubblePoolService.Instance.GetBubble();
+        indexBubble.transform.SetParent(transform);
         indexBubble.SetIndex(pinIndex);
         indexBubble.transform.position = (Vector2)transform.position + offset;
     }
     private void OnMouseExit()
     {
         if (indexBubble != null)
-            Destroy(indexBubble.gameObject);
+            IndexBubblePoolService.Instance.ReturnBubble(indexBubble);
 
     }
 }
