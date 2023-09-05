@@ -7,6 +7,8 @@ public class ICLogic : MonoBehaviour
     public IC IcData;
     [SerializeField]
     private ICView ICView;
+
+    private GateLogic gateLogic = GateLogic.Instance;
     private void Awake()
     {
         enabled = false;
@@ -94,22 +96,22 @@ public class ICLogic : MonoBehaviour
         switch (IcData.ICType)
         {
             case ICTypes.Not:
-                NotGateLogic(outputPin, inputPins);
+                gateLogic.NotGateLogic(outputPin, inputPins);
                 break;
             case ICTypes.Or:
-                OrGateLogic(outputPin, inputPins);
+                gateLogic.OrGateLogic(outputPin, inputPins);
                 break;
             case ICTypes.And:
-                AndGateLogic(outputPin, inputPins);
+                gateLogic.AndGateLogic(outputPin, inputPins);
                 break;
             case ICTypes.Xor:
-                XorGateLogic(outputPin, inputPins);
+                gateLogic.XorGateLogic(outputPin, inputPins);
                 break;
             case ICTypes.Nor:
-                NorGateLogic(outputPin, inputPins);
+                gateLogic.NorGateLogic(outputPin, inputPins);
                 break;
             case ICTypes.Nand:
-                NandGateLogic(outputPin,inputPins);
+                gateLogic.NandGateLogic(outputPin,inputPins);
                 break;
             default:
                 Debug.Log("IC Logic Not given");
@@ -122,75 +124,5 @@ public class ICLogic : MonoBehaviour
 
     #endregion
 
-    #region Gate Logic
-    private void NandGateLogic(PinController outputPin, List<PinController> inputPins)
-    {
-        PinValue input1Value=inputPins[0].value;
-        PinValue input2Value=inputPins[1].value;
-        if (input1Value == PinValue.Positive && input2Value == PinValue.Positive)
-        {
-            outputPin.value = PinValue.Negative;
-            return;
-        }
-        outputPin.value = PinValue.Positive;
-    }
-    private void NorGateLogic(PinController outputPin, List<PinController> inputPins)
-    {
-        PinValue input1Value = inputPins[0].value;
-        PinValue input2Value = inputPins[1].value;
-        if (input1Value == PinValue.Negative && input2Value == PinValue.Negative)
-        {
-            outputPin.value = PinValue.Positive ;
-            return;
-        }
-        outputPin.value = PinValue.Negative ;
-    }
-
-    private void AndGateLogic(PinController outputPin, List<PinController> inputPins)  
-    {
-        PinValue input1Value = inputPins[0].value;
-        PinValue input2Value = inputPins[1].value;
-        if (input1Value == PinValue.Negative || input2Value == PinValue.Negative)
-        {
-            outputPin.value = PinValue.Negative;
-            return;
-        }
-        outputPin.value = PinValue.Positive;
-    }
-
-    private void OrGateLogic(PinController outputPin, List<PinController> inputPins)
-    {
-        PinValue input1Value = inputPins[0].value;
-        PinValue input2Value = inputPins[1].value;
-        if (input1Value == PinValue.Positive || input2Value == PinValue.Positive)
-        {
-            outputPin.value = PinValue.Positive;
-            return;
-        }
-        outputPin.value = PinValue.Negative;
-
-    }
-
-    private void NotGateLogic(PinController outputPin, List<PinController> inputPins)
-    {
-        if (inputPins[0].value == PinValue.Negative)
-            outputPin.value = PinValue.Positive;
-        else
-            outputPin.value = PinValue.Negative;
-    }
-    private void XorGateLogic(PinController outputPin, List<PinController> inputPins)
-    {
-        PinValue inputValue1 = inputPins[0].value;
-        PinValue inputValue2 = inputPins[1].value;
-        if (inputValue1 != inputValue2)
-        {
-            outputPin.value = PinValue.Positive;
-        }
-        else
-        {
-            outputPin.value = PinValue.Negative;
-        }
-    }
-
-    #endregion
+    
 }
