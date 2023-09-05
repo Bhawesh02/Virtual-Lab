@@ -4,27 +4,24 @@ public class ICController
 {
     private ICView view;
     public ICModel Model { get; private set; }
-    public ICController(ICView view,ICLogic iCLogic, GameObject PinsGameObject)
+
+    #region Constuctor and setter
+    public ICController(ICView view,ICLogic iCLogic)
     {
         this.view = view;
-        SetPins(PinsGameObject);
-        ICBase thisIC = new()
-        {
-            IcLogic = iCLogic,
-            ICSprite = view.GetComponent<SpriteRenderer>(),
-            Pins = view.Pins
-        };
-        Model = new(thisIC);
+        Model = new(iCLogic,view.GetComponent<SpriteRenderer>());
+        
         SimulatorManager.Instance.ICBases.Add(Model.thisIC);
 
 
     }
-    private void SetPins(GameObject PinsGameObject)
+    public void SetPins(GameObject PinsGameObject)
     {
         for (int i = 0; i < PinsGameObject.transform.childCount; i++)
         {
-            view.Pins.Add(PinsGameObject.transform.GetChild(i).gameObject.GetComponent<PinController>());
+            Model.thisIC.Pins.Add(PinsGameObject.transform.GetChild(i).gameObject.GetComponent<PinController>());
         }
+        //Model.thisIC.Pins = Model.Pins;
     }
     public void SetVccPin(PinController vcc)
     {
@@ -34,5 +31,5 @@ public class ICController
     {
         Model.GndPin = gnd;
     }
-    
+    #endregion
 }

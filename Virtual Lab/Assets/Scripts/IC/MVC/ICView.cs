@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ICView : MonoBehaviour
 {
-    public List<PinController> Pins;
+    
     [SerializeField]
     private ICLogic icLogic;
 
@@ -14,7 +14,8 @@ public class ICView : MonoBehaviour
     public ICController Controller { get;private set; }
     private void Start()
     {
-        Controller = new(this,icLogic, pinHolderGameobject);
+        Controller = new(this,icLogic);
+        Controller.SetPins(pinHolderGameobject);
     }
 
    

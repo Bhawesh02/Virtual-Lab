@@ -39,7 +39,7 @@ public class ICLogic : MonoBehaviour
         foreach (PinMapping gate in IcData.pinMapping)
         {
             int OutputPinIndex = gate.OutputPin - 1;
-            PinController OutputPin = GetComponent<ICView>().Pins[OutputPinIndex];
+            PinController OutputPin = GetComponent<ICView>().Controller.Model.thisIC.Pins[OutputPinIndex];
             List<PinController> InputPins = new();
             bool anyInputNull = false;
             anyInputNull = CheckEachInputOfGate(gate, InputPins, anyInputNull);
@@ -58,7 +58,7 @@ public class ICLogic : MonoBehaviour
         foreach (int inputPinNumber in gate.InputPin)
         {
             int InputPinIndex = inputPinNumber - 1;
-            PinController InputPin = GetComponent<ICView>().Pins[InputPinIndex];
+            PinController InputPin = GetComponent<ICView>().Controller.Model.thisIC.Pins[InputPinIndex];
             if (InputPin.GetComponent<PinController>().value == PinValue.Null)
             {
                 anyInputNull = true;
