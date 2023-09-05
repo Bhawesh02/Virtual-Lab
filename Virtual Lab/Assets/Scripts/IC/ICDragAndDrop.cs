@@ -5,7 +5,7 @@ public class ICDragAndDrop : MonoBehaviour
 {
     private SpriteRenderer spriteRenderer;
     public IC IcData;
-    private ICChange IcChange = new();
+    private ICChangeService IcChange = ICChangeService.Instance;
 
     [SerializeField]
     private float detectionRadius = 1f;
