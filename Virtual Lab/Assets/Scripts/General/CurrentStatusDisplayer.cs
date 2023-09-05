@@ -24,11 +24,13 @@ public class CurrentStatusDisplayer : MonoBehaviour
         inputPinsWithWire = new();
         outputPinsWithWire = new();
         statuShowing = new();
+        EventService.Instance.AllValuePropagated += ShowStatus;
+
     }
+    
     private void Start()
     {
         valuePropogate = ValuePropagateService.Instance;
-        EventService.Instance.AllValuePropagated += ShowStatus;
         EventService.Instance.SimulationStopped += RemoveExsistingStatus;
     }
     
