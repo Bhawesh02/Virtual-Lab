@@ -8,7 +8,7 @@ public class EventService : MonoGenericSingelton<EventService>
     public event Action SimulationStopped;
     public event Action AllValuePropagated;
     public event Action InputValueChanged;
-    public event Action<IC> RightClickOnIC;
+    public event Action<IC> ShowICTT;
     public void InvokeSimulationStarted()
     {
         SimulationStarted?.Invoke();
@@ -25,8 +25,8 @@ public class EventService : MonoGenericSingelton<EventService>
     {
         InputValueChanged?.Invoke();
     }
-    public void InvokeRightClickOnIC(IC ic)
+    public void InvokeShowICTT(IC ic)
     {
-        RightClickOnIC?.Invoke(ic);
+        ShowICTT?.Invoke(ic);
     }
 }
