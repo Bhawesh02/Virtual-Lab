@@ -6,11 +6,10 @@ public class ICLogic : MonoBehaviour
 {
     public IC IcData;
     [SerializeField]
-    private ICController iCController;
+    private ICView ICView;
     private void Awake()
     {
-        this.enabled = false;
-        
+        enabled = false;
     }
     
 
@@ -40,7 +39,7 @@ public class ICLogic : MonoBehaviour
         foreach (PinMapping gate in IcData.pinMapping)
         {
             int OutputPinIndex = gate.OutputPin - 1;
-            GameObject OutputPin = GetComponent<ICController>().Pins[OutputPinIndex];
+            GameObject OutputPin = GetComponent<ICView>().Pins[OutputPinIndex];
             List<GameObject> InputPins = new();
             bool anyInputNull = false;
             anyInputNull = CheckEachInputOfGate(gate, InputPins, anyInputNull);
@@ -59,7 +58,7 @@ public class ICLogic : MonoBehaviour
         foreach (int inputPinNumber in gate.InputPin)
         {
             int InputPinIndex = inputPinNumber - 1;
-            GameObject InputPin = GetComponent<ICController>().Pins[InputPinIndex];
+            GameObject InputPin = GetComponent<ICView>().Pins[InputPinIndex];
             if (InputPin.GetComponent<PinController>().value == PinValue.Null)
             {
                 anyInputNull = true;
@@ -74,7 +73,7 @@ public class ICLogic : MonoBehaviour
 
     private void GetVccAndGndPinInIC(int VccPinNumber, int GndPinNumber, out PinController VccPinInIc, out PinController GndPinInIc)
     {
-        List<GameObject> pins = iCController.thisIC.Pins;
+        List<GameObject> pins = ICView.thisIC.Pins;
         VccPinInIc = null;
         GndPinInIc = null;
         PinController pinController;

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6733403880079444427}
   - component: {fileID: 6733403880079444420}
   - component: {fileID: 6733403880079444424}
-  - component: {fileID: 1964574943}
+  - component: {fileID: 2113614037}
   m_Layer: 0
   m_Name: IC Base (14 pin)
   m_TagString: Untagged
@@ -101,8 +101,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IcData: {fileID: 0}
-  iCController: {fileID: 1964574943}
---- !u!114 &1964574943
+  ICView: {fileID: 2113614037}
+--- !u!114 &2113614037
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -111,7 +111,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6733403880079444421}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5c830172efe8bce49911249182c0368d, type: 3}
+  m_Script: {fileID: 11500000, guid: 326d112c27fbd6246abc732a8803325d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Pins: []
