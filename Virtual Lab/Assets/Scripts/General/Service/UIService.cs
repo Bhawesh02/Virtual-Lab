@@ -45,7 +45,7 @@ public class UIService : MonoGenericSingelton<UIService>
               BackButton.transform.parent.gameObject.SetActive(false);
           });
 
-        EventService.Instance.RightClickOnIC += ShowTruthTable;
+        EventService.Instance.ShowICTT += ShowTruthTable;
     }
 
     public void StartSimulation()
@@ -72,12 +72,14 @@ public class UIService : MonoGenericSingelton<UIService>
 
     public void ShowTruthTable(IC icData)
     {
+        if (SimulatorManager.Instance.SimulationRunning || WireService.Instance.doingConnection)
+            return;
         TruthTable.sprite = icData.TruthTable;
         TruthTable.SetNativeSize();
         TruthTable.transform.parent.gameObject.SetActive(true);
     }
     private void OnDestroy()
     {
-        EventService.Instance.RightClickOnIC -= ShowTruthTable;
+        EventService.Instance.ShowICTT -= ShowTruthTable;
     }
 }

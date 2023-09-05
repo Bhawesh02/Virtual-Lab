@@ -39,8 +39,7 @@ public class ICController : GateLogic
         Model.IcData = idData;
     }
     #endregion
-
-
+    
     #region Basic Ic Logic
 
     public void RunIcLogic()
@@ -144,5 +143,10 @@ public class ICController : GateLogic
 
     }
 
+
+
     #endregion
+
+    
+
 }

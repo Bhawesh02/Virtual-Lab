@@ -51,7 +51,7 @@ public class ICDragAndDrop : MonoBehaviour
     {
         if(collided!=null)
         {
-            ICModel IcModel = collided.transform.parent.GetComponent<ICView>().Controller.Model;
+            ICModel IcModel = collided.GetComponent<ICView>().Controller.Model;
             
             IcChange.ChangeIc(IcModel, IcData);
         }

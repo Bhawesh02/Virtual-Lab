@@ -21,7 +21,7 @@ public class ICPlaceHolder : MonoBehaviour, IPointerDownHandler
         }
         else if(eventData.button == PointerEventData.InputButton.Right)
         {
-            EventService.Instance.InvokeRightClickOnIC(IcData);
+            EventService.Instance.InvokeShowICTT(IcData);
         }
     }
 
