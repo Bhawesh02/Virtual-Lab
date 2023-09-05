@@ -17,7 +17,7 @@ public class ICPlaceHolder : MonoBehaviour, IPointerDownHandler
     {
         if (eventData.button == PointerEventData.InputButton.Left)
         {
-            ICSpawner.Instance.SpawnIC(IcData);
+            ICSpawnerService.Instance.SpawnIC(IcData);
         }
         else if(eventData.button == PointerEventData.InputButton.Right)
         {

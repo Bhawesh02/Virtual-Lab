@@ -24,7 +24,7 @@ public class ICDragAndDrop : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         mainCamera = Camera.main;
     }
-    private void Start()
+    private void OnEnable ()
     {
         spriteRenderer.sprite = IcData.IcSprite;
         nextDetectionTime = Time.time;
@@ -54,8 +54,8 @@ public class ICDragAndDrop : MonoBehaviour
             ICBase IcBase = collided.transform.parent.GetComponent<ICController>().thisIC;
             IcChange.ChangeIc(IcBase, IcData);
         }
-        ICSpawner.Instance.gameObject.SetActive(true);
-        Destroy(gameObject);
+        ICSpawnerService.Instance.gameObject.SetActive(true);
+        ICSpawnerService.Instance.TakeBackIc();
     }
 
     private void FixedUpdate()

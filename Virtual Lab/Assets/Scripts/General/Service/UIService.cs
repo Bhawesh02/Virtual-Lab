@@ -51,7 +51,7 @@ public class UIService : MonoGenericSingelton<UIService>
     public void StartSimulation()
     {
         SimulationStatus.text = "Simulation Running";
-        ICSpawner.Instance.gameObject.SetActive(false);
+        ICSpawnerService.Instance.gameObject.SetActive(false);
         currentStatusDisplayer.gameObject.SetActive(true);
         EventService.Instance.InvokeSimulationStarted();
 
@@ -59,7 +59,7 @@ public class UIService : MonoGenericSingelton<UIService>
     public void StopSimulation()
     {
         SimulationStatus.text = "Simulation not running";
-        ICSpawner.Instance.gameObject.SetActive(true);
+        ICSpawnerService.Instance.gameObject.SetActive(true);
         currentStatusDisplayer.gameObject.SetActive(false);
         EventService.Instance.InvokeSimulationStopped();
     }
