@@ -2,7 +2,7 @@
 
 using System;
 
-public class EventService : GenericSingelton<EventService>
+public class EventService : MonoGenericSingelton<EventService>
 {
     public event Action SimulationStarted;
     public event Action SimulationStopped;
