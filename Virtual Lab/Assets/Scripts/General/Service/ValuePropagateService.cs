@@ -99,4 +99,10 @@ public class ValuePropagateService : MonoGenericSingelton<ValuePropagateService>
             }
         }
     }
+    private void OnDestroy()
+    {
+
+        EventService.Instance.SimulationStarted -= StartTransfer;
+        EventService.Instance.InputValueChanged -= StartTransfer;
+    }
 }

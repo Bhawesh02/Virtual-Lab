@@ -19,7 +19,16 @@ public class ICSpawnerService : MonoGenericSingelton<ICSpawnerService>
 
     private void Start()
     {
-        for(int i = 0; i < Ics.IcList.Count; i++)
+        
+        EventService.Instance.SimulationStarted += () =>
+        {
+            SetIcSpawnerActive(false);
+        };
+        EventService.Instance.SimulationStopped += () =>
+        {
+            SetIcSpawnerActive(true);
+        };
+        for (int i = 0; i < Ics.IcList.Count; i++)
         {
             iCPlaceHolderPrefab.IcData = Ics.IcList[i];
             Instantiate(iCPlaceHolderPrefab, icSpawner.transform);
@@ -27,14 +36,11 @@ public class ICSpawnerService : MonoGenericSingelton<ICSpawnerService>
         iCThatDrags = Instantiate(iCPrefab, infintePos, iCPrefab.transform.rotation);
         iCThatDrags.transform.parent = transform;
         iCThatDrags.gameObject.SetActive(false);
-        EventService.Instance.SimulationStarted += () =>
-        {
-            icSpawner.gameObject.SetActive(false);
-        };
-        EventService.Instance.SimulationStopped += () =>
-        {
-            icSpawner.gameObject.SetActive(true);
-        };
+        
+    }
+
+    private void SetIcSpawnerActive(bool value) {
+        icSpawner.transform.gameObject.SetActive(value);
     }
     public void SpawnIC(IC iCData)
     {
@@ -49,5 +55,16 @@ public class ICSpawnerService : MonoGenericSingelton<ICSpawnerService>
         iCThatDrags.transform.position = infintePos;
         iCThatDrags.gameObject.SetActive(false);
         icSpawner.gameObject.SetActive(true);
+    }
+    private void OnDestroy()
+    {
+        EventService.Instance.SimulationStarted -= () =>
+        {
+            SetIcSpawnerActive(false);
+        };
+        EventService.Instance.SimulationStopped -= () =>
+        {
+            SetIcSpawnerActive(true);
+        };
     }
 }

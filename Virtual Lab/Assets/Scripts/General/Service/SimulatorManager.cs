@@ -27,7 +27,6 @@ public class SimulatorManager : MonoGenericSingelton<SimulatorManager>
     public Sprite PinNull;
 
 
-    private EventService eventService;
 
     public List<Color> colorList = new() { Color.red, Color.black, Color.blue };
 
@@ -39,16 +38,24 @@ public class SimulatorManager : MonoGenericSingelton<SimulatorManager>
     }
     private void Start()
     {
-        eventService = EventService.Instance;
-        eventService.SimulationStarted += () => {
+        EventService.Instance.SimulationStarted += () => {
             SimulationRunning = true;
         };
-        eventService.SimulationStopped += () =>
+        EventService.Instance.SimulationStopped += () =>
+        {
+            SimulationRunning = false;
+        };
+    }
+    private void OnDestroy()
+    {
+        EventService.Instance.SimulationStarted -= () => {
+            SimulationRunning = true;
+        };
+        EventService.Instance.SimulationStopped -= () =>
         {
             SimulationRunning = false;
         };
     }
 
-    
-    
+
 }

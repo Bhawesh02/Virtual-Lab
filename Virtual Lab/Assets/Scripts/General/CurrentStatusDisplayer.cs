@@ -20,7 +20,7 @@ public class CurrentStatusDisplayer : MonoBehaviour
 
     private void Awake()
     {
-        EventService.Instance.AllValuePropagated += ShowStatus;
+        
         inputPinsWithWire = new();
         outputPinsWithWire = new();
         statuShowing = new();
@@ -28,6 +28,7 @@ public class CurrentStatusDisplayer : MonoBehaviour
     private void Start()
     {
         valuePropogate = ValuePropagateService.Instance;
+        EventService.Instance.AllValuePropagated += ShowStatus;
         EventService.Instance.SimulationStopped += RemoveExsistingStatus;
     }
     
@@ -98,5 +99,11 @@ public class CurrentStatusDisplayer : MonoBehaviour
                 status.text = "Null";
             statuShowing.Push(pinStatus);
         }
+    }
+
+    private void OnDestroy()
+    {
+        EventService.Instance.AllValuePropagated -= ShowStatus;
+        EventService.Instance.SimulationStopped -= RemoveExsistingStatus;
     }
 }

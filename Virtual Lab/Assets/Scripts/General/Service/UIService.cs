@@ -76,4 +76,8 @@ public class UIService : MonoGenericSingelton<UIService>
         TruthTable.SetNativeSize();
         TruthTable.transform.parent.gameObject.SetActive(true);
     }
+    private void OnDestroy()
+    {
+        EventService.Instance.RightClickOnIC -= ShowTruthTable;
+    }
 }
