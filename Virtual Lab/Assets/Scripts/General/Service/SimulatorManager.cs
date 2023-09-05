@@ -13,7 +13,7 @@ public class SimulatorManager : MonoGenericSingelton<SimulatorManager>
 
 
 
-    public List<ICModel> ICModels;
+    public List<ICModel> ICModels = new();
 
     public List<WireController> Wires;
 
