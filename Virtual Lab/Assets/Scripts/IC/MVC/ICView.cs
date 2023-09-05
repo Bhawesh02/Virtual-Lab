@@ -14,7 +14,6 @@ public class ICView : MonoBehaviour
     {
         Controller = new(this);
         Controller.SetPins(pinHolderGameobject);
-        hasRightClick = false;
     }
 
 
