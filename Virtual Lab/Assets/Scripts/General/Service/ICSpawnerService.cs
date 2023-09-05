@@ -17,18 +17,6 @@ public class ICSpawnerService : MonoGenericSingelton<ICSpawnerService>
 
     private ICDragAndDrop iCThatDrags;
 
-    protected override void Awake()
-    {
-        base.Awake();
-        EventService.Instance.SimulationStarted += () =>
-        {
-            icSpawner.gameObject.SetActive(false);
-        };
-        EventService.Instance.SimulationStopped += () =>
-        {
-            icSpawner.gameObject.SetActive(true);
-        };
-    }
     private void Start()
     {
         for(int i = 0; i < Ics.IcList.Count; i++)
@@ -39,6 +27,14 @@ public class ICSpawnerService : MonoGenericSingelton<ICSpawnerService>
         iCThatDrags = Instantiate(iCPrefab, infintePos, iCPrefab.transform.rotation);
         iCThatDrags.transform.parent = transform;
         iCThatDrags.gameObject.SetActive(false);
+        EventService.Instance.SimulationStarted += () =>
+        {
+            icSpawner.gameObject.SetActive(false);
+        };
+        EventService.Instance.SimulationStopped += () =>
+        {
+            icSpawner.gameObject.SetActive(true);
+        };
     }
     public void SpawnIC(IC iCData)
     {
