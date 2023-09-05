@@ -23,7 +23,7 @@ public class ICController
     {
         for (int i = 0; i < PinsGameObject.transform.childCount; i++)
         {
-            view.Pins.Add(PinsGameObject.transform.GetChild(i).gameObject);
+            view.Pins.Add(PinsGameObject.transform.GetChild(i).gameObject.GetComponent<PinController>());
         }
     }
     public void SetVccPin(PinController vcc)

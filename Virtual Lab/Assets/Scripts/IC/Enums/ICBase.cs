@@ -7,5 +7,5 @@ public class ICBase
 {
     public SpriteRenderer ICSprite;
     public ICLogic IcLogic;
-    public List<GameObject> Pins;
+    public List<PinController> Pins;
 }

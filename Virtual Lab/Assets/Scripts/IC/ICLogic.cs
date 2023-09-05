@@ -39,8 +39,8 @@ public class ICLogic : MonoBehaviour
         foreach (PinMapping gate in IcData.pinMapping)
         {
             int OutputPinIndex = gate.OutputPin - 1;
-            GameObject OutputPin = GetComponent<ICView>().Pins[OutputPinIndex];
-            List<GameObject> InputPins = new();
+            PinController OutputPin = GetComponent<ICView>().Pins[OutputPinIndex];
+            List<PinController> InputPins = new();
             bool anyInputNull = false;
             anyInputNull = CheckEachInputOfGate(gate, InputPins, anyInputNull);
             if (anyInputNull)
@@ -53,12 +53,12 @@ public class ICLogic : MonoBehaviour
         }
     }
 
-    private bool CheckEachInputOfGate(PinMapping gate, List<GameObject> InputPins, bool anyInputNull)
+    private bool CheckEachInputOfGate(PinMapping gate, List<PinController> InputPins, bool anyInputNull)
     {
         foreach (int inputPinNumber in gate.InputPin)
         {
             int InputPinIndex = inputPinNumber - 1;
-            GameObject InputPin = GetComponent<ICView>().Pins[InputPinIndex];
+            PinController InputPin = GetComponent<ICView>().Pins[InputPinIndex];
             if (InputPin.GetComponent<PinController>().value == PinValue.Null)
             {
                 anyInputNull = true;
@@ -73,7 +73,7 @@ public class ICLogic : MonoBehaviour
 
     private void GetVccAndGndPinInIC(int VccPinNumber, int GndPinNumber, out PinController VccPinInIc, out PinController GndPinInIc)
     {
-        List<GameObject> pins = ICView.Controller.Model.thisIC.Pins;
+        List<PinController> pins = ICView.Controller.Model.thisIC.Pins;
         VccPinInIc = null;
         GndPinInIc = null;
         PinController pinController;
@@ -89,7 +89,7 @@ public class ICLogic : MonoBehaviour
 
     }
 
-    private void GenerateOutputValue(GameObject outputPin, List<GameObject> inputPins)
+    private void GenerateOutputValue(PinController outputPin, List<PinController> inputPins)
     {
         switch (IcData.ICType)
         {
@@ -115,7 +115,7 @@ public class ICLogic : MonoBehaviour
                 Debug.Log("IC Logic Not given");
                 break;
         }
-        if (outputPin.GetComponent<PinController>().value != PinValue.Null)
+        if (outputPin.value != PinValue.Null)
             ValuePropagateService.Instance.TransferData(outputPin.GetComponent<PinController>());
 
     }
@@ -123,72 +123,72 @@ public class ICLogic : MonoBehaviour
     #endregion
 
     #region Gate Logic
-    private void NandGateLogic(GameObject outputPin, List<GameObject> inputPins)
+    private void NandGateLogic(PinController outputPin, List<PinController> inputPins)
     {
-        PinValue input1Value=inputPins[0].GetComponent<PinController>().value;
-        PinValue input2Value=inputPins[1].GetComponent<PinController>().value;
+        PinValue input1Value=inputPins[0].value;
+        PinValue input2Value=inputPins[1].value;
         if (input1Value == PinValue.Positive && input2Value == PinValue.Positive)
         {
-            outputPin.GetComponent<PinController>().value = PinValue.Negative;
+            outputPin.value = PinValue.Negative;
             return;
         }
-        outputPin.GetComponent<PinController>().value = PinValue.Positive;
+        outputPin.value = PinValue.Positive;
     }
-    private void NorGateLogic(GameObject outputPin, List<GameObject> inputPins)
+    private void NorGateLogic(PinController outputPin, List<PinController> inputPins)
     {
-        PinValue input1Value = inputPins[0].GetComponent<PinController>().value;
-        PinValue input2Value = inputPins[1].GetComponent<PinController>().value;
+        PinValue input1Value = inputPins[0].value;
+        PinValue input2Value = inputPins[1].value;
         if (input1Value == PinValue.Negative && input2Value == PinValue.Negative)
         {
-            outputPin.GetComponent<PinController>().value = PinValue.Positive ;
+            outputPin.value = PinValue.Positive ;
             return;
         }
-        outputPin.GetComponent<PinController>().value = PinValue.Negative ;
+        outputPin.value = PinValue.Negative ;
     }
 
-    private void AndGateLogic(GameObject outputPin, List<GameObject> inputPins)
+    private void AndGateLogic(PinController outputPin, List<PinController> inputPins)  
     {
-        PinValue input1Value = inputPins[0].GetComponent<PinController>().value;
-        PinValue input2Value = inputPins[1].GetComponent<PinController>().value;
+        PinValue input1Value = inputPins[0].value;
+        PinValue input2Value = inputPins[1].value;
         if (input1Value == PinValue.Negative || input2Value == PinValue.Negative)
         {
-            outputPin.GetComponent<PinController>().value = PinValue.Negative;
+            outputPin.value = PinValue.Negative;
             return;
         }
-        outputPin.GetComponent<PinController>().value = PinValue.Positive;
+        outputPin.value = PinValue.Positive;
     }
 
-    private void OrGateLogic(GameObject outputPin, List<GameObject> inputPins)
+    private void OrGateLogic(PinController outputPin, List<PinController> inputPins)
     {
-        PinValue input1Value = inputPins[0].GetComponent<PinController>().value;
-        PinValue input2Value = inputPins[1].GetComponent<PinController>().value;
+        PinValue input1Value = inputPins[0].value;
+        PinValue input2Value = inputPins[1].value;
         if (input1Value == PinValue.Positive || input2Value == PinValue.Positive)
         {
-            outputPin.GetComponent<PinController>().value = PinValue.Positive;
+            outputPin.value = PinValue.Positive;
             return;
         }
-        outputPin.GetComponent<PinController>().value = PinValue.Negative;
+        outputPin.value = PinValue.Negative;
 
     }
 
-    private void NotGateLogic(GameObject outputPin, List<GameObject> inputPins)
+    private void NotGateLogic(PinController outputPin, List<PinController> inputPins)
     {
-        if (inputPins[0].GetComponent<PinController>().value == PinValue.Negative)
-            outputPin.GetComponent<PinController>().value = PinValue.Positive;
+        if (inputPins[0].value == PinValue.Negative)
+            outputPin.value = PinValue.Positive;
         else
-            outputPin.GetComponent<PinController>().value = PinValue.Negative;
+            outputPin.value = PinValue.Negative;
     }
-    private void XorGateLogic(GameObject outputPin, List<GameObject> inputPins)
+    private void XorGateLogic(PinController outputPin, List<PinController> inputPins)
     {
-        PinValue inputValue1 = inputPins[0].GetComponent<PinController>().value;
-        PinValue inputValue2 = inputPins[1].GetComponent<PinController>().value;
+        PinValue inputValue1 = inputPins[0].value;
+        PinValue inputValue2 = inputPins[1].value;
         if (inputValue1 != inputValue2)
         {
-            outputPin.GetComponent<PinController>().value = PinValue.Positive;
+            outputPin.value = PinValue.Positive;
         }
         else
         {
-            outputPin.GetComponent<PinController>().value = PinValue.Negative;
+            outputPin.value = PinValue.Negative;
         }
     }
 
