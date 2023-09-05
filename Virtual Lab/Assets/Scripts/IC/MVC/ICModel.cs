@@ -6,20 +6,22 @@ using UnityEngine;
 public class ICModel
 {
     public SpriteRenderer ICSprite;
-    public ICLogic IcLogic;
     public List<PinController> Pins;
 
 
     public PinController VccPin;
     public PinController GndPin;
 
-    public ICModel(ICLogic icLogic, SpriteRenderer spriteRenderer)
+    public IC IcData;
+
+    public ICController Controller { get; }
+
+    public ICModel(SpriteRenderer spriteRenderer, ICController controller)
     {
 
-        IcLogic = icLogic;
         ICSprite = spriteRenderer;
         Pins = new();
-        
+        Controller = controller;
     }
 
 }
