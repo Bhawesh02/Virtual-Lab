@@ -16,6 +16,19 @@ public class ICSpawnerService : MonoGenericSingelton<ICSpawnerService>
     private Vector2 infintePos = new(999f, 999f);
 
     private ICDragAndDrop iCThatDrags;
+
+    protected override void Awake()
+    {
+        base.Awake();
+        EventService.Instance.SimulationStarted += () =>
+        {
+            icSpawner.gameObject.SetActive(false);
+        };
+        EventService.Instance.SimulationStopped += () =>
+        {
+            icSpawner.gameObject.SetActive(true);
+        };
+    }
     private void Start()
     {
         for(int i = 0; i < Ics.IcList.Count; i++)
