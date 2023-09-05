@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 6733403880079444427}
   - component: {fileID: 6733403880079444420}
-  - component: {fileID: 6733403880079444424}
   - component: {fileID: 4318412107245059835}
+  - component: {fileID: 6733403880079444424}
   m_Layer: 0
   m_Name: IC Base (16 pin)
   m_TagString: Untagged
@@ -88,6 +88,21 @@ SpriteRenderer:
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &4318412107245059835
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6733403880079444421}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 326d112c27fbd6246abc732a8803325d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Pins: []
+  icLogic: {fileID: 6733403880079444424}
+  pinHolderGameobject: {fileID: 6733403880340452567}
 --- !u!114 &6733403880079444424
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -102,25 +117,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IcData: {fileID: 0}
   ICView: {fileID: 4318412107245059835}
---- !u!114 &4318412107245059835
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6733403880079444421}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 326d112c27fbd6246abc732a8803325d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Pins: []
-  thisIC:
-    ICSprite: {fileID: 0}
-    IcLogic: {fileID: 0}
-    Pins: []
-  VccPin: {fileID: 0}
-  GndPin: {fileID: 0}
 --- !u!1 &6733403880340452567
 GameObject:
   m_ObjectHideFlags: 0

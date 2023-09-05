@@ -5,32 +5,18 @@ using UnityEngine;
 public class ICView : MonoBehaviour
 {
     public List<GameObject> Pins;
+    [SerializeField]
+    private ICLogic icLogic;
 
-    public ICBase thisIC = new();
+    [SerializeField]
+    private GameObject pinHolderGameobject;
 
-    public PinController VccPin;
-    public PinController GndPin;
+    public ICController Controller { get;private set; }
     private void Start()
     {
-        GetPins();
-        SetThisIC();
+        Controller = new(this,icLogic, pinHolderGameobject);
     }
 
-    private void SetThisIC()
-    {
-        thisIC.IcLogic = GetComponent<ICLogic>();
-        thisIC.ICSprite = GetComponent<SpriteRenderer>();
-        thisIC.Pins = Pins;
-        SimulatorManager.Instance.ICBases.Add(thisIC);
-    }
-
-    private void GetPins()
-    {
-        Transform PinsGameObject = transform.GetChild(1);
-        foreach (Transform child in PinsGameObject)
-        {
-            Pins.Add(child.gameObject);
-        }
-    }
+   
 
 }
