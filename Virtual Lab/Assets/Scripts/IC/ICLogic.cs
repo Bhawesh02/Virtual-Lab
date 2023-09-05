@@ -73,7 +73,7 @@ public class ICLogic : MonoBehaviour
 
     private void GetVccAndGndPinInIC(int VccPinNumber, int GndPinNumber, out PinController VccPinInIc, out PinController GndPinInIc)
     {
-        List<GameObject> pins = ICView.Controller.thisIC.Pins;
+        List<GameObject> pins = ICView.Controller.Model.thisIC.Pins;
         VccPinInIc = null;
         GndPinInIc = null;
         PinController pinController;

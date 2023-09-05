@@ -3,21 +3,19 @@ using UnityEngine;
 public class ICController 
 {
     private ICView view;
-    public ICBase thisIC{ get;private set; }
-
-    public PinController VccPin { get; private set; }
-    public PinController GndPin { get; private set; }
+    public ICModel Model { get; private set; }
     public ICController(ICView view,ICLogic iCLogic, GameObject PinsGameObject)
     {
         this.view = view;
         SetPins(PinsGameObject);
-        thisIC = new()
+        ICBase thisIC = new()
         {
             IcLogic = iCLogic,
             ICSprite = view.GetComponent<SpriteRenderer>(),
             Pins = view.Pins
         };
-        SimulatorManager.Instance.ICBases.Add(thisIC);
+        Model = new(thisIC);
+        SimulatorManager.Instance.ICBases.Add(Model.thisIC);
 
 
     }
@@ -30,12 +28,11 @@ public class ICController
     }
     public void SetVccPin(PinController vcc)
     {
-        VccPin = vcc;
+        Model.VccPin = vcc;
     }
     public void SetGndPin(PinController gnd)
     {
-        GndPin = gnd;
-
+        Model.GndPin = gnd;
     }
     
 }
