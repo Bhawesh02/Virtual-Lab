@@ -13,17 +13,15 @@ public class ICChangeService:GenericSingelton<ICChangeService> {
         if (numOfPinsInSelectedIcBase < numOfPinsInSelecetedIC)
             return;
 
-        if (this.icModel.IcLogic != null)
-        {
-            ValuePropagateService.Instance.ICLogics.Remove(this.icModel.IcLogic);
-        }
+        
+       ValuePropagateService.Instance.ICViews.Remove(this.icModel.Controller.View);
+        
         bool smallIcInBigBase = Is14pinbeingputin16pin(numOfPinsInSelectedIcBase, numOfPinsInSelecetedIC);
         this.icModel.ICSprite.sprite = this.icData.IcSprite;
-        this.icModel.IcLogic.enabled = true;
-        this.icModel.IcLogic.IcData = this.icData;
+        this.icModel.Controller.SetIcData(icData);
         SetInputAndOutputPins(smallIcInBigBase);
         SetVccAndGndPin(smallIcInBigBase);
-        ValuePropagateService.Instance.ICLogics.Add(this.icModel.IcLogic);
+        ValuePropagateService.Instance.ICViews.Add(this.icModel.Controller.View);
     }
     private bool Is14pinbeingputin16pin(int numOfPinsInSelectedIcBase,int numOfPinsInSelecetedIC)
     {
@@ -41,7 +39,7 @@ public class ICChangeService:GenericSingelton<ICChangeService> {
         ChangePinType(pinNumber, PinType.IcVcc);
         ValuePropagateService.Instance.IcVccPin.Add(icModel.Pins[pinNumber].GetComponent<PinController>());
         icModel.Pins[pinNumber].gameObject.AddComponent<OutputPinConnectionCheck>();
-        icModel.IcLogic.gameObject.GetComponent<ICView>().Controller.SetVccPin(icModel.Pins[pinNumber].GetComponent<PinController>()) ;
+        icModel.Controller.SetVccPin(icModel.Pins[pinNumber].GetComponent<PinController>()) ;
 
         //Gnd pin
         pinNumber = icData.GndPin - 1;
@@ -50,7 +48,7 @@ public class ICChangeService:GenericSingelton<ICChangeService> {
         ChangePinType(pinNumber, PinType.IcGnd);
         ValuePropagateService.Instance.IcGndPin.Add(icModel.Pins[pinNumber].GetComponent<PinController>());
         icModel.Pins[pinNumber].gameObject.AddComponent<OutputPinConnectionCheck>();
-        icModel.IcLogic.gameObject.GetComponent<ICView>().Controller.SetGndPin(icModel.Pins[pinNumber].GetComponent<PinController>());
+        icModel.Controller.SetGndPin(icModel.Pins[pinNumber].GetComponent<PinController>());
 
     }
 
