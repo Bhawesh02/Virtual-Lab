@@ -60,6 +60,23 @@ public class ICController : GateLogic
             return;
         RunLogicForEachGate();
     }
+    private void GetVccAndGndPinInIC(int VccPinNumber, int GndPinNumber, out PinController VccPinInIc, out PinController GndPinInIc)
+    {
+        List<PinController> pins = Model.Pins;
+        VccPinInIc = null;
+        GndPinInIc = null;
+        PinController pinController;
+        for (int i = 0; i < pins.Count; i++)
+        {
+            pinController = pins[i];
+            if (pinController.CurrentPinInfo.Type == PinType.IcVcc)
+                VccPinInIc = pins[i];
+
+            else if (pinController.CurrentPinInfo.Type == PinType.IcGnd)
+                GndPinInIc = pins[i];
+        }
+
+    }
 
     private void RunLogicForEachGate()
     {
@@ -95,24 +112,7 @@ public class ICController : GateLogic
         return false;
     }
 
-    private void GetVccAndGndPinInIC(int VccPinNumber, int GndPinNumber, out PinController VccPinInIc, out PinController GndPinInIc)
-    {
-        List<PinController> pins = Model.Pins;
-        VccPinInIc = null;
-        GndPinInIc = null;
-        PinController pinController;
-        for (int i = 0; i < pins.Count; i++)
-        {
-            pinController = pins[i];
-            if (pinController.CurrentPinInfo.Type == PinType.IcVcc)
-                VccPinInIc = pins[i];
-
-            else if (pinController.CurrentPinInfo.Type == PinType.IcGnd)
-                GndPinInIc = pins[i];
-        }
-
-    }
-
+   
     private void GenerateOutputValue(PinController outputPin, List<PinController> inputPins)
     {
         switch (Model.IcData.ICType)
