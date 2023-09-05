@@ -5,21 +5,21 @@ using UnityEngine;
 
 public class ICModel
 {
-    public ICBase thisIC { get; }
+    public SpriteRenderer ICSprite;
+    public ICLogic IcLogic;
+    public List<PinController> Pins;
 
-    //public List<PinController> Pins =new();
 
     public PinController VccPin;
     public PinController GndPin;
 
     public ICModel(ICLogic icLogic, SpriteRenderer spriteRenderer)
     {
-        thisIC = new()
-        {
-            IcLogic = icLogic,
-            ICSprite = spriteRenderer,
-            Pins = new()
-        };
+
+        IcLogic = icLogic;
+        ICSprite = spriteRenderer;
+        Pins = new();
+        
     }
 
 }

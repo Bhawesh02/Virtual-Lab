@@ -39,13 +39,13 @@ public class ICLogic : MonoBehaviour
         foreach (PinMapping gate in IcData.pinMapping)
         {
             int OutputPinIndex = gate.OutputPin - 1;
-            PinController OutputPin = GetComponent<ICView>().Controller.Model.thisIC.Pins[OutputPinIndex];
+            PinController OutputPin = GetComponent<ICView>().Controller.Model.Pins[OutputPinIndex];
             List<PinController> InputPins = new();
             bool anyInputNull = false;
             anyInputNull = CheckEachInputOfGate(gate, InputPins, anyInputNull);
             if (anyInputNull)
             {
-                OutputPin.GetComponent<PinController>().value = PinValue.Null;
+                OutputPin.value = PinValue.Null;
                 continue;
             }
             GenerateOutputValue(OutputPin, InputPins);
@@ -58,8 +58,8 @@ public class ICLogic : MonoBehaviour
         foreach (int inputPinNumber in gate.InputPin)
         {
             int InputPinIndex = inputPinNumber - 1;
-            PinController InputPin = GetComponent<ICView>().Controller.Model.thisIC.Pins[InputPinIndex];
-            if (InputPin.GetComponent<PinController>().value == PinValue.Null)
+            PinController InputPin = GetComponent<ICView>().Controller.Model.Pins[InputPinIndex];
+            if (InputPin.value == PinValue.Null)
             {
                 anyInputNull = true;
                 break;
@@ -73,18 +73,18 @@ public class ICLogic : MonoBehaviour
 
     private void GetVccAndGndPinInIC(int VccPinNumber, int GndPinNumber, out PinController VccPinInIc, out PinController GndPinInIc)
     {
-        List<PinController> pins = ICView.Controller.Model.thisIC.Pins;
+        List<PinController> pins = ICView.Controller.Model.Pins;
         VccPinInIc = null;
         GndPinInIc = null;
         PinController pinController;
         for (int i = 0;i< pins.Count; i++)
         {
-            pinController = pins[i].GetComponent<PinController>();
+            pinController = pins[i];
             if (pinController.CurrentPinInfo.Type == PinType.IcVcc)
-                VccPinInIc = pins[i].GetComponent<PinController>();
+                VccPinInIc = pins[i];
 
             else if (pinController.CurrentPinInfo.Type == PinType.IcGnd)
-                GndPinInIc = pins[i].GetComponent<PinController>();
+                GndPinInIc = pins[i];
         }
 
     }
@@ -116,7 +116,7 @@ public class ICLogic : MonoBehaviour
                 break;
         }
         if (outputPin.value != PinValue.Null)
-            ValuePropagateService.Instance.TransferData(outputPin.GetComponent<PinController>());
+            ValuePropagateService.Instance.TransferData(outputPin);
 
     }
 

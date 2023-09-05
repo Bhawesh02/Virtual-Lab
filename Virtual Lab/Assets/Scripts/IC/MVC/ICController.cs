@@ -11,7 +11,7 @@ public class ICController
         this.view = view;
         Model = new(iCLogic,view.GetComponent<SpriteRenderer>());
         
-        SimulatorManager.Instance.ICBases.Add(Model.thisIC);
+        SimulatorManager.Instance.ICModels.Add(Model);
 
 
     }
@@ -19,9 +19,9 @@ public class ICController
     {
         for (int i = 0; i < PinsGameObject.transform.childCount; i++)
         {
-            Model.thisIC.Pins.Add(PinsGameObject.transform.GetChild(i).gameObject.GetComponent<PinController>());
+            Model.Pins.Add(PinsGameObject.transform.GetChild(i).gameObject.GetComponent<PinController>());
         }
-        //Model.thisIC.Pins = Model.Pins;
+        //Model.Pins = Model.Pins;
     }
     public void SetVccPin(PinController vcc)
     {
