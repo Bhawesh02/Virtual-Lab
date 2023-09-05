@@ -1,29 +1,29 @@
 
 public class ICChangeService:GenericSingelton<ICChangeService> {
 
-    private ICBase icBase;
+    private ICModel icModel;
     private IC icData;
 
-    public void ChangeIc(ICBase icBase, IC icData)
+    public void ChangeIc(ICModel icModel, IC icData)
     {
-        this.icBase = icBase;
+        this.icModel = icModel;
         this.icData = icData;
-        int numOfPinsInSelectedIcBase = this.icBase.Pins.Count;
+        int numOfPinsInSelectedIcBase = this.icModel.Pins.Count;
         int numOfPinsInSelecetedIC = this.icData.inputPins.Length + this.icData.outputPins.Length + 2;
         if (numOfPinsInSelectedIcBase < numOfPinsInSelecetedIC)
             return;
 
-        if (this.icBase.IcLogic != null)
+        if (this.icModel.IcLogic != null)
         {
-            ValuePropagateService.Instance.ICLogics.Remove(this.icBase.IcLogic);
+            ValuePropagateService.Instance.ICLogics.Remove(this.icModel.IcLogic);
         }
         bool smallIcInBigBase = Is14pinbeingputin16pin(numOfPinsInSelectedIcBase, numOfPinsInSelecetedIC);
-        this.icBase.ICSprite.sprite = this.icData.IcSprite;
-        this.icBase.IcLogic.enabled = true;
-        this.icBase.IcLogic.IcData = this.icData;
+        this.icModel.ICSprite.sprite = this.icData.IcSprite;
+        this.icModel.IcLogic.enabled = true;
+        this.icModel.IcLogic.IcData = this.icData;
         SetInputAndOutputPins(smallIcInBigBase);
         SetVccAndGndPin(smallIcInBigBase);
-        ValuePropagateService.Instance.ICLogics.Add(this.icBase.IcLogic);
+        ValuePropagateService.Instance.ICLogics.Add(this.icModel.IcLogic);
     }
     private bool Is14pinbeingputin16pin(int numOfPinsInSelectedIcBase,int numOfPinsInSelecetedIC)
     {
@@ -39,18 +39,18 @@ public class ICChangeService:GenericSingelton<ICChangeService> {
         int pinNumber = icData.VccPin - 1;
         pinNumber = Skip8and9ifApplicable(smallIcInBigBase, pinNumber);
         ChangePinType(pinNumber, PinType.IcVcc);
-        ValuePropagateService.Instance.IcVccPin.Add(icBase.Pins[pinNumber].GetComponent<PinController>());
-        icBase.Pins[pinNumber].gameObject.AddComponent<OutputPinConnectionCheck>();
-        icBase.IcLogic.gameObject.GetComponent<ICView>().Controller.SetVccPin(icBase.Pins[pinNumber].GetComponent<PinController>()) ;
+        ValuePropagateService.Instance.IcVccPin.Add(icModel.Pins[pinNumber].GetComponent<PinController>());
+        icModel.Pins[pinNumber].gameObject.AddComponent<OutputPinConnectionCheck>();
+        icModel.IcLogic.gameObject.GetComponent<ICView>().Controller.SetVccPin(icModel.Pins[pinNumber].GetComponent<PinController>()) ;
 
         //Gnd pin
         pinNumber = icData.GndPin - 1;
         pinNumber = Skip8and9ifApplicable(smallIcInBigBase, pinNumber);
 
         ChangePinType(pinNumber, PinType.IcGnd);
-        ValuePropagateService.Instance.IcGndPin.Add(icBase.Pins[pinNumber].GetComponent<PinController>());
-        icBase.Pins[pinNumber].gameObject.AddComponent<OutputPinConnectionCheck>();
-        icBase.IcLogic.gameObject.GetComponent<ICView>().Controller.SetGndPin(icBase.Pins[pinNumber].GetComponent<PinController>());
+        ValuePropagateService.Instance.IcGndPin.Add(icModel.Pins[pinNumber].GetComponent<PinController>());
+        icModel.Pins[pinNumber].gameObject.AddComponent<OutputPinConnectionCheck>();
+        icModel.IcLogic.gameObject.GetComponent<ICView>().Controller.SetGndPin(icModel.Pins[pinNumber].GetComponent<PinController>());
 
     }
 
@@ -65,8 +65,8 @@ public class ICChangeService:GenericSingelton<ICChangeService> {
             pinNumber = Skip8and9ifApplicable(smallIcInBigBase, pinNumber);
 
             ChangePinType(pinNumber, PinType.IcInput);
-            ValuePropagateService.Instance.IcInputPins.Add(icBase.Pins[pinNumber].GetComponent<PinController>());
-            icBase.Pins[pinNumber].gameObject.AddComponent<OutputPinConnectionCheck>();
+            ValuePropagateService.Instance.IcInputPins.Add(icModel.Pins[pinNumber].GetComponent<PinController>());
+            icModel.Pins[pinNumber].gameObject.AddComponent<OutputPinConnectionCheck>();
         }
         for(int i = 0; i < icData.outputPins.Length; i++)
         {
@@ -75,7 +75,7 @@ public class ICChangeService:GenericSingelton<ICChangeService> {
             pinNumber = Skip8and9ifApplicable(smallIcInBigBase, pinNumber);
 
             ChangePinType(pinNumber, PinType.IcOutput);
-            ValuePropagateService.Instance.IcOutputPins.Add(icBase.Pins[pinNumber].GetComponent<PinController>());
+            ValuePropagateService.Instance.IcOutputPins.Add(icModel.Pins[pinNumber].GetComponent<PinController>());
         }
     }
     private static int Skip8and9ifApplicable(bool smallIcInBigBase, int pinNumber)
@@ -89,7 +89,7 @@ public class ICChangeService:GenericSingelton<ICChangeService> {
     }
     private void ChangePinType(int PinNumber, PinType type)
     {
-        PinInfo currentPinInfo = icBase.Pins[PinNumber].GetComponent<PinController>().CurrentPinInfo;
+        PinInfo currentPinInfo = icModel.Pins[PinNumber].GetComponent<PinController>().CurrentPinInfo;
         currentPinInfo.PinNumber = PinNumber + 1;
         currentPinInfo.Type = type;
 
