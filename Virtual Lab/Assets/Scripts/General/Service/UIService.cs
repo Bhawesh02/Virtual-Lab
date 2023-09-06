@@ -1,4 +1,5 @@
 
+using System;
 using TMPro;
 using UnityEditor;
 using UnityEngine;
@@ -28,34 +29,49 @@ public class UIService : MonoGenericSingelton<UIService>
 
     [SerializeField]
     private Image TruthTable;
-
+    [Header("Error Popup")]
+    [SerializeField]
+    private GameObject errorPopupGameObject;
+    [SerializeField]
+    private TextMeshProUGUI errorPopupMesssage;
+    [SerializeField]
+    private Button errorPopupOkButton;
 
     protected override void Awake()
     {
         base.Awake();
         SimulationStatus.text = "Simulation not running";
+        errorPopupGameObject.SetActive(false);
     }
 
     private void Start()
     {
-        startButton.onClick.AddListener(StartSimulation);
-        stopButton.onClick.AddListener(StopSimulation);
+        startButton.onClick.AddListener(EventService.Instance.InvokeSimulationStarted);
+        stopButton.onClick.AddListener(EventService.Instance.InvokeSimulationStopped);
         resetButton.onClick.AddListener(ResetConnection);
         undoButton.onClick.AddListener(UndoLastConnection);
         backButton.onClick.AddListener(() =>
           {
               backButton.transform.parent.gameObject.SetActive(false);
           });
-
+        errorPopupOkButton.onClick.AddListener(() =>
+        {
+            EventService.Instance.InvokeSimulationStopped();
+            errorPopupGameObject.SetActive(false);
+        });
+        EventService.Instance.SimulationStarted += StartSimulation;
+        EventService.Instance.SimulationStopped += StopSimulation;
         EventService.Instance.ShowICTT += ShowTruthTable;
+        EventService.Instance.ShowError += ShowErrorPopup;
     }
+
+    
 
     public void StartSimulation()
     {
         SimulationStatus.text = "Simulation Running";
         ICSpawnerService.Instance.gameObject.SetActive(false);
         currentStatusDisplayer.gameObject.SetActive(true);
-        EventService.Instance.InvokeSimulationStarted();
 
     }
     public void StopSimulation()
@@ -63,7 +79,6 @@ public class UIService : MonoGenericSingelton<UIService>
         SimulationStatus.text = "Simulation not running";
         ICSpawnerService.Instance.gameObject.SetActive(true);
         currentStatusDisplayer.gameObject.SetActive(false);
-        EventService.Instance.InvokeSimulationStopped();
     }
 
     private void ResetConnection()
@@ -90,8 +105,17 @@ public class UIService : MonoGenericSingelton<UIService>
         TruthTable.SetNativeSize();
         TruthTable.transform.parent.gameObject.SetActive(true);
     }
+
+    private void ShowErrorPopup(string message)
+    {
+        errorPopupGameObject.SetActive(true);
+        errorPopupMesssage.text = message;
+    }
     private void OnDestroy()
     {
+        EventService.Instance.SimulationStarted -= StartSimulation;
+        EventService.Instance.SimulationStopped -= StopSimulation;
         EventService.Instance.ShowICTT -= ShowTruthTable;
+        EventService.Instance.ShowError -= ShowErrorPopup;
     }
 }

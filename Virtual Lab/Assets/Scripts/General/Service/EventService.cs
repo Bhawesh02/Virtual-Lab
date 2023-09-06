@@ -11,6 +11,7 @@ public class EventService : MonoGenericSingelton<EventService>
     public event Action<IC> ShowICTT;
     public event Action<WireController> RemoveWireConnection;
     public event Action<ICModel, IC> ChangeIC;
+    public event Action<String> ShowError;
     public void InvokeSimulationStarted()
     {
         SimulationStarted?.Invoke();
@@ -39,5 +40,10 @@ public class EventService : MonoGenericSingelton<EventService>
     public void InvokeChangeIC(ICModel model, IC ic)
     {
         ChangeIC?.Invoke(model, ic);
+    }
+
+    public void InvokeShowError(String message)
+    {
+        ShowError?.Invoke(message);
     }
 }

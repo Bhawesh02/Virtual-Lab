@@ -52,7 +52,7 @@ public class ICController : GateLogic
         GetVccAndGndPinInIC(VccPinNumber, GndPinNumber, out PinController VccPinInIc, out PinController GndPinInIc);
         if (VccPinInIc.value != PinValue.Vcc || GndPinInIc.value != PinValue.Gnd)
         {
-            Debug.Log("VCC or Gnd notConnected / WrongConnected");
+            EventService.Instance.InvokeShowError("VCC or Gnd notConnected / WrongConnected for " +View.name);
             return;
         }
         if (Model.IcData.ICType == ICTypes.Null)
