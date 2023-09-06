@@ -28,12 +28,19 @@ public class UIService : MonoGenericSingelton<UIService>
 
     [SerializeField]
     private Image TruthTable;
-
+    [Header("Error Popup")]
+    [SerializeField]
+    private GameObject errorPopupGameObject;
+    [SerializeField]
+    private TextMeshProUGUI errorPopupMesssage;
+    [SerializeField]
+    private Button errorPopupOkButton;
 
     protected override void Awake()
     {
         base.Awake();
         SimulationStatus.text = "Simulation not running";
+        errorPopupGameObject.SetActive(false);
     }
 
     private void Start()
@@ -46,8 +53,13 @@ public class UIService : MonoGenericSingelton<UIService>
           {
               backButton.transform.parent.gameObject.SetActive(false);
           });
-
+        errorPopupOkButton.onClick.AddListener(() =>
+        {
+            EventService.Instance.InvokeSimulationStopped();
+            errorPopupGameObject.SetActive(false);
+        });
         EventService.Instance.ShowICTT += ShowTruthTable;
+
     }
 
     public void StartSimulation()

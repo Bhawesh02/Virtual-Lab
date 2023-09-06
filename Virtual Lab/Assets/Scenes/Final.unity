@@ -9188,6 +9188,9 @@ MonoBehaviour:
   undoButton: {fileID: 1906449557}
   currentStatusDisplayer: {fileID: 29665985}
   TruthTable: {fileID: 66039930}
+  errorPopupGameObject: {fileID: 1862599080}
+  errorPopupMesssage: {fileID: 1939745527}
+  errorPopupOkButton: {fileID: 568365033}
 --- !u!1001 &1446023262
 PrefabInstance:
   m_ObjectHideFlags: 0
