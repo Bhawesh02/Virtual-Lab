@@ -29,6 +29,9 @@ public class SimulatorManager : MonoGenericSingelton<SimulatorManager>
 
     private float rightClickDetectionRadius = 0.05f;
 
+    [SerializeField]
+    private LayerMask rightClickDetectionLayers;
+
     protected override void Awake()
     {
         base.Awake();
@@ -47,12 +50,19 @@ public class SimulatorManager : MonoGenericSingelton<SimulatorManager>
     }
     private void Update()
     {
+        if (!Input.GetMouseButtonDown(1))
+            return;
         mosuePos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
-        if (Input.GetMouseButtonDown(1))
+        Collider2D collider = Physics2D.OverlapCircle(mosuePos, rightClickDetectionRadius, rightClickDetectionLayers);
+        if (collider == null)
+            return;
+        ICView iCView = collider.GetComponent<ICView>();
+        if (iCView != null && iCView.Controller.Model.IcData != null)
         {
-            Collider2D collider = Physics2D.OverlapCircle(mosuePos, rightClickDetectionRadius);
-            Debug.Log(collider);
+            Debug.Log("Remove "+iCView.gameObject.name);
         }
+
+
     }
 
     private void OnDestroy()
@@ -66,5 +76,5 @@ public class SimulatorManager : MonoGenericSingelton<SimulatorManager>
             SimulationRunning = false;
         };
     }
-    
+
 }

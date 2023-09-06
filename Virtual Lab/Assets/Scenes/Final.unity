@@ -10719,6 +10719,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 740279446}
     - target: {fileID: 7563230793009488610, guid: 1d7b19d11fcd6d04f8ec61cf1bcfa742, type: 3}
+      propertyPath: rightClickDetectionLayers.m_Bits
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7563230793009488610, guid: 1d7b19d11fcd6d04f8ec61cf1bcfa742, type: 3}
       propertyPath: ICBases.Array.data[0].Pins.Array.size
       value: 14
       objectReference: {fileID: 0}
