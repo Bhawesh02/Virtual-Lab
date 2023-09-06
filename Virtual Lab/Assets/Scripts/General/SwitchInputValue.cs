@@ -18,6 +18,7 @@ public class SwitchInputValue : MonoBehaviour
         button.onClick.AddListener(() =>
         {
             ChangeInputValue();
+            if(SimulatorManager.Instance.SimulationRunning)
             EventService.Instance.InvokeInputValueChanged();
         });
     }
