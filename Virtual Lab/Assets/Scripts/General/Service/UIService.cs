@@ -1,9 +1,9 @@
 
 using TMPro;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-
 public class UIService : MonoGenericSingelton<UIService>
 {
     [SerializeField]
@@ -11,16 +11,17 @@ public class UIService : MonoGenericSingelton<UIService>
 
 
     [SerializeField]
-    private Button StartButton;
+    private Button startButton;
 
     [SerializeField]
-    private Button StopButton;
+    private Button stopButton;
 
     [SerializeField]
-    private Button ResetButton;
+    private Button resetButton;
     [SerializeField]
-    private Button BackButton;
-
+    private Button backButton;
+    [SerializeField]
+    private Button undoButton;
     [SerializeField]
     private CurrentStatusDisplayer currentStatusDisplayer;
 
@@ -37,12 +38,13 @@ public class UIService : MonoGenericSingelton<UIService>
 
     private void Start()
     {
-        StartButton.onClick.AddListener(StartSimulation);
-        StopButton.onClick.AddListener(StopSimulation);
-        ResetButton.onClick.AddListener(ResetConnection);
-        BackButton.onClick.AddListener(() =>
+        startButton.onClick.AddListener(StartSimulation);
+        stopButton.onClick.AddListener(StopSimulation);
+        resetButton.onClick.AddListener(ResetConnection);
+        undoButton.onClick.AddListener(UndoLastConnection);
+        backButton.onClick.AddListener(() =>
           {
-              BackButton.transform.parent.gameObject.SetActive(false);
+              backButton.transform.parent.gameObject.SetActive(false);
           });
 
         EventService.Instance.ShowICTT += ShowTruthTable;
@@ -69,6 +71,16 @@ public class UIService : MonoGenericSingelton<UIService>
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
+
+    private void UndoLastConnection()
+    {
+        if (SimulatorManager.Instance.SimulationRunning || SimulatorManager.Instance.WiresInSystem.Count == 0)
+            return;
+        WireController lastWire = SimulatorManager.Instance.WiresInSystem[^1];
+        WireService.Instance.RemoveWire(lastWire);
+    }
+
+    
 
     public void ShowTruthTable(IC icData)
     {

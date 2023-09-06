@@ -8846,10 +8846,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SimulationStatus: {fileID: 1575025352}
-  StartButton: {fileID: 1472212346}
-  StopButton: {fileID: 922665901}
-  ResetButton: {fileID: 1353936318}
-  BackButton: {fileID: 1002145318}
+  startButton: {fileID: 1472212346}
+  stopButton: {fileID: 922665901}
+  resetButton: {fileID: 1353936318}
+  backButton: {fileID: 1002145318}
+  undoButton: {fileID: 1906449557}
   currentStatusDisplayer: {fileID: 29665985}
   TruthTable: {fileID: 66039930}
 --- !u!1001 &1446023262
@@ -11963,6 +11964,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 061f231335c477f49864fc04163337c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  undoButton: {fileID: 0}
   lastWire: {fileID: 0}
 --- !u!114 &1911091964 stripped
 MonoBehaviour:
