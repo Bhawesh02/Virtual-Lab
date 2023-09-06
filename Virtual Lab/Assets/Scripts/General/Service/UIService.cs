@@ -77,7 +77,7 @@ public class UIService : MonoGenericSingelton<UIService>
         if (SimulatorManager.Instance.SimulationRunning || SimulatorManager.Instance.WiresInSystem.Count == 0)
             return;
         WireController lastWire = SimulatorManager.Instance.WiresInSystem[^1];
-        WireService.Instance.RemoveWire(lastWire);
+        EventService.Instance.InvokeRemoveWireConnection(lastWire);
     }
 
     

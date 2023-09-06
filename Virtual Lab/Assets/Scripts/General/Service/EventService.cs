@@ -9,6 +9,7 @@ public class EventService : MonoGenericSingelton<EventService>
     public event Action AllValuePropagated;
     public event Action InputValueChanged;
     public event Action<IC> ShowICTT;
+    public event Action<WireController> RemoveWireConnection;
     public void InvokeSimulationStarted()
     {
         SimulationStarted?.Invoke();
@@ -28,5 +29,9 @@ public class EventService : MonoGenericSingelton<EventService>
     public void InvokeShowICTT(IC ic)
     {
         ShowICTT?.Invoke(ic);
+    }
+    public void InvokeRemoveWireConnection(WireController wire)
+    {
+        RemoveWireConnection?.Invoke(wire);
     }
 }
