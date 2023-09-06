@@ -18,6 +18,7 @@ public class WireService : MonoGenericSingelton<WireService>
     private void Start()
     {
         wirePool = new(wirePrefab);
+        EventService.Instance.RemoveWireConnection += RemoveWireConnection;
     }
     private void Update()
     {
@@ -63,7 +64,7 @@ public class WireService : MonoGenericSingelton<WireService>
 
 
     #region Remove Connected Wire
-    public void RemoveWire(WireController wire)
+    public void RemoveWireConnection(WireController wire)
     {
         PinController inititalPin = wire.initialPin;
         PinController finalPin = wire.finalPin;
@@ -132,4 +133,9 @@ public class WireService : MonoGenericSingelton<WireService>
         }
     }
     #endregion
+
+    private void OnDestroy()
+    {
+        EventService.Instance.RemoveWireConnection -= RemoveWireConnection;
+    }
 }
