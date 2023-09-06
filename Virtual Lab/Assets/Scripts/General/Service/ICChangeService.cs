@@ -1,4 +1,7 @@
 
+using System;
+using UnityEngine;
+
 public class ICChangeService:GenericSingelton<ICChangeService> {
 
     private ICModel icModel;
@@ -8,6 +11,10 @@ public class ICChangeService:GenericSingelton<ICChangeService> {
     {
         this.icModel = icModel;
         this.icData = icData;
+        if (icModel.IcData != null)
+        {
+            RemoveWiresConnectedToIcBase();
+        }
         int numOfPinsInSelectedIcBase = this.icModel.Pins.Count;
         int numOfPinsInSelecetedIC = this.icData.inputPins.Length + this.icData.outputPins.Length + 2;
         if (numOfPinsInSelectedIcBase < numOfPinsInSelecetedIC)
@@ -23,6 +30,18 @@ public class ICChangeService:GenericSingelton<ICChangeService> {
         SetVccAndGndPin(smallIcInBigBase);
         ValuePropagateService.Instance.ICViews.Add(this.icModel.Controller.View);
     }
+
+    private void RemoveWiresConnectedToIcBase()
+    {
+            for(int i =0;i<icModel.Pins.Count;i++)
+        {
+            if (icModel.Pins[i].Wires.Count == 0)
+                continue;
+            for (int j = 0; j < icModel.Pins[i].Wires.Count; j++)
+                WireService.Instance.RemoveWire(icModel.Pins[i].Wires[j]);
+        }
+    }
+
     private bool Is14pinbeingputin16pin(int numOfPinsInSelectedIcBase,int numOfPinsInSelecetedIC)
     {
         if(numOfPinsInSelectedIcBase == 16 && numOfPinsInSelecetedIC == 14)
