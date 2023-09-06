@@ -1,11 +1,19 @@
 
 
-public class ICChangeService : GenericSingelton<ICChangeService>
+public class ICChangeService : MonoGenericSingelton<ICChangeService>
 {
 
     private ICModel icModel;
     private IC icData;
 
+    private void Start()
+    {
+        EventService.Instance.ChangeIC += ChangeIc;
+    }
+    private void OnDestroy()
+    {
+        EventService.Instance.ChangeIC -= ChangeIc;
+    }
     public void ChangeIc(ICModel icModel, IC icData)
     {
         this.icModel = icModel;
@@ -103,4 +111,7 @@ public class ICChangeService : GenericSingelton<ICChangeService>
         currentPinInfo.PinNumber = PinNumber + 1;
         currentPinInfo.Type = type;
     }
+    
+
+
 }

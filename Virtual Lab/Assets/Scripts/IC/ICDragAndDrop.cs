@@ -52,8 +52,7 @@ public class ICDragAndDrop : MonoBehaviour
         if(collided!=null)
         {
             ICModel IcModel = collided.GetComponent<ICView>().Controller.Model;
-            
-            IcChange.ChangeIc(IcModel, IcData);
+            EventService.Instance.InvokeChangeIC(IcModel, IcData);
         }
         ICSpawnerService.Instance.gameObject.SetActive(true);
         ICSpawnerService.Instance.TakeBackIc();
