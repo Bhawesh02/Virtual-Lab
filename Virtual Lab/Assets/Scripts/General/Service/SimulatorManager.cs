@@ -5,9 +5,8 @@ using UnityEngine;
 public class SimulatorManager : MonoGenericSingelton<SimulatorManager>
 {
 
-
-
-
+    [SerializeField]
+    private Camera mainCamera;
 
     public List<ICModel> ICModels = new();
 
@@ -19,12 +18,16 @@ public class SimulatorManager : MonoGenericSingelton<SimulatorManager>
     public Sprite PinPostive;
 
     public Sprite PinNegative;
-    
+
     public Sprite PinNull;
 
 
 
     public List<Color> colorList = new() { Color.red, Color.black, Color.blue };
+
+    private Vector2 mosuePos;
+
+    private float rightClickDetectionRadius = 0.05f;
 
     protected override void Awake()
     {
@@ -33,7 +36,8 @@ public class SimulatorManager : MonoGenericSingelton<SimulatorManager>
     }
     private void Start()
     {
-        EventService.Instance.SimulationStarted += () => {
+        EventService.Instance.SimulationStarted += () =>
+        {
             SimulationRunning = true;
         };
         EventService.Instance.SimulationStopped += () =>
@@ -41,10 +45,20 @@ public class SimulatorManager : MonoGenericSingelton<SimulatorManager>
             SimulationRunning = false;
         };
     }
+    private void Update()
+    {
+        mosuePos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+        if (Input.GetMouseButtonDown(1))
+        {
+            Collider2D collider = Physics2D.OverlapCircle(mosuePos, rightClickDetectionRadius);
+            Debug.Log(collider);
+        }
+    }
 
     private void OnDestroy()
     {
-        EventService.Instance.SimulationStarted -= () => {
+        EventService.Instance.SimulationStarted -= () =>
+        {
             SimulationRunning = true;
         };
         EventService.Instance.SimulationStopped -= () =>
@@ -52,6 +66,5 @@ public class SimulatorManager : MonoGenericSingelton<SimulatorManager>
             SimulationRunning = false;
         };
     }
-
-
+    
 }
