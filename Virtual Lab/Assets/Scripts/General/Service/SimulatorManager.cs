@@ -56,13 +56,17 @@ public class SimulatorManager : MonoGenericSingelton<SimulatorManager>
         Collider2D collider = Physics2D.OverlapCircle(mosuePos, rightClickDetectionRadius, rightClickDetectionLayers);
         if (collider == null)
             return;
+        rightClickIcBase(collider);
+
+    }
+
+    private void rightClickIcBase(Collider2D collider)
+    {
         ICView iCView = collider.GetComponent<ICView>();
         if (iCView != null && iCView.Controller.Model.IcData != null)
         {
-            Debug.Log("Remove "+iCView.gameObject.name);
+            EventService.Instance.InvokeChangeIC(iCView.Controller.Model,null);
         }
-
-
     }
 
     private void OnDestroy()

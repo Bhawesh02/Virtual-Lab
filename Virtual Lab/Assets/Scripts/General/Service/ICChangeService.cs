@@ -9,30 +9,42 @@ public class ICChangeService : MonoGenericSingelton<ICChangeService>
     private void Start()
     {
         EventService.Instance.ChangeIC += ChangeIc;
+        //EventService.Instance.RemoveIc += RemoveIcFromBase;
     }
     private void OnDestroy()
     {
         EventService.Instance.ChangeIC -= ChangeIc;
+        //EventService.Instance.RemoveIc -= RemoveIcFromBase;
     }
-    public void ChangeIc(ICModel icModel, IC icData)
+
+    #region change IC
+    private void ChangeIc(ICModel model, IC data)
     {
-        this.icModel = icModel;
-        this.icData = icData;
+        icModel = model;
+        icData = data;
         if (icModel.IcData != null)
         {
             RemoveWiresConnectedToIcBase();
         }
-        int numOfPinsInSelectedIcBase = this.icModel.Pins.Count;
-        int numOfPinsInSelecetedIC = this.icData.inputPins.Length + this.icData.outputPins.Length + 2;
-        if (numOfPinsInSelectedIcBase < numOfPinsInSelecetedIC)
-            return;
-        ValuePropagateService.Instance.ICViews.Remove(this.icModel.Controller.View);
-        bool smallIcInBigBase = Is14pinbeingputin16pin(numOfPinsInSelectedIcBase, numOfPinsInSelecetedIC);
-        this.icModel.ICSprite.sprite = this.icData.IcSprite;
-        this.icModel.Controller.SetIcData(icData);
-        SetInputAndOutputPins(smallIcInBigBase);
-        SetVccAndGndPin(smallIcInBigBase);
-        ValuePropagateService.Instance.ICViews.Add(this.icModel.Controller.View);
+        if (data != null)
+        {
+            int numOfPinsInSelectedIcBase = icModel.Pins.Count;
+            int numOfPinsInSelecetedIC = icData.inputPins.Length + icData.outputPins.Length + 2;
+            if (numOfPinsInSelectedIcBase < numOfPinsInSelecetedIC)
+                return;
+            bool smallIcInBigBase = Is14pinbeingputin16pin(numOfPinsInSelectedIcBase, numOfPinsInSelecetedIC);
+            icModel.ICSprite.sprite =   icData.IcSprite;
+            SetInputAndOutputPins(smallIcInBigBase);
+            SetVccAndGndPin(smallIcInBigBase);
+        }
+        else
+        {
+            icModel.ICSprite.sprite = null;
+        }
+        ValuePropagateService.Instance.ICViews.Remove(icModel.Controller.View);
+        icModel.Controller.SetIcData(data);
+        if (data != null)
+            ValuePropagateService.Instance.ICViews.Add(icModel.Controller.View);
     }
 
     private void RemoveWiresConnectedToIcBase()
@@ -111,7 +123,8 @@ public class ICChangeService : MonoGenericSingelton<ICChangeService>
         currentPinInfo.PinNumber = PinNumber + 1;
         currentPinInfo.Type = type;
     }
-    
 
+
+    #endregion
 
 }
