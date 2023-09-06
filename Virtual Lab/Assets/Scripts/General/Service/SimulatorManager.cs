@@ -15,7 +15,7 @@ public class SimulatorManager : MonoGenericSingelton<SimulatorManager>
 
     public List<ICModel> ICModels = new();
 
-    public List<WireController> Wires;
+    public List<WireController> WiresInSystem = new();
 
 
     public bool SimulationRunning;

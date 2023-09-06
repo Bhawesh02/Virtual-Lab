@@ -15,7 +15,7 @@ public class WireController : MonoBehaviour
 
     private void OnEnable()
     {
-        SimulatorManager.Instance.Wires.Add(this);
+        SimulatorManager.Instance.WiresInSystem.Add(this);
         valuePropagated = false;
         connectionDirection = ConnectionDirection.Null;
     }
@@ -175,6 +175,6 @@ public class WireController : MonoBehaviour
 
     private void OnDisable()
     {
-        SimulatorManager.Instance.Wires.Remove(this);
+        SimulatorManager.Instance.WiresInSystem.Remove(this);
     }
 }

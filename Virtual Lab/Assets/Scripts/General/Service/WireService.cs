@@ -60,4 +60,76 @@ public class WireService : MonoGenericSingelton<WireService>
     {
         wirePool.ReturnItem(wireToReturn);
     }
+
+
+    #region Remove Connected Wire
+    public void RemoveWire(WireController wire)
+    {
+        PinController inititalPin = wire.initialPin;
+        PinController finalPin = wire.finalPin;
+        ResetPinValue(inititalPin);
+        ResetPinValue(finalPin);
+        RemoveInputPinConnected(wire);
+        SimulatorManager.Instance.WiresInSystem.Remove(wire);
+        inititalPin.Wires.Remove(wire);
+        finalPin.Wires.Remove(wire);
+        ReturnWire(wire);
+    }
+    private static void ResetPinValue(PinController pin)
+    {
+        switch (pin.CurrentPinInfo.Type)
+        {
+            case PinType.Input:
+                pin.value = PinValue.Negative;
+                break;
+            case PinType.Vcc:
+                pin.value = PinValue.Vcc;
+                break;
+            case PinType.Gnd:
+                pin.value = PinValue.Gnd;
+                break;
+            default:
+                pin.value = PinValue.Null;
+                break;
+        }
+    }
+    private void RemoveInputPinConnected(WireController wire)
+    {
+        switch (wire.connectionDirection)
+        {
+            case ConnectionDirection.Null:
+                return;
+            case ConnectionDirection.InititalToFinal:
+                MakeIsInputConnectedFalse(wire.finalPin);
+                break;
+            case ConnectionDirection.FinalToInitial:
+                MakeIsInputConnectedFalse(wire.initialPin);
+                break;
+        }
+        wire.connectionDirection = ConnectionDirection.Null;
+    }
+
+    private void MakeIsInputConnectedFalse(PinController pin)
+    {
+        OutputPinConnectionCheck outputPin = pin.GetComponent<OutputPinConnectionCheck>();
+        if (outputPin == null)
+            return;
+        outputPin.IsInputPinConnected = false;
+        foreach (WireController wire in pin.Wires)
+        {
+            if (wire.connectionDirection == ConnectionDirection.Null)
+                continue;
+            wire.connectionDirection = ConnectionDirection.Null;
+            if (pin == wire.initialPin)
+            {
+                MakeIsInputConnectedFalse(wire.finalPin);
+            }
+            else
+            {
+                MakeIsInputConnectedFalse(wire.initialPin);
+
+            }
+        }
+    }
+    #endregion
 }

@@ -24,7 +24,7 @@ public class ValuePropagateService : MonoGenericSingelton<ValuePropagateService>
 
     public void StartTransfer()
     {
-        if (SimulatorManager.Instance.Wires.Count == 0)
+        if (SimulatorManager.Instance.WiresInSystem.Count == 0)
             return;
         SetWiresValuePropagetedToFalse();
         for (int i = 0; i < VccPins.Count; i++)
@@ -50,9 +50,9 @@ public class ValuePropagateService : MonoGenericSingelton<ValuePropagateService>
     private void SetWiresValuePropagetedToFalse()
     {
 
-        for(int i = 0;i< simulatorManager.Wires.Count; i++)
+        for(int i = 0;i< simulatorManager.WiresInSystem.Count; i++)
         {
-            simulatorManager.Wires[i].valuePropagated = false;
+            simulatorManager.WiresInSystem[i].valuePropagated = false;
         }
 
 
