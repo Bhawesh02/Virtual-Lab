@@ -1,4 +1,5 @@
 
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -20,19 +21,20 @@ public class CurrentStatusDisplayer : MonoBehaviour
 
     private void Awake()
     {
-        
         inputPinsWithWire = new();
         outputPinsWithWire = new();
         statuShowing = new();
     }
-    
+
     private void Start()
     {
         valuePropogate = ValuePropagateService.Instance;
         EventService.Instance.SimulationStopped += RemoveExsistingStatus;
         EventService.Instance.AllValuePropagated += ShowStatus;
+        gameObject.SetActive(false);
+
     }
-    
+   
     private void ShowStatus()
     {
         valuePropogate ??= ValuePropagateService.Instance;

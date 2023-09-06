@@ -26,7 +26,6 @@ public class SimulatorManager : MonoGenericSingelton<SimulatorManager>
 
     public List<Color> colorList = new() { Color.red, Color.black, Color.blue };
 
-
     protected override void Awake()
     {
         base.Awake();
@@ -42,6 +41,7 @@ public class SimulatorManager : MonoGenericSingelton<SimulatorManager>
             SimulationRunning = false;
         };
     }
+
     private void OnDestroy()
     {
         EventService.Instance.SimulationStarted -= () => {
