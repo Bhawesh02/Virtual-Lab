@@ -1,9 +1,10 @@
 
+using System;
 using TMPro;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-
 public class UIService : MonoGenericSingelton<UIService>
 {
     [SerializeField]
@@ -11,57 +12,73 @@ public class UIService : MonoGenericSingelton<UIService>
 
 
     [SerializeField]
-    private Button StartButton;
+    private Button startButton;
 
     [SerializeField]
-    private Button StopButton;
+    private Button stopButton;
 
     [SerializeField]
-    private Button ResetButton;
+    private Button resetButton;
     [SerializeField]
-    private Button BackButton;
-
+    private Button backButton;
+    [SerializeField]
+    private Button undoButton;
     [SerializeField]
     private CurrentStatusDisplayer currentStatusDisplayer;
 
 
     [SerializeField]
     private Image TruthTable;
-
+    [Header("Error Popup")]
+    [SerializeField]
+    private GameObject errorPopupGameObject;
+    [SerializeField]
+    private TextMeshProUGUI errorPopupMesssage;
+    [SerializeField]
+    private Button errorPopupOkButton;
 
     protected override void Awake()
     {
         base.Awake();
         SimulationStatus.text = "Simulation not running";
+        errorPopupGameObject.SetActive(false);
     }
 
     private void Start()
     {
-        StartButton.onClick.AddListener(StartSimulation);
-        StopButton.onClick.AddListener(StopSimulation);
-        ResetButton.onClick.AddListener(ResetConnection);
-        BackButton.onClick.AddListener(() =>
+        startButton.onClick.AddListener(EventService.Instance.InvokeSimulationStarted);
+        stopButton.onClick.AddListener(EventService.Instance.InvokeSimulationStopped);
+        resetButton.onClick.AddListener(ResetConnection);
+        undoButton.onClick.AddListener(UndoLastConnection);
+        backButton.onClick.AddListener(() =>
           {
-              BackButton.transform.parent.gameObject.SetActive(false);
+              backButton.transform.parent.gameObject.SetActive(false);
           });
-
-        EventService.Instance.RightClickOnIC += ShowTruthTable;
+        errorPopupOkButton.onClick.AddListener(() =>
+        {
+            EventService.Instance.InvokeSimulationStopped();
+            errorPopupGameObject.SetActive(false);
+        });
+        EventService.Instance.SimulationStarted += StartSimulation;
+        EventService.Instance.SimulationStopped += StopSimulation;
+        EventService.Instance.ShowICTT += ShowTruthTable;
+        EventService.Instance.ShowError += ShowErrorPopup;
     }
+
+    
 
     public void StartSimulation()
     {
         SimulationStatus.text = "Simulation Running";
-        ICSpawner.Instance.gameObject.SetActive(false);
+        ICSpawnerService.Instance.gameObject.SetActive(false);
         currentStatusDisplayer.gameObject.SetActive(true);
-        EventService.Instance.InvokeSimulationStarted();
 
     }
     public void StopSimulation()
     {
         SimulationStatus.text = "Simulation not running";
-        ICSpawner.Instance.gameObject.SetActive(true);
+        ICSpawnerService.Instance.gameObject.SetActive(true);
         currentStatusDisplayer.gameObject.SetActive(false);
-        EventService.Instance.InvokeSimulationStopped();
     }
 
     private void ResetConnection()
@@ -70,10 +87,35 @@ public class UIService : MonoGenericSingelton<UIService>
     }
 
 
+    private void UndoLastConnection()
+    {
+        if (SimulatorManager.Instance.SimulationRunning || SimulatorManager.Instance.WiresInSystem.Count == 0)
+            return;
+        WireController lastWire = SimulatorManager.Instance.WiresInSystem[^1];
+        EventService.Instance.InvokeRemoveWireConnection(lastWire);
+    }
+
+    
+
     public void ShowTruthTable(IC icData)
     {
+        if (SimulatorManager.Instance.SimulationRunning || WireService.Instance.doingConnection)
+            return;
         TruthTable.sprite = icData.TruthTable;
         TruthTable.SetNativeSize();
         TruthTable.transform.parent.gameObject.SetActive(true);
+    }
+
+    private void ShowErrorPopup(string message)
+    {
+        errorPopupGameObject.SetActive(true);
+        errorPopupMesssage.text = message;
+    }
+    private void OnDestroy()
+    {
+        EventService.Instance.SimulationStarted -= StartSimulation;
+        EventService.Instance.SimulationStopped -= StopSimulation;
+        EventService.Instance.ShowICTT -= ShowTruthTable;
+        EventService.Instance.ShowError -= ShowErrorPopup;
     }
 }

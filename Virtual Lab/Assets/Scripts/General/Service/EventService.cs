@@ -2,13 +2,16 @@
 
 using System;
 
-public class EventService : GenericSingelton<EventService>
+public class EventService : MonoGenericSingelton<EventService>
 {
     public event Action SimulationStarted;
     public event Action SimulationStopped;
     public event Action AllValuePropagated;
     public event Action InputValueChanged;
-    public event Action<IC> RightClickOnIC;
+    public event Action<IC> ShowICTT;
+    public event Action<WireController> RemoveWireConnection;
+    public event Action<ICModel, IC> ChangeIC;
+    public event Action<String> ShowError;
     public void InvokeSimulationStarted()
     {
         SimulationStarted?.Invoke();
@@ -25,8 +28,22 @@ public class EventService : GenericSingelton<EventService>
     {
         InputValueChanged?.Invoke();
     }
-    public void InvokeRightClickOnIC(IC ic)
+    public void InvokeShowICTT(IC ic)
     {
-        RightClickOnIC?.Invoke(ic);
+        ShowICTT?.Invoke(ic);
+    }
+    public void InvokeRemoveWireConnection(WireController wire)
+    {
+        RemoveWireConnection?.Invoke(wire);
+    }
+
+    public void InvokeChangeIC(ICModel model, IC ic)
+    {
+        ChangeIC?.Invoke(model, ic);
+    }
+
+    public void InvokeShowError(String message)
+    {
+        ShowError?.Invoke(message);
     }
 }

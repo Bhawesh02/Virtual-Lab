@@ -12,7 +12,7 @@ public class ValuePropagateService : MonoGenericSingelton<ValuePropagateService>
     public List<PinController> IcOutputPins;
     public List<PinController> IcVccPin;
     public List<PinController> IcGndPin;
-    public List<ICLogic> ICLogics;
+    public List<ICView> ICViews;
 
     private SimulatorManager simulatorManager;
     private void Start()
@@ -24,8 +24,11 @@ public class ValuePropagateService : MonoGenericSingelton<ValuePropagateService>
 
     public void StartTransfer()
     {
-        if (SimulatorManager.Instance.Wires.Count == 0)
+        if (SimulatorManager.Instance.WiresInSystem.Count == 0)
+        {
+            EventService.Instance.InvokeShowError("NO wires connected");
             return;
+        }
         SetWiresValuePropagetedToFalse();
         for (int i = 0; i < VccPins.Count; i++)
         {
@@ -41,18 +44,18 @@ public class ValuePropagateService : MonoGenericSingelton<ValuePropagateService>
         {
             TransferData(InputPins[i]);
         }
-        for (int i = 0; i < ICLogics.Count; i++)
+        for (int i = 0; i < ICViews.Count; i++)
         {
-            ICLogics[i].RunIcLogic();
+            ICViews[i].Controller.RunIcLogic();
         }
         EventService.Instance.InvokeAllValuePropagated();
     }
     private void SetWiresValuePropagetedToFalse()
     {
 
-        for(int i = 0;i< simulatorManager.Wires.Count; i++)
+        for(int i = 0;i< simulatorManager.WiresInSystem.Count; i++)
         {
-            simulatorManager.Wires[i].valuePropagated = false;
+            simulatorManager.WiresInSystem[i].valuePropagated = false;
         }
 
 
@@ -98,5 +101,11 @@ public class ValuePropagateService : MonoGenericSingelton<ValuePropagateService>
 
             }
         }
+    }
+    private void OnDestroy()
+    {
+
+        EventService.Instance.SimulationStarted -= StartTransfer;
+        EventService.Instance.InputValueChanged -= StartTransfer;
     }
 }

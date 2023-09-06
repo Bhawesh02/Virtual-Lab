@@ -5,7 +5,7 @@ public class ICDragAndDrop : MonoBehaviour
 {
     private SpriteRenderer spriteRenderer;
     public IC IcData;
-    private ICChange IcChange = new();
+    private ICChangeService IcChange = ICChangeService.Instance;
 
     [SerializeField]
     private float detectionRadius = 1f;
@@ -24,7 +24,7 @@ public class ICDragAndDrop : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         mainCamera = Camera.main;
     }
-    private void Start()
+    private void OnEnable ()
     {
         spriteRenderer.sprite = IcData.IcSprite;
         nextDetectionTime = Time.time;
@@ -51,11 +51,11 @@ public class ICDragAndDrop : MonoBehaviour
     {
         if(collided!=null)
         {
-            ICBase IcBase = collided.transform.parent.GetComponent<ICController>().thisIC;
-            IcChange.ChangeIc(IcBase, IcData);
+            ICModel IcModel = collided.GetComponent<ICView>().Controller.Model;
+            EventService.Instance.InvokeChangeIC(IcModel, IcData);
         }
-        ICSpawner.Instance.gameObject.SetActive(true);
-        Destroy(gameObject);
+        ICSpawnerService.Instance.gameObject.SetActive(true);
+        ICSpawnerService.Instance.TakeBackIc();
     }
 
     private void FixedUpdate()

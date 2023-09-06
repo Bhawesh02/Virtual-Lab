@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 6733403880079444427}
   - component: {fileID: 6733403880079444420}
-  - component: {fileID: 6733403880079444424}
-  - component: {fileID: 1964574943}
-  m_Layer: 0
+  - component: {fileID: 2113614037}
+  - component: {fileID: 1878067540}
+  m_Layer: 3
   m_Name: IC Base (14 pin)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -31,7 +31,6 @@ Transform:
   m_LocalScale: {x: 1.5950743, y: 1.571691, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1898104376617705351}
   - {fileID: 6733403880340452566}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -88,7 +87,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &6733403880079444424
+--- !u!114 &2113614037
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -97,30 +96,36 @@ MonoBehaviour:
   m_GameObject: {fileID: 6733403880079444421}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bbd4e86ac0d05aa4b9f161b2cdf815f9, type: 3}
+  m_Script: {fileID: 11500000, guid: 326d112c27fbd6246abc732a8803325d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IcData: {fileID: 0}
-  iCController: {fileID: 1964574943}
---- !u!114 &1964574943
-MonoBehaviour:
+  pinHolderGameobject: {fileID: 6733403880340452567}
+--- !u!61 &1878067540
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6733403880079444421}
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5c830172efe8bce49911249182c0368d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Pins: []
-  thisIC:
-    ICSprite: {fileID: 0}
-    IcLogic: {fileID: 0}
-    Pins: []
-  VccPin: {fileID: 0}
-  GndPin: {fileID: 0}
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.0073829815, y: 0.08945584}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.49381983, y: 1.0985949}
+  m_EdgeRadius: 0
 --- !u!1 &6733403880340452567
 GameObject:
   m_ObjectHideFlags: 0
@@ -164,66 +169,8 @@ Transform:
   - {fileID: 260100110096179091}
   - {fileID: 2360367436701779482}
   m_Father: {fileID: 6733403880079444427}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &8612859818910151345
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1898104376617705351}
-  - component: {fileID: 9214567419780251130}
-  m_Layer: 3
-  m_Name: Socket
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1898104376617705351
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8612859818910151345}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 6733403880079444427}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!61 &9214567419780251130
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8612859818910151345}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: -0.005025387, y: 0.14280514}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 0.6683228, y: 1.2856094}
-  m_EdgeRadius: 0
 --- !u!1001 &1948568384126139236
 PrefabInstance:
   m_ObjectHideFlags: 0
