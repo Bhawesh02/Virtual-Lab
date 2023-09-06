@@ -25,7 +25,10 @@ public class ValuePropagateService : MonoGenericSingelton<ValuePropagateService>
     public void StartTransfer()
     {
         if (SimulatorManager.Instance.WiresInSystem.Count == 0)
+        {
+            EventService.Instance.InvokeShowError("NO wires connected");
             return;
+        }
         SetWiresValuePropagetedToFalse();
         for (int i = 0; i < VccPins.Count; i++)
         {

@@ -1,10 +1,6 @@
 
 using System.Collections.Generic;
-using TMPro;
-using UnityEditor.MPE;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class SimulatorManager : MonoGenericSingelton<SimulatorManager>
 {
