@@ -16,6 +16,7 @@ public class MessageBubbleController : MonoBehaviour
     public void SetIndex(int index)
     {
         textMesh.text = "Index: " + index;
+        padding.x = 0.2f;
         SetSizeAndPos();
     }
 
@@ -29,7 +30,8 @@ public class MessageBubbleController : MonoBehaviour
 
     public void SetMessage(string message)
     {
-        textMesh.text = "message";
+        textMesh.text = message;
+        padding.x = 1f;
         SetSizeAndPos();
     }
 }

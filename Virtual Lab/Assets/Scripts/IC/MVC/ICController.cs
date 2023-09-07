@@ -1,18 +1,21 @@
 
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.RuleTile.TilingRuleOutput;
+
 public class ICController : GateLogic
 {
     public ICView View { get; }
     public ICModel Model { get; private set; }
-
+    private MessageBubbleController messageBubble;
+    private Vector2 messageBubbleOffset = new(0f, 0.5f);
 
     #region Constuctor and setter
     public ICController(ICView view)
     {
         this.View = view;
-        Model = new(view.GetComponent<SpriteRenderer>(),this);
-        
+        Model = new(view.GetComponent<SpriteRenderer>(), this);
+
         SimulatorManager.Instance.ICModels.Add(Model);
 
 
@@ -34,12 +37,12 @@ public class ICController : GateLogic
         Model.GndPin = gnd;
     }
 
-    public void SetIcData(IC idData )
+    public void SetIcData(IC idData)
     {
         Model.IcData = idData;
     }
     #endregion
-    
+
     #region Basic Ic Logic
 
     public void RunIcLogic()
@@ -52,7 +55,7 @@ public class ICController : GateLogic
         GetVccAndGndPinInIC(VccPinNumber, GndPinNumber, out PinController VccPinInIc, out PinController GndPinInIc);
         if (VccPinInIc.value != PinValue.Vcc || GndPinInIc.value != PinValue.Gnd)
         {
-            EventService.Instance.InvokeShowError("VCC or Gnd notConnected / WrongConnected for " +View.name);
+            EventService.Instance.InvokeShowError("VCC or Gnd notConnected / WrongConnected for " + View.name);
             return;
         }
         if (Model.IcData.ICType == ICTypes.Null)
@@ -97,7 +100,7 @@ public class ICController : GateLogic
 
     private bool CheckEachInputOfGate(PinMapping gate, List<PinController> InputPins)
     {
-        for(int i=0;i< gate.InputPin.Length; i++)
+        for (int i = 0; i < gate.InputPin.Length; i++)
         {
             int InputPinIndex = gate.InputPin[i] - 1;
             PinController InputPin = Model.Pins[InputPinIndex];
@@ -111,7 +114,7 @@ public class ICController : GateLogic
         return false;
     }
 
-   
+
     private void GenerateOutputValue(PinController outputPin, List<PinController> inputPins)
     {
         switch (Model.IcData.ICType)
@@ -147,6 +150,23 @@ public class ICController : GateLogic
 
     #endregion
 
-    
 
+    #region Message Bubble
+
+    public void ShowMessage()
+    {
+        if (WireService.Instance.doingConnection || Model.IcData == null)
+            return;
+        messageBubble = MessageBubblePoolService.Instance.GetBubble();
+        messageBubble.transform.SetParent(View.transform);
+        messageBubble.SetMessage("LeftClick: ShowTT , RightClick: Remove");
+        messageBubble.transform.position = (Vector2)View.transform.position + messageBubbleOffset;
+    }
+
+    public void RemoveMessage()
+    {
+        if (messageBubble != null)
+            MessageBubblePoolService.Instance.ReturnBubble(messageBubble);
+    }
+    #endregion
 }

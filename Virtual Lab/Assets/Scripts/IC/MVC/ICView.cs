@@ -8,6 +8,7 @@ public class ICView : MonoBehaviour
     [SerializeField]
     private GameObject pinHolderGameobject;
 
+    
 
     public ICController Controller { get;private set; }
     private void Start()
@@ -24,5 +25,12 @@ public class ICView : MonoBehaviour
         EventService.Instance.InvokeShowICTT(Controller.Model.IcData);
     }
 
-
+    private void OnMouseEnter()
+    {
+        Controller.ShowMessage();
+    }
+    private void OnMouseExit()
+    {
+        Controller.RemoveMessage();
+    }
 }
