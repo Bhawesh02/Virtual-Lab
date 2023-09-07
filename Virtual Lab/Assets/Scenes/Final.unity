@@ -10627,9 +10627,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: c6cbe990b7bd1af4baad0463cd9af849, type: 3}
     - target: {fileID: 7563230793009488610, guid: 1d7b19d11fcd6d04f8ec61cf1bcfa742, type: 3}
+      propertyPath: ShowGizmos
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7563230793009488610, guid: 1d7b19d11fcd6d04f8ec61cf1bcfa742, type: 3}
       propertyPath: StopButton
       value: 
       objectReference: {fileID: 922665901}
+    - target: {fileID: 7563230793009488610, guid: 1d7b19d11fcd6d04f8ec61cf1bcfa742, type: 3}
+      propertyPath: mainCamera
+      value: 
+      objectReference: {fileID: 1566435445}
     - target: {fileID: 7563230793009488610, guid: 1d7b19d11fcd6d04f8ec61cf1bcfa742, type: 3}
       propertyPath: ICSelection
       value: 
@@ -10710,6 +10718,10 @@ PrefabInstance:
       propertyPath: ICBases.Array.data[2].ICSprite
       value: 
       objectReference: {fileID: 740279446}
+    - target: {fileID: 7563230793009488610, guid: 1d7b19d11fcd6d04f8ec61cf1bcfa742, type: 3}
+      propertyPath: rightClickDetectionLayers.m_Bits
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 7563230793009488610, guid: 1d7b19d11fcd6d04f8ec61cf1bcfa742, type: 3}
       propertyPath: ICBases.Array.data[0].Pins.Array.size
       value: 14
@@ -10896,11 +10908,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7563230793009488611, guid: 1d7b19d11fcd6d04f8ec61cf1bcfa742, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 3.3025775
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7563230793009488611, guid: 1d7b19d11fcd6d04f8ec61cf1bcfa742, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.8579322
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7563230793009488611, guid: 1d7b19d11fcd6d04f8ec61cf1bcfa742, type: 3}
       propertyPath: m_LocalPosition.z

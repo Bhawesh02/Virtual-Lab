@@ -34,7 +34,7 @@ public class ICController : GateLogic
         Model.GndPin = gnd;
     }
 
-    public void SetIcData(IC idData)
+    public void SetIcData(IC idData )
     {
         Model.IcData = idData;
     }
