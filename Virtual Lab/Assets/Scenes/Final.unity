@@ -8715,7 +8715,7 @@ GameObject:
   - component: {fileID: 1393952290}
   - component: {fileID: 1393952291}
   m_Layer: 0
-  m_Name: IndexBubblePoolService
+  m_Name: MessageBubblePoolService
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8745,10 +8745,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1393952289}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ff48103dd88f5c3438702d9a24a20ca5, type: 3}
+  m_Script: {fileID: 11500000, guid: 71f6037de2d5e9842bd48b802fdc7ef6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  indexBubblePrefab: {fileID: 6652246612023225906, guid: b03553c5d30eee1438865d5f845c55f2, type: 3}
+  messageBubblePrefab: {fileID: 7950981470589728287, guid: b03553c5d30eee1438865d5f845c55f2, type: 3}
 --- !u!224 &1397340057 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4278721178804939507, guid: 873e1a658af785f4ea2e77ff94134c5d, type: 3}

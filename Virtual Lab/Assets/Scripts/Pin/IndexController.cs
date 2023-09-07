@@ -9,7 +9,7 @@ public class IndexController : MonoBehaviour
     private PinController pinController;
 
 
-    private IndexBubbleController indexBubble;
+    private MessageBubbleController indexBubble;
 
     [SerializeField]
     private Vector2 offset = new(0f, 0.5f);
@@ -24,7 +24,7 @@ public class IndexController : MonoBehaviour
         if (!SimulatorManager.Instance.SimulationRunning || pinController.Wires.Count == 0)
             return;
         
-        indexBubble = IndexBubblePoolService.Instance.GetBubble();
+        indexBubble = MessageBubblePoolService.Instance.GetBubble();
         indexBubble.transform.SetParent(transform);
         indexBubble.SetIndex(pinIndex);
         indexBubble.transform.position = (Vector2)transform.position + offset;
@@ -32,7 +32,7 @@ public class IndexController : MonoBehaviour
     private void OnMouseExit()
     {
         if (indexBubble != null)
-            IndexBubblePoolService.Instance.ReturnBubble(indexBubble);
+            MessageBubblePoolService.Instance.ReturnBubble(indexBubble);
 
     }
 }
