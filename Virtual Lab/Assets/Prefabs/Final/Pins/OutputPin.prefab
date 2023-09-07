@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 4234848526961563139}
   - component: {fileID: 8241158174435821955}
   - component: {fileID: -3384411790511376759}
-  - component: {fileID: 1747393095697768646}
   - component: {fileID: 8846312998393578565}
   m_Layer: 0
   m_Name: OutputPin
@@ -112,7 +111,6 @@ MonoBehaviour:
     PinNumber: 1
     pinConnection: {fileID: 0}
   Wires: []
-  wireGameObject: {fileID: 672502254965901130, guid: cda496722f5381943aabdb0782fd1ca3, type: 3}
 --- !u!114 &-3384411790511376759
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -126,21 +124,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsInputPinConnected: 0
---- !u!114 &1747393095697768646
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3226020027256994931}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f51da67c92cf06746ba973182aa71e3b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pinIndex: 0
-  indexBubblePrfab: {fileID: 6652246612023225906, guid: b03553c5d30eee1438865d5f845c55f2, type: 3}
-  offset: {x: 0, y: 0.5}
 --- !u!61 &8846312998393578565
 BoxCollider2D:
   m_ObjectHideFlags: 0

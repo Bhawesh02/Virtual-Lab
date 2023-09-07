@@ -62,7 +62,7 @@ public class CurrentStatusDisplayer : MonoBehaviour
             if (valuePropogate.InputPins[i].Wires.Count > 0)
             {
                 inputPinsWithWire.Add(valuePropogate.InputPins[i]);
-                valuePropogate.InputPins[i].GetComponent<IndexController>().SetPinIndex(inputPinsWithWire.Count - 1);
+                valuePropogate.InputPins[i].SetPinIndex(inputPinsWithWire.Count - 1);
 
             }
         }
@@ -71,7 +71,7 @@ public class CurrentStatusDisplayer : MonoBehaviour
             if (valuePropogate.OutputPins[i].Wires.Count > 0)
             {
                 outputPinsWithWire.Add(valuePropogate.OutputPins[i]);
-                valuePropogate.OutputPins[i].GetComponent<IndexController>().SetPinIndex(outputPinsWithWire.Count - 1);
+                valuePropogate.OutputPins[i].SetPinIndex(outputPinsWithWire.Count - 1);
 
             }
         }

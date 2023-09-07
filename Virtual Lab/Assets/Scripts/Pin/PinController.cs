@@ -7,7 +7,7 @@ public class PinController : MonoBehaviour
     public PinValue value;
     public PinInfo CurrentPinInfo;
     public List<WireController> Wires = new();
-    
+
 
     private SpriteRenderer ShowColor;
 
@@ -15,20 +15,24 @@ public class PinController : MonoBehaviour
 
     private WireService wireService;
 
+    private int pinIndex;
+    private MessageBubbleController messageBubble;
+    private Vector2 messageBubbleOffset = new(0f, 0.5f);
+
     private void Awake()
     {
         value = PinValue.Null;
         CurrentPinInfo.pinConnection = this;
-        ShowColor = null; 
+        ShowColor = null;
     }
-    
-    
+
+
 
     private void Start()
     {
         simulationManager = SimulatorManager.Instance;
         wireService = WireService.Instance;
-        
+
         if (CurrentPinInfo.Type == PinType.Input)
             value = PinValue.Negative;
 
@@ -36,10 +40,10 @@ public class PinController : MonoBehaviour
             value = PinValue.Vcc;
         if (CurrentPinInfo.Type == PinType.Gnd)
             value = PinValue.Gnd;
-        
+
         SendReferenceToValuePropagator();
 
-        if(CurrentPinInfo.Type == PinType.Input || CurrentPinInfo.Type == PinType.Output)
+        if (CurrentPinInfo.Type == PinType.Input || CurrentPinInfo.Type == PinType.Output)
         {
             ShowColor = transform.GetChild(0).GetComponent<SpriteRenderer>();
             ShowColor.sortingOrder = 1;
@@ -95,9 +99,7 @@ public class PinController : MonoBehaviour
 
     private void OnMouseDown()
     {
-        if (simulationManager.SimulationRunning)
-            return;
-        if (CurrentPinInfo.Type == PinType.Null)
+        if (simulationManager.SimulationRunning || CurrentPinInfo.Type == PinType.Null)
             return;
         if (!wireService.doingConnection)
         {
@@ -107,6 +109,22 @@ public class PinController : MonoBehaviour
         wireService.CompleteExsistingWire(this);
     }
 
-    
+    public void SetPinIndex(int index) => pinIndex = index;
+    private void OnMouseEnter()
+    {
+        if (!simulationManager.SimulationRunning || (CurrentPinInfo.Type != PinType.Input && CurrentPinInfo.Type != PinType.Output) || Wires.Count == 0)
+            return;
+        messageBubble = MessageBubblePoolService.Instance.GetBubble();
+        messageBubble.transform.SetParent(transform);
+        messageBubble.SetIndex(pinIndex);
+        if (CurrentPinInfo.Type == PinType.Output)
+            messageBubbleOffset.x = 0.5f;
+        messageBubble.transform.position = (Vector2)transform.position + messageBubbleOffset;
+    }
+    private void OnMouseExit()
+    {
+        if (messageBubble != null)
+            MessageBubblePoolService.Instance.ReturnBubble(messageBubble);
 
+    }
 }
