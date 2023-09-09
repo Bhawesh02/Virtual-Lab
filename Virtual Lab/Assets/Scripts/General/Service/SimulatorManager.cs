@@ -1,4 +1,5 @@
 
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -56,17 +57,26 @@ public class SimulatorManager : MonoGenericSingelton<SimulatorManager>
         Collider2D collider = Physics2D.OverlapCircle(mosuePos, rightClickDetectionRadius, rightClickDetectionLayers);
         if (collider == null)
             return;
-        rightClickIcBase(collider);
+        if (collider.GetComponent<ICView>())
+            RightClickIcBase(collider);
+        else if (collider.GetComponent<WireController>())
+            RightClickWire(collider);
 
     }
 
-    private void rightClickIcBase(Collider2D collider)
+    
+    private void RightClickIcBase(Collider2D collider)
     {
         ICView iCView = collider.GetComponent<ICView>();
         if (iCView != null && iCView.Controller.Model.IcData != null)
         {
-            EventService.Instance.InvokeChangeIC(iCView.Controller.Model,null);
+            EventService.Instance.InvokeChangeIC(iCView.Controller.Model, null);
         }
+    }
+    private void RightClickWire(Collider2D collider)
+    {
+        WireController wire = collider.GetComponent<WireController>();
+        WireService.Instance.RemoveWireConnection(wire);
     }
 
     private void OnDestroy()
