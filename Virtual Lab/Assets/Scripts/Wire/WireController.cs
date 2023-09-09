@@ -6,12 +6,15 @@ public class WireController : MonoBehaviour
 {
     [SerializeField]
     private LineRenderer lineRenderer;
+    [SerializeField]
+    private EdgeCollider2D edgeCollider;
     public PinController initialPin;
     public PinController finalPin;
 
     public bool valuePropagated;
    
     public ConnectionDirection connectionDirection;
+
 
     private void OnEnable()
     {
@@ -54,31 +57,22 @@ public class WireController : MonoBehaviour
         return !IsAInputPin(pin);
     }
 
-    private void ChangeIsInputPinConnected(PinController pin)
+    private void SetIsInputPinConnectedToTrue(PinController pin)
     {
         pin.gameObject.GetComponent<OutputPinConnectionCheck>().IsInputPinConnected = true;
-        /*foreach(WireController wire in pin.Wires)
-        {
-            if (SimulatorManager.Instance.WiresConnectionChecked.Contains(wire))
-                continue;
-            SimulatorManager.Instance.WiresConnectionChecked.Add(wire);
-            if (wire.initialPin == pin)
-                ChangeIsInputPinConnected(wire.finalPin);
-            else
-                ChangeIsInputPinConnected(wire.initialPin);
-        }*/
+        
         foreach(WireController wire in pin.Wires)
         {
             if(wire.initialPin == pin)
             {
                 if (wire.finalPin.GetComponent<OutputPinConnectionCheck>().IsInputPinConnected == true)
                     continue;
-                ChangeIsInputPinConnected(wire.finalPin);
+                SetIsInputPinConnectedToTrue(wire.finalPin);
                 continue;
             }
             if (wire.initialPin.GetComponent<OutputPinConnectionCheck>().IsInputPinConnected == true)
                 continue;
-            ChangeIsInputPinConnected(wire.initialPin);
+            SetIsInputPinConnectedToTrue(wire.initialPin);
 
         }
     }
@@ -99,7 +93,7 @@ public class WireController : MonoBehaviour
                 return;
             }
             
-            ChangeIsInputPinConnected(finalPin);
+            SetIsInputPinConnectedToTrue(finalPin);
             connectionDirection = ConnectionDirection.InititalToFinal;
             ChangeDirectionForConnectedWires(finalPin);
 
@@ -114,7 +108,7 @@ public class WireController : MonoBehaviour
                 WireService.Instance.ReturnWire(this);
                 return;
             }
-            ChangeIsInputPinConnected(initialPin);
+            SetIsInputPinConnectedToTrue(initialPin);
             connectionDirection = ConnectionDirection.FinalToInitial;
             ChangeDirectionForConnectedWires(initialPin);
 
@@ -133,14 +127,14 @@ public class WireController : MonoBehaviour
             }
             if (initialPin.gameObject.GetComponent<OutputPinConnectionCheck>().IsInputPinConnected)
             {
-                ChangeIsInputPinConnected(finalPin);
+                SetIsInputPinConnectedToTrue(finalPin);
                 connectionDirection = ConnectionDirection.InititalToFinal;
                 ChangeDirectionForConnectedWires(finalPin);
 
             }
             else if (finalPin.gameObject.GetComponent<OutputPinConnectionCheck>().IsInputPinConnected)
             {
-                ChangeIsInputPinConnected(initialPin);
+                SetIsInputPinConnectedToTrue(initialPin);
                 connectionDirection = ConnectionDirection.FinalToInitial;
                 ChangeDirectionForConnectedWires(initialPin);
             }
@@ -149,7 +143,7 @@ public class WireController : MonoBehaviour
         initialPin.Wires.Add(this);
         finalPin.Wires.Add(this);
         /*SimulatorManager.Instance.WiresConnectionChecked.Clear();*/
-
+        SetEdgeCollider();
     }
 
     private void ChangeDirectionForConnectedWires(PinController pin)
@@ -171,6 +165,17 @@ public class WireController : MonoBehaviour
 
             }
         }
+    }
+
+
+    private void SetEdgeCollider()
+    {
+        List<Vector2> edges = new();
+        for(int point = 0; point< lineRenderer.positionCount; point++)
+        {
+            edges.Add(lineRenderer.GetPosition(point));
+        }
+        edgeCollider.SetPoints(edges);
     }
 
     private void OnDisable()
