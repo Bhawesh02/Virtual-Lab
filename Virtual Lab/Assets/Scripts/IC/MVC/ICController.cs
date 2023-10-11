@@ -1,7 +1,6 @@
 
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public class ICController : GateLogic
 {
@@ -47,9 +46,10 @@ public class ICController : GateLogic
 
     public void RunIcLogic()
     {
+        if (!SimulatorManager.Instance.SimulationRunning)
+            return;
         if (Model.IcData == null)
             return;
-
         int VccPinNumber = Model.IcData.VccPin - 1;
         int GndPinNumber = Model.IcData.GndPin - 1;
         GetVccAndGndPinInIC(VccPinNumber, GndPinNumber, out PinController VccPinInIc, out PinController GndPinInIc);
@@ -87,30 +87,31 @@ public class ICController : GateLogic
             int OutputPinIndex = gate.OutputPin - 1;
             PinController OutputPin = Model.Pins[OutputPinIndex];
             List<PinController> InputPins = new();
-            bool anyInputNull = CheckEachInputOfGate(gate, InputPins);
-            if (anyInputNull)
+            bool allInputNull = CheckEachInputOfGate(gate, InputPins);
+            if (allInputNull)
             {
                 OutputPin.value = PinValue.Null;
                 continue;
             }
             GenerateOutputValue(OutputPin, InputPins);
-
         }
     }
 
     private bool CheckEachInputOfGate(PinMapping gate, List<PinController> InputPins)
     {
+        int numOfInputNull = 0;
         for (int i = 0; i < gate.InputPin.Length; i++)
         {
             int InputPinIndex = gate.InputPin[i] - 1;
             PinController InputPin = Model.Pins[InputPinIndex];
             if (InputPin.value == PinValue.Null)
             {
-                return true;
+                numOfInputNull++;
             }
             InputPins.Add(InputPin);
         }
-
+        if (numOfInputNull == gate.InputPin.Length)
+            return true;
         return false;
     }
 
