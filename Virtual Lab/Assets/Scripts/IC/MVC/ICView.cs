@@ -19,10 +19,12 @@ public class ICView : MonoBehaviour
     }
     private void Update()
     {
-        if(Time.time >= callTime)
+        if (!SimulatorManager.Instance.SimulationRunning)
+            return;
+        if (Time.time >= callTime)
         {
-            Controller.RunIcLogic();
-            callTime = Time.time + 1f;
+            ValuePropagateService.Instance.StartTransfer();
+            callTime = Time.time + 0.05f;
         }
     }
 

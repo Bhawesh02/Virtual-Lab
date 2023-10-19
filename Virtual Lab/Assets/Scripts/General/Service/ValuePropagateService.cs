@@ -1,5 +1,7 @@
 
+using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class ValuePropagateService : MonoGenericSingelton<ValuePropagateService> 
 {
@@ -82,26 +84,33 @@ public class ValuePropagateService : MonoGenericSingelton<ValuePropagateService>
             return;
         if (pin.Wires.Count == 0)
             return;
+        PinController transferFromPin = null,transferToPin = null;
         foreach (WireController wire in pin.Wires)
         {
+
             if (wire.valuePropagated)
                 continue;
             if (wire.initialPin == pin && DoesThisPinTakeValue(wire.finalPin))
             {
-                wire.finalPin.value = wire.initialPin.value;
-                wire.valuePropagated = true;
-                TransferData(wire.finalPin);
+                transferFromPin = wire.initialPin;
+                transferToPin = wire.finalPin;
             }
             else if (wire.finalPin == pin && DoesThisPinTakeValue(wire.initialPin))
             {
-
-                wire.initialPin.value = wire.finalPin.value;
-                wire.valuePropagated = true;
-                TransferData(wire.initialPin);
-
+                transferFromPin = wire.finalPin;
+                transferToPin = wire.initialPin;
             }
+            TransferValue(transferFromPin, transferToPin, wire);
         }
     }
+
+    private void TransferValue(PinController transferFromPin, PinController transferToPin, WireController wire)
+    {
+        transferToPin.value = transferFromPin.value;
+        wire.valuePropagated = true;
+        TransferData(transferToPin);
+    }
+
     private void OnDestroy()
     {
 

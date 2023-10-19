@@ -118,6 +118,7 @@ public class ICController : GateLogic
 
     private void GenerateOutputValue(PinController outputPin, List<PinController> inputPins)
     {
+        PinValue oldOutputPinValue = outputPin.value;
         switch (Model.IcData.ICType)
         {
             case ICTypes.Not:
@@ -142,7 +143,7 @@ public class ICController : GateLogic
                 Debug.Log("IC Logic Not given");
                 break;
         }
-        if (outputPin.value != PinValue.Null)
+        if (outputPin.value != PinValue.Null && outputPin.value != oldOutputPinValue)
             ValuePropagateService.Instance.TransferData(outputPin);
 
     }
