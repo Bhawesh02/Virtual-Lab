@@ -11,6 +11,7 @@ public class EventService : MonoGenericSingelton<EventService>
     public event Action<IC> ShowICTT;
     public event Action<WireController> RemoveWireConnection;
     public event Action<ICModel, IC> ChangeIC;
+    public event Action<PinController> OutputPinValueChange;
     public event Action<String> ShowError;
     public void InvokeSimulationStarted()
     {
@@ -45,5 +46,9 @@ public class EventService : MonoGenericSingelton<EventService>
     public void InvokeShowError(String message)
     {
         ShowError?.Invoke(message);
+    }
+    public void InvokeOutputPinValueChange(PinController pin)
+    {
+        OutputPinValueChange?.Invoke(pin);
     }
 }
