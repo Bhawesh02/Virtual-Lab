@@ -7,12 +7,13 @@ public class GateLogic
     {
         PinValue input1Value = inputPins[0].value;
         PinValue input2Value = inputPins[1].value;
-        if (input1Value == PinValue.Positive && input2Value == PinValue.Positive)
+
+        if (input1Value == PinValue.Negative || input2Value == PinValue.Negative)
         {
-            outputPin.value = PinValue.Negative;
+            outputPin.value = PinValue.Positive;
             return;
         }
-        outputPin.value = PinValue.Positive;
+        outputPin.value = PinValue.Negative;
     }
     protected void NorGateLogic(PinController outputPin, List<PinController> inputPins)
     {

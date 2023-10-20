@@ -1,7 +1,7 @@
 
+using System;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public class ICController : GateLogic
 {
@@ -47,9 +47,10 @@ public class ICController : GateLogic
 
     public void RunIcLogic()
     {
+        if (!SimulatorManager.Instance.SimulationRunning)
+            return;
         if (Model.IcData == null)
             return;
-
         int VccPinNumber = Model.IcData.VccPin - 1;
         int GndPinNumber = Model.IcData.GndPin - 1;
         GetVccAndGndPinInIC(VccPinNumber, GndPinNumber, out PinController VccPinInIc, out PinController GndPinInIc);
@@ -87,36 +88,49 @@ public class ICController : GateLogic
             int OutputPinIndex = gate.OutputPin - 1;
             PinController OutputPin = Model.Pins[OutputPinIndex];
             List<PinController> InputPins = new();
-            bool anyInputNull = CheckEachInputOfGate(gate, InputPins);
-            if (anyInputNull)
+            if (CheckAnyInputNotHaveWire(gate, InputPins))
             {
                 OutputPin.value = PinValue.Null;
                 continue;
             }
-            GenerateOutputValue(OutputPin, InputPins);
-
+            if (CheckAnyInputHasValue(gate))
+                GenerateOutputValue(OutputPin, InputPins);
         }
     }
 
-    private bool CheckEachInputOfGate(PinMapping gate, List<PinController> InputPins)
+
+    private bool CheckAnyInputNotHaveWire(PinMapping gate, List<PinController> InputPins)
     {
         for (int i = 0; i < gate.InputPin.Length; i++)
         {
             int InputPinIndex = gate.InputPin[i] - 1;
             PinController InputPin = Model.Pins[InputPinIndex];
-            if (InputPin.value == PinValue.Null)
+            if (InputPin.Wires.Count == 0)
             {
                 return true;
             }
             InputPins.Add(InputPin);
         }
-
         return false;
     }
 
+    private bool CheckAnyInputHasValue(PinMapping gate)
+    {
+        for (int i = 0; i < gate.InputPin.Length; i++)
+        {
+            int InputPinIndex = gate.InputPin[i] - 1;
+            PinController InputPin = Model.Pins[InputPinIndex];
+            if (InputPin.value != PinValue.Null)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 
     private void GenerateOutputValue(PinController outputPin, List<PinController> inputPins)
     {
+        PinValue oldOutputPinValue = outputPin.value;
         switch (Model.IcData.ICType)
         {
             case ICTypes.Not:
@@ -141,9 +155,14 @@ public class ICController : GateLogic
                 Debug.Log("IC Logic Not given");
                 break;
         }
-        if (outputPin.value != PinValue.Null)
-            ValuePropagateService.Instance.TransferData(outputPin);
-
+        if (outputPin.value == PinValue.Null)
+            return;
+        if (oldOutputPinValue != PinValue.Null && oldOutputPinValue != outputPin.value)
+        {
+            EventService.Instance.InvokeOutputPinValueChange(outputPin);
+            return;
+        }
+        ValuePropagateService.Instance.TransferData(outputPin);
     }
 
 

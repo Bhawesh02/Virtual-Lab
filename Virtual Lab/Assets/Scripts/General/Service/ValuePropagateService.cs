@@ -1,5 +1,8 @@
 
+using System;
+using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class ValuePropagateService : MonoGenericSingelton<ValuePropagateService> 
 {
@@ -20,6 +23,17 @@ public class ValuePropagateService : MonoGenericSingelton<ValuePropagateService>
         simulatorManager =SimulatorManager.Instance;
         EventService.Instance.SimulationStarted += StartTransfer;
         EventService.Instance.InputValueChanged += StartTransfer;
+        EventService.Instance.OutputPinValueChange += TransferNewOutputValue;
+    }
+    private void SetWiresValuePropagetedToFalse()
+    {
+
+        for (int i = 0; i < simulatorManager.WiresInSystem.Count; i++)
+        {
+            simulatorManager.WiresInSystem[i].valuePropagated = false;
+        }
+
+
     }
 
     public void StartTransfer()
@@ -50,29 +64,28 @@ public class ValuePropagateService : MonoGenericSingelton<ValuePropagateService>
         }
         EventService.Instance.InvokeAllValuePropagated();
     }
-    private void SetWiresValuePropagetedToFalse()
+
+
+    private void TransferNewOutputValue(PinController pin)
     {
-
-        for(int i = 0;i< simulatorManager.WiresInSystem.Count; i++)
-        {
-            simulatorManager.WiresInSystem[i].valuePropagated = false;
-        }
-
-
+        Debug.Log(pin.transform.name + " Value Changed");
+        ResetValueProgatedForWiresInPin(pin);
+        TransferData(pin);
     }
 
-    bool DoesThisPinTakeValue(PinController pin)
+    private static void ResetValueProgatedForWiresInPin(PinController pin)
     {
-        switch (pin.CurrentPinInfo.Type)
+        PinController transferedToPin = null;
+        foreach (WireController wire in pin.Wires)
         {
-            case PinType.Output:
-            case PinType.IcInput:
-            case PinType.IcVcc:
-            case PinType.IcGnd:
-                return true;
-            default:
-                return false;
-
+            if (!wire.valuePropagated)
+            { continue; }
+            if (wire.connectionDirection == ConnectionDirection.InititalToFinal)
+                transferedToPin = wire.finalPin;
+            else if (wire.connectionDirection == ConnectionDirection.FinalToInitial)
+                transferedToPin = wire.initialPin;
+            wire.valuePropagated = false;
+            ResetValueProgatedForWiresInPin(transferedToPin);
         }
     }
 
@@ -82,29 +95,35 @@ public class ValuePropagateService : MonoGenericSingelton<ValuePropagateService>
             return;
         if (pin.Wires.Count == 0)
             return;
+        PinController transferFromPin = null,transferToPin = null;
         foreach (WireController wire in pin.Wires)
         {
+
             if (wire.valuePropagated)
                 continue;
-            if (wire.initialPin == pin && DoesThisPinTakeValue(wire.finalPin))
+            if (wire.connectionDirection == ConnectionDirection.InititalToFinal)
             {
-                wire.finalPin.value = wire.initialPin.value;
-                wire.valuePropagated = true;
-                TransferData(wire.finalPin);
+                transferFromPin = wire.initialPin;
+                transferToPin = wire.finalPin;
             }
-            else if (wire.finalPin == pin && DoesThisPinTakeValue(wire.initialPin))
+            else if (wire.connectionDirection == ConnectionDirection.FinalToInitial)
             {
-
-                wire.initialPin.value = wire.finalPin.value;
-                wire.valuePropagated = true;
-                TransferData(wire.initialPin);
-
+                transferFromPin = wire.finalPin;
+                transferToPin = wire.initialPin;
             }
+            TransferValue(transferFromPin, transferToPin, wire);
         }
     }
+
+    private void TransferValue(PinController transferFromPin, PinController transferToPin, WireController wire)
+    {
+        transferToPin.value = transferFromPin.value;
+        wire.valuePropagated = true;
+        TransferData(transferToPin);
+    }
+
     private void OnDestroy()
     {
-
         EventService.Instance.SimulationStarted -= StartTransfer;
         EventService.Instance.InputValueChanged -= StartTransfer;
     }
