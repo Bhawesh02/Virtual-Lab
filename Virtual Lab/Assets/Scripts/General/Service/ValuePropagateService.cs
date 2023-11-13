@@ -16,6 +16,7 @@ public class ValuePropagateService : MonoGenericSingelton<ValuePropagateService>
     public List<PinController> IcVccPin;
     public List<PinController> IcGndPin;
     public List<ICView> ICViews;
+    public List<PinController> ClockPins;
 
     private SimulatorManager simulatorManager;
     private void Start()
@@ -53,7 +54,10 @@ public class ValuePropagateService : MonoGenericSingelton<ValuePropagateService>
         {
             TransferData(GndPins[i]);
         }
-
+        for(int i=0;i<ClockPins.Count; i++)
+        {
+            TransferData(ClockPins[i]);
+        }
         for (int i = 0; i < InputPins.Count; i++)
         {
             TransferData(InputPins[i]);
