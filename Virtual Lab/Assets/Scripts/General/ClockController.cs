@@ -1,36 +1,39 @@
 
-using System;
+using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ClockController : MonoBehaviour
 {
-    [field: SerializeField]
-    public PinController ClockPinController { get;private set; }
-
     [SerializeField]
-    private float pluseDelay = 1f;
-    private float changePluseTime;
+    private PinController highPin;
+    [SerializeField]
+    private PinController lowPin;
+    [SerializeField]
+    private Button monoShotButton;
+
+    private float changeToNullDelay = 0.05f;
     private void Start()
     {
-        ValuePropagateService.Instance.ClockPins.Add(ClockPinController);
-        EventService.Instance.SimulationStarted += () => { changePluseTime = Time.time + pluseDelay;  };
+        monoShotButton.onClick.AddListener(TransferMonoData);
+        highPin.value = PinValue.MonoNull;
+        lowPin.value = PinValue.MonoNull;
     }
 
-    private void Update()
+    private void TransferMonoData()
     {
         if (!SimulatorManager.Instance.SimulationRunning)
             return;
-        if(Time.time >= changePluseTime)
-        {
-            ChangeClockPinValue();
-        }
+        highPin.value = PinValue.Positive;
+        lowPin.value = PinValue.Negative;
+        EventService.Instance.InvokeInputValueChanged();
+        StartCoroutine(ChangeToNull());
     }
 
-    private void ChangeClockPinValue()
+    private IEnumerator ChangeToNull()
     {
-        if (ClockPinController.value == PinValue.Negative)
-            ClockPinController.value = PinValue.Positive;
-        else
-            ClockPinController.value = PinValue.Negative;
+        yield return new WaitForSeconds(changeToNullDelay);
+        highPin.value = PinValue.MonoNull;
+        lowPin.value = PinValue.MonoNull;
     }
 }

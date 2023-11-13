@@ -45,7 +45,7 @@ public class WireController : MonoBehaviour
 
     private bool IsAInputPin(PinController pin)
     {
-        if (pin.CurrentPinInfo.Type == PinType.Input || pin.CurrentPinInfo.Type == PinType.IcOutput || pin.CurrentPinInfo.Type == PinType.Vcc || pin.CurrentPinInfo.Type == PinType.Gnd)
+        if (pin.CurrentPinInfo.Type == PinType.MonoShot||pin.CurrentPinInfo.Type == PinType.Input || pin.CurrentPinInfo.Type == PinType.IcOutput || pin.CurrentPinInfo.Type == PinType.Vcc || pin.CurrentPinInfo.Type == PinType.Gnd)
             return true;
         
 

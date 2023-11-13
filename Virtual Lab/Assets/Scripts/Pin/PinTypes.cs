@@ -11,7 +11,8 @@ public enum PinType
     IcInput,
     IcOutput,
     IcVcc,
-    IcGnd
+    IcGnd,
+    MonoShot
 }
 
 public enum ConnectionDirection
@@ -27,7 +28,8 @@ public enum PinValue
     Positive,
     Negative,
     Vcc,
-    Gnd
+    Gnd,
+    MonoNull
 }
 [Serializable]
 public class PinInfo
