@@ -8,6 +8,7 @@ public enum ICTypes
     Nor,
     Not,
     Xor,
-    Nand
+    Nand,
+    ThreeInputNand
 }
 

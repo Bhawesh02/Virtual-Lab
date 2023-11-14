@@ -1,5 +1,6 @@
 
 using System.Collections.Generic;
+using Unity.VisualScripting;
 
 public class GateLogic
 {
@@ -7,8 +8,7 @@ public class GateLogic
     {
         PinValue input1Value = inputPins[0].value;
         PinValue input2Value = inputPins[1].value;
-        if (input1Value == PinValue.MonoNull || input2Value == PinValue.MonoNull)
-            return;
+        
         if (input1Value == PinValue.Negative || input2Value == PinValue.Negative)
         {
             outputPin.value = PinValue.Positive;
@@ -20,8 +20,7 @@ public class GateLogic
     {
         PinValue input1Value = inputPins[0].value;
         PinValue input2Value = inputPins[1].value;
-        if (input1Value == PinValue.MonoNull || input2Value == PinValue.MonoNull)
-            return;
+        
         if (input1Value == PinValue.Negative && input2Value == PinValue.Negative)
         {
             outputPin.value = PinValue.Positive;
@@ -34,8 +33,7 @@ public class GateLogic
     {
         PinValue input1Value = inputPins[0].value;
         PinValue input2Value = inputPins[1].value;
-        if (input1Value == PinValue.MonoNull || input2Value == PinValue.MonoNull)
-            return;
+        
         if (input1Value == PinValue.Negative || input2Value == PinValue.Negative)
         {
             outputPin.value = PinValue.Negative;
@@ -48,8 +46,7 @@ public class GateLogic
     {
         PinValue input1Value = inputPins[0].value;
         PinValue input2Value = inputPins[1].value;
-        if (input1Value == PinValue.MonoNull || input2Value == PinValue.MonoNull)
-            return;
+        
         if (input1Value == PinValue.Positive || input2Value == PinValue.Positive)
         {
             outputPin.value = PinValue.Positive;
@@ -71,8 +68,7 @@ public class GateLogic
     {
         PinValue inputValue1 = inputPins[0].value;
         PinValue inputValue2 = inputPins[1].value;
-        if (inputValue1 == PinValue.MonoNull || inputValue2 == PinValue.MonoNull)
-            return;
+        
         if (inputValue1 != inputValue2)
         {
             outputPin.value = PinValue.Positive;
@@ -81,5 +77,17 @@ public class GateLogic
         {
             outputPin.value = PinValue.Negative;
         }
+    }
+
+    protected void ThreeInputNandLogic(PinController outputPin, List<PinController> inputPins)
+    {
+        PinValue inputValue1 = inputPins[0].value;
+        PinValue inputValue2 = inputPins[1].value;
+        PinValue inputValue3 = inputPins[2].value;
+        
+        if(inputValue1 == PinValue.Negative||inputValue2==PinValue.Negative||inputValue3 == PinValue.Negative)
+            outputPin.value=PinValue.Positive;
+        else
+        outputPin.value = PinValue.Negative;
     }
 }
