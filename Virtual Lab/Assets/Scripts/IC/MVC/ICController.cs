@@ -151,6 +151,9 @@ public class ICController : GateLogic
             case ICTypes.Nand:
                 NandGateLogic(outputPin, inputPins);
                 break;
+            case ICTypes.ThreeInputNand:
+                ThreeInputNandLogic(outputPin, inputPins);
+                break;
             default:
                 Debug.Log("IC Logic Not given");
                 break;

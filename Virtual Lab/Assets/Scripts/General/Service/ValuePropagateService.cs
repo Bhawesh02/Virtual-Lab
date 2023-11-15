@@ -1,6 +1,4 @@
 
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,6 +14,7 @@ public class ValuePropagateService : MonoGenericSingelton<ValuePropagateService>
     public List<PinController> IcVccPin;
     public List<PinController> IcGndPin;
     public List<ICView> ICViews;
+    public List<PinController> ClockPins;
 
     private SimulatorManager simulatorManager;
     private void Start()
@@ -53,7 +52,10 @@ public class ValuePropagateService : MonoGenericSingelton<ValuePropagateService>
         {
             TransferData(GndPins[i]);
         }
-
+        for(int i=0;i<ClockPins.Count; i++)
+        {
+            TransferData(ClockPins[i]);
+        }
         for (int i = 0; i < InputPins.Count; i++)
         {
             TransferData(InputPins[i]);
@@ -68,7 +70,7 @@ public class ValuePropagateService : MonoGenericSingelton<ValuePropagateService>
 
     private void TransferNewOutputValue(PinController pin)
     {
-        Debug.Log(pin.transform.name + " Value Changed");
+        
         ResetValueProgatedForWiresInPin(pin);
         TransferData(pin);
     }
@@ -90,9 +92,9 @@ public class ValuePropagateService : MonoGenericSingelton<ValuePropagateService>
     }
 
     public void TransferData(PinController pin)
-    {
+    {/*
         if (pin.value == PinValue.Null)
-            return;
+            return;*/
         if (pin.Wires.Count == 0)
             return;
         PinController transferFromPin = null,transferToPin = null;

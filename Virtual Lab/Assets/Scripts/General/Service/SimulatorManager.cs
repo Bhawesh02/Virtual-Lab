@@ -32,11 +32,12 @@ public class SimulatorManager : MonoGenericSingelton<SimulatorManager>
 
     [SerializeField]
     private LayerMask rightClickDetectionLayers;
-
+    private float callTime;
     protected override void Awake()
     {
         base.Awake();
         SimulationRunning = false;
+        callTime = Time.time;
     }
     private void Start()
     {
@@ -51,6 +52,23 @@ public class SimulatorManager : MonoGenericSingelton<SimulatorManager>
     }
     private void Update()
     {
+        RightClickControl();
+        RunValuePropagatinAfterDelay();
+    }
+
+    private void RunValuePropagatinAfterDelay()
+    {
+        if (!SimulationRunning)
+            return;
+        if (Time.time >= callTime)
+        {
+            ValuePropagateService.Instance.StartTransfer();
+            callTime = Time.time + 0.05f;
+        }
+    }
+
+    private void RightClickControl()
+    {
         if (!Input.GetMouseButtonDown(1))
             return;
         mosuePos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
@@ -61,10 +79,8 @@ public class SimulatorManager : MonoGenericSingelton<SimulatorManager>
             RightClickIcBase(collider);
         else if (collider.GetComponent<WireController>())
             RightClickWire(collider);
-
     }
 
-    
     private void RightClickIcBase(Collider2D collider)
     {
         ICView iCView = collider.GetComponent<ICView>();

@@ -11,7 +11,8 @@ public enum PinType
     IcInput,
     IcOutput,
     IcVcc,
-    IcGnd
+    IcGnd,
+    MonoShot
 }
 
 public enum ConnectionDirection
