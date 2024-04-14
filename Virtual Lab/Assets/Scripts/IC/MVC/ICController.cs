@@ -9,6 +9,7 @@ public class ICController
     private Vector2 messageBubbleOffset = new(0f, 0.5f);
     private IcState currentIcState;
     private IcState basicGateIcState;
+    private IcState muxIcState;
     private bool isSmallIcInBigbase;
 
     
@@ -23,6 +24,7 @@ public class ICController
         Model = new(view.GetComponent<SpriteRenderer>(), this);
         SimulatorManager.Instance.ICModels.Add(Model);
         basicGateIcState = new BasicGateIcState(this);
+        muxIcState = new MuxIcState(this);
         EventService.Instance.ChangeIC += ChangeIc;
     }
 
@@ -59,6 +61,7 @@ public class ICController
                 currentIcState = basicGateIcState;
                 break;
             case ICTypes.MUX:
+                currentIcState = muxIcState;
                 break;
         }
         currentIcState.SetData();
