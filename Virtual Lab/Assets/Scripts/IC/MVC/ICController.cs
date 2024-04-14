@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class ICController
 {
-
     private MessageBubbleController messageBubble;
     private Vector2 messageBubbleOffset = new(0f, 0.5f);
     private IcState currentIcState;
@@ -12,10 +11,10 @@ public class ICController
     private IcState muxIcState;
     private bool isSmallIcInBigbase;
 
-    
+
     public ICView View { get; }
     public ICModel Model { get; }
-    
+
     #region Constuctor and setter
 
     public ICController(ICView view)
@@ -32,6 +31,7 @@ public class ICController
     {
         EventService.Instance.ChangeIC -= ChangeIc;
     }
+
     public void SetPins(GameObject pinsGameObject)
     {
         for (int i = 0; i < pinsGameObject.transform.childCount; i++)
@@ -64,6 +64,7 @@ public class ICController
                 currentIcState = muxIcState;
                 break;
         }
+
         currentIcState.SetData();
     }
 
@@ -71,7 +72,7 @@ public class ICController
 
     #region change IC
 
-    public void ChangeIc(ICView icView, IcData data)
+    private void ChangeIc(ICView icView, IcData data)
     {
         if (icView != View)
         {
@@ -158,6 +159,7 @@ public class ICController
         currentPinInfo.PinNumber = PinNumber + 1;
         currentPinInfo.Type = type;
     }
+
     #endregion
 
     #region Ic Logic
@@ -202,6 +204,26 @@ public class ICController
 
     #endregion
 
+    public void SetAsInputPin(int inputPin)
+    {
+        int inputPinNumber = inputPin - 1;
+        inputPinNumber = Skip8and9ifApplicable(inputPinNumber);
+        ChangePinType(inputPinNumber, PinType.IcInput);
+        PinController inputPinController = Model.Pins[inputPinNumber].GetComponent<PinController>();
+        inputPinController.value = PinValue.Negative;
+        ValuePropagateService.Instance.IcInputPins.Add(inputPinController);
+        Model.Pins[inputPinNumber].gameObject.AddComponent<OutputPinConnectionCheck>();
+    }
+
+    public void SetAsOutputPin(int outputPin)
+    {
+        int outputPinNumber = outputPin - 1;
+        outputPinNumber = Skip8and9ifApplicable(outputPinNumber);
+        ChangePinType(outputPinNumber, PinType.IcOutput);
+        PinController outputPinController = Model.Pins[outputPinNumber].GetComponent<PinController>();
+        outputPinController.value = PinValue.Negative;
+        ValuePropagateService.Instance.IcOutputPins.Add(outputPinController);
+    }
 
     #region Message Bubble
 

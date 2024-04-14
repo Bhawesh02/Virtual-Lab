@@ -39,16 +39,9 @@ public class BasicGateIcState : IcState
             int pinNumber;
             for (int pinIndex = 0; pinIndex < basicGatePinMapping.InputPin.Length; pinIndex++)
             {
-                pinNumber = basicGatePinMapping.InputPin[pinIndex] - 1;
-                pinNumber =_icController.Skip8and9ifApplicable(pinNumber);
-                _icController.ChangePinType(pinNumber, PinType.IcInput);
-                ValuePropagateService.Instance.IcInputPins.Add(_icController.Model.Pins[pinNumber].GetComponent<PinController>());
-                _icController.Model.Pins[pinNumber].gameObject.AddComponent<OutputPinConnectionCheck>();
+               _icController.SetAsInputPin(pinIndex);
             }
-            pinNumber = basicGatePinMapping.OutputPin - 1;
-            pinNumber = _icController.Skip8and9ifApplicable(pinNumber);
-            _icController.ChangePinType(pinNumber, PinType.IcOutput);
-            ValuePropagateService.Instance.IcOutputPins.Add(_icController.Model.Pins[pinNumber].GetComponent<PinController>());
+            _icController.SetAsOutputPin(basicGatePinMapping.OutputPin);
         }
     }
 

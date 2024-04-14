@@ -37,41 +37,21 @@ public class MuxIcState : IcState
     {
         foreach (int inputPin in _muxIcData.InputPins)
         {
-            SetAsInputPin(inputPin);
+            _icController.SetAsInputPin(inputPin);
         }
 
         foreach (int selectInputPin in _muxIcData.SelectInputPins)
         {
-            SetAsInputPin(selectInputPin);
+            _icController.SetAsInputPin(selectInputPin);
         }
 
-        SetAsInputPin(_muxIcData.StrobePin);
+        _icController.SetAsInputPin(_muxIcData.StrobePin);
         foreach (int outputPin in _muxIcData.OutpuPins)
         {
-            SetAsOutputPin(outputPin);
+            _icController.SetAsOutputPin(outputPin);
         }
     }
 
-    private void SetAsInputPin(int inputPin)
-    {
-        int inputPinNumber = inputPin - 1;
-        inputPinNumber = _icController.Skip8and9ifApplicable(inputPinNumber);
-        _icController.ChangePinType(inputPinNumber, PinType.IcInput);
-        PinController inputPinController = _icController.Model.Pins[inputPinNumber].GetComponent<PinController>();
-        inputPinController.value = PinValue.Negative;
-        ValuePropagateService.Instance.IcInputPins.Add(inputPinController);
-        _icController.Model.Pins[inputPinNumber].gameObject.AddComponent<OutputPinConnectionCheck>();
-    }
-
-    private void SetAsOutputPin(int outputPin)
-    {
-        int outputPinNumber = outputPin - 1;
-        outputPinNumber = _icController.Skip8and9ifApplicable(outputPinNumber);
-        _icController.ChangePinType(outputPinNumber, PinType.IcOutput);
-        PinController outputPinController = _icController.Model.Pins[outputPinNumber].GetComponent<PinController>();
-        outputPinController.value = PinValue.Negative;
-        ValuePropagateService.Instance.IcOutputPins.Add(outputPinController);
-    }
 
     private void SetOutPutValue(PinValue outputPinValue)
     {
@@ -79,7 +59,7 @@ public class MuxIcState : IcState
         {
             return;
         }
-        
+
         _outputPinCotroller.value = outputPinValue;
         _complimentOutputPinCotroller.value =
             outputPinValue == PinValue.Positive ? PinValue.Negative : PinValue.Positive;
