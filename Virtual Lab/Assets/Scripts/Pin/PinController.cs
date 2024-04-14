@@ -25,9 +25,6 @@ public class PinController : MonoBehaviour
         CurrentPinInfo.pinConnection = this;
         ShowColor = null;
     }
-
-
-
     private void Start()
     {
         simulationManager = SimulatorManager.Instance;

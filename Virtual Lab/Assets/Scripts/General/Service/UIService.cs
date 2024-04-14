@@ -97,11 +97,11 @@ public class UIService : MonoGenericSingelton<UIService>
 
     
 
-    public void ShowTruthTable(IC icData)
+    public void ShowTruthTable(IcData icDataData)
     {
         if (SimulatorManager.Instance.SimulationRunning || WireService.Instance.doingConnection)
             return;
-        TruthTable.sprite = icData.TruthTable;
+        TruthTable.sprite = icDataData.TruthTable;
         TruthTable.SetNativeSize();
         TruthTable.transform.parent.gameObject.SetActive(true);
     }

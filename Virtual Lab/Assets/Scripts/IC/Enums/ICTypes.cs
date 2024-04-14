@@ -1,14 +1,6 @@
-
-
 public enum ICTypes
 {
-    Null,
-    Or,
-    And,
-    Nor,
-    Not,
-    Xor,
-    Nand,
-    ThreeInputNand
+    NULL,
+    BASIC_GATES,
+    MUX
 }
-

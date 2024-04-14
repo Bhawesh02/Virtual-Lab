@@ -1,7 +1,7 @@
 using System;
 
 [Serializable]
-public class PinMapping
+public class BasicGatePinMapping
 {
     public int OutputPin;
     public int[] InputPin;

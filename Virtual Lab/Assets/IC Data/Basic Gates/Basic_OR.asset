@@ -9,15 +9,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7c155a7817433e478b8f1b7ccfa0c8e, type: 3}
-  m_Name: IC_AND
+  m_Script: {fileID: 11500000, guid: 78d03bd7cbaf43d0aca61ae979b48aab, type: 3}
+  m_Name: Basic_OR
   m_EditorClassIdentifier: 
-  IcSprite: {fileID: 21300000, guid: 280295d3cbd3ab94cb08a6fef9a1c4c5, type: 3}
-  TruthTable: {fileID: 21300000, guid: ce812663329004a46beb8f76524c1524, type: 3}
-  ICType: 2
-  inputPins: 01000000020000000400000005000000090000000a0000000c0000000d000000
-  outputPins: 0300000006000000080000000b000000
-  pinMapping:
+  IcSprite: {fileID: 21300000, guid: 3b04949ba9cc2604db03ad3ee06abf2b, type: 3}
+  TruthTable: {fileID: 21300000, guid: 70156b09d0649a24b90c15e79ab87101, type: 3}
+  ICType: 1
+  NoOfPins: 14
+  VccPin: 14
+  GndPin: 7
+  BasicGateType: 1
+  PinMapping:
   - OutputPin: 3
     InputPin: 0100000002000000
   - OutputPin: 6
@@ -26,5 +28,3 @@ MonoBehaviour:
     InputPin: 090000000a000000
   - OutputPin: 11
     InputPin: 0c0000000d000000
-  VccPin: 14
-  GndPin: 7

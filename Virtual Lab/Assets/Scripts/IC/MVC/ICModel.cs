@@ -12,7 +12,7 @@ public class ICModel
     public PinController VccPin;
     public PinController GndPin;
 
-    public IC IcData;
+    public IcData IcData;
 
     public ICController Controller { get; }
 

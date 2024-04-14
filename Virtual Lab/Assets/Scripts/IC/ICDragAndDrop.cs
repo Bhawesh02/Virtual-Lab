@@ -1,22 +1,18 @@
-
 using UnityEngine;
 
 public class ICDragAndDrop : MonoBehaviour
 {
     private SpriteRenderer spriteRenderer;
-    public IC IcData;
-    private ICChangeService IcChange = ICChangeService.Instance;
+    public IcData IcData;
 
-    [SerializeField]
-    private float detectionRadius = 1f;
+    [SerializeField] private float detectionRadius = 1f;
 
     private float detectionDelay = 0.1f;
 
     private float nextDetectionTime;
 
     private Collider2D collided;
-    [SerializeField]
-    private LayerMask IcBaseLayer;
+    [SerializeField] private LayerMask IcBaseLayer;
     private Camera mainCamera;
 
     private void Awake()
@@ -24,20 +20,23 @@ public class ICDragAndDrop : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         mainCamera = Camera.main;
     }
-    private void OnEnable ()
+
+    private void OnEnable()
     {
         spriteRenderer.sprite = IcData.IcSprite;
         nextDetectionTime = Time.time;
     }
+
     private void LateUpdate()
     {
-        if(Input.GetMouseButtonUp(0))
+        if (Input.GetMouseButtonUp(0))
         {
             MouseReleased();
         }
+
         Vector2 newPos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
-        transform.position = newPos; 
-        if(collided == null)
+        transform.position = newPos;
+        if (collided == null)
         {
             spriteRenderer.color = Color.red;
         }
@@ -49,10 +48,10 @@ public class ICDragAndDrop : MonoBehaviour
 
     private void MouseReleased()
     {
-        if(collided!=null)
+        if (collided != null)
         {
-            ICModel IcModel = collided.GetComponent<ICView>().Controller.Model;
-            EventService.Instance.InvokeChangeIC(IcModel, IcData);
+            ICView IcView = collided.GetComponent<ICView>();
+            EventService.Instance.InvokeChangeIC(IcView, IcData);
         }
         ICSpawnerService.Instance.gameObject.SetActive(true);
         ICSpawnerService.Instance.TakeBackIc();

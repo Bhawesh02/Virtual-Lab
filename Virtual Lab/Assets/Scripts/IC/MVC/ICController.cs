@@ -1,49 +1,163 @@
-
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ICController : GateLogic
+public class ICController
 {
-    public ICView View { get; }
-    public ICModel Model { get; private set; }
+
     private MessageBubbleController messageBubble;
     private Vector2 messageBubbleOffset = new(0f, 0.5f);
+    private IcState currentIcState;
+    private IcState basicGateIcState;
+    private bool isSmallIcInBigbase;
 
+    
+    public ICView View { get; }
+    public ICModel Model { get; }
+    
     #region Constuctor and setter
+
     public ICController(ICView view)
     {
-        this.View = view;
+        View = view;
         Model = new(view.GetComponent<SpriteRenderer>(), this);
-
         SimulatorManager.Instance.ICModels.Add(Model);
-
-
+        basicGateIcState = new BasicGateIcState(this);
+        EventService.Instance.ChangeIC += ChangeIc;
     }
-    public void SetPins(GameObject PinsGameObject)
+
+    ~ICController()
     {
-        for (int i = 0; i < PinsGameObject.transform.childCount; i++)
-        {
-            Model.Pins.Add(PinsGameObject.transform.GetChild(i).gameObject.GetComponent<PinController>());
-        }
-        //Model.Pins = Model.Pins;
+        EventService.Instance.ChangeIC -= ChangeIc;
     }
-    public void SetVccPin(PinController vcc)
+    public void SetPins(GameObject pinsGameObject)
+    {
+        for (int i = 0; i < pinsGameObject.transform.childCount; i++)
+        {
+            Model.Pins.Add(pinsGameObject.transform.GetChild(i).gameObject.GetComponent<PinController>());
+        }
+    }
+
+    private void SetVccPin(PinController vcc)
     {
         Model.VccPin = vcc;
     }
-    public void SetGndPin(PinController gnd)
+
+    private void SetGndPin(PinController gnd)
     {
         Model.GndPin = gnd;
     }
 
-    public void SetIcData(IC idData)
+    private void SetIcData(IcData icData)
     {
-        Model.IcData = idData;
+        Model.IcData = icData;
+        switch (icData.ICType)
+        {
+            case ICTypes.NULL:
+                break;
+            case ICTypes.BASIC_GATES:
+                currentIcState = basicGateIcState;
+                break;
+            case ICTypes.MUX:
+                break;
+        }
+        currentIcState.SetData();
+    }
+
+    #endregion
+
+    #region change IC
+
+    public void ChangeIc(ICView icView, IcData data)
+    {
+        if (icView != View)
+        {
+            return;
+        }
+
+        if (Model.IcData != null)
+        {
+            RemoveWiresConnectedToIcBase();
+        }
+
+        SetIcData(data);
+        if (data != null)
+        {
+            int numOfPinsInSelectedIcBase = Model.Pins.Count;
+            int numOfPinsInSelecetedIC = data.NoOfPins;
+            if (numOfPinsInSelectedIcBase < numOfPinsInSelecetedIC)
+                return;
+            isSmallIcInBigbase = Is14pinbeingputin16pin(numOfPinsInSelectedIcBase, numOfPinsInSelecetedIC);
+            Model.ICSprite.sprite = data.IcSprite;
+            SetVccAndGndPin(data);
+            currentIcState.SetPins();
+        }
+        else
+        {
+            Model.ICSprite.sprite = null;
+        }
+
+        ValuePropagateService.Instance.ICViews.Remove(View);
+        if (data != null)
+            ValuePropagateService.Instance.ICViews.Add(View);
+    }
+
+    private void RemoveWiresConnectedToIcBase()
+    {
+        for (int i = 0; i < Model.Pins.Count; i++)
+        {
+            if (Model.Pins[i].Wires.Count == 0)
+                continue;
+            for (int j = 0; j < Model.Pins[i].Wires.Count; j++)
+                EventService.Instance.InvokeRemoveWireConnection(Model.Pins[i].Wires[j]);
+        }
+    }
+
+    private bool Is14pinbeingputin16pin(int numOfPinsInSelectedIcBase, int numOfPinsInSelecetedIC)
+    {
+        if (numOfPinsInSelectedIcBase == 16 && numOfPinsInSelecetedIC == 14)
+            return true;
+        return false;
+    }
+
+
+    private void SetVccAndGndPin(IcData data)
+    {
+        // VCC pin
+        int pinNumber = data.VccPin - 1;
+        pinNumber = Skip8and9ifApplicable(pinNumber);
+        ChangePinType(pinNumber, PinType.IcVcc);
+        ValuePropagateService.Instance.IcVccPin.Add(Model.Pins[pinNumber].GetComponent<PinController>());
+        Model.Pins[pinNumber].gameObject.AddComponent<OutputPinConnectionCheck>();
+        Model.Controller.SetVccPin(Model.Pins[pinNumber].GetComponent<PinController>());
+        //Gnd pin
+        pinNumber = data.GndPin - 1;
+        pinNumber = Skip8and9ifApplicable(pinNumber);
+        ChangePinType(pinNumber, PinType.IcGnd);
+        ValuePropagateService.Instance.IcGndPin.Add(Model.Pins[pinNumber].GetComponent<PinController>());
+        Model.Pins[pinNumber].gameObject.AddComponent<OutputPinConnectionCheck>();
+        Model.Controller.SetGndPin(Model.Pins[pinNumber].GetComponent<PinController>());
+    }
+
+    public int Skip8and9ifApplicable(int pinNumber)
+    {
+        if (isSmallIcInBigbase && pinNumber + 1 >= 8)
+        {
+            pinNumber += 2;
+        }
+
+        return pinNumber;
+    }
+
+    public void ChangePinType(int PinNumber, PinType type)
+    {
+        PinInfo currentPinInfo = Model.Pins[PinNumber].CurrentPinInfo;
+        currentPinInfo.PinNumber = PinNumber + 1;
+        currentPinInfo.Type = type;
     }
     #endregion
 
-    #region Basic Ic Logic
+    #region Ic Logic
 
     public void RunIcLogic()
     {
@@ -51,19 +165,22 @@ public class ICController : GateLogic
             return;
         if (Model.IcData == null)
             return;
-        int VccPinNumber = Model.IcData.VccPin - 1;
-        int GndPinNumber = Model.IcData.GndPin - 1;
-        GetVccAndGndPinInIC(VccPinNumber, GndPinNumber, out PinController VccPinInIc, out PinController GndPinInIc);
+        int vccPinNumber = Model.IcData.VccPin - 1;
+        int gndPinNumber = Model.IcData.GndPin - 1;
+        GetVccAndGndPinInIC(vccPinNumber, gndPinNumber, out PinController VccPinInIc, out PinController GndPinInIc);
         if (VccPinInIc.value != PinValue.Vcc || GndPinInIc.value != PinValue.Gnd)
         {
             EventService.Instance.InvokeShowError("VCC or Gnd notConnected / WrongConnected for " + View.name);
             return;
         }
-        if (Model.IcData.ICType == ICTypes.Null)
+
+        if (Model.IcData.ICType == ICTypes.NULL)
             return;
-        RunLogicForEachGate();
+        currentIcState.RunLogic();
     }
-    private void GetVccAndGndPinInIC(int VccPinNumber, int GndPinNumber, out PinController VccPinInIc, out PinController GndPinInIc)
+
+    private void GetVccAndGndPinInIC(int VccPinNumber, int GndPinNumber, out PinController VccPinInIc,
+        out PinController GndPinInIc)
     {
         List<PinController> pins = Model.Pins;
         VccPinInIc = null;
@@ -78,97 +195,7 @@ public class ICController : GateLogic
             else if (pinController.CurrentPinInfo.Type == PinType.IcGnd)
                 GndPinInIc = pins[i];
         }
-
     }
-
-    private void RunLogicForEachGate()
-    {
-        foreach (PinMapping gate in Model.IcData.pinMapping)
-        {
-            int OutputPinIndex = gate.OutputPin - 1;
-            PinController OutputPin = Model.Pins[OutputPinIndex];
-            List<PinController> InputPins = new();
-            if (CheckAnyInputNotHaveWire(gate, InputPins))
-            {
-                OutputPin.value = PinValue.Null;
-                continue;
-            }
-            if (CheckAnyInputHasValue(gate))
-                GenerateOutputValue(OutputPin, InputPins);
-        }
-    }
-
-
-    private bool CheckAnyInputNotHaveWire(PinMapping gate, List<PinController> InputPins)
-    {
-        for (int i = 0; i < gate.InputPin.Length; i++)
-        {
-            int InputPinIndex = gate.InputPin[i] - 1;
-            PinController InputPin = Model.Pins[InputPinIndex];
-            if (InputPin.Wires.Count == 0)
-            {
-                return true;
-            }
-            InputPins.Add(InputPin);
-        }
-        return false;
-    }
-
-    private bool CheckAnyInputHasValue(PinMapping gate)
-    {
-        for (int i = 0; i < gate.InputPin.Length; i++)
-        {
-            int InputPinIndex = gate.InputPin[i] - 1;
-            PinController InputPin = Model.Pins[InputPinIndex];
-            if (InputPin.value != PinValue.Null)
-            {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private void GenerateOutputValue(PinController outputPin, List<PinController> inputPins)
-    {
-        PinValue oldOutputPinValue = outputPin.value;
-        switch (Model.IcData.ICType)
-        {
-            case ICTypes.Not:
-                NotGateLogic(outputPin, inputPins);
-                break;
-            case ICTypes.Or:
-                OrGateLogic(outputPin, inputPins);
-                break;
-            case ICTypes.And:
-                AndGateLogic(outputPin, inputPins);
-                break;
-            case ICTypes.Xor:
-                XorGateLogic(outputPin, inputPins);
-                break;
-            case ICTypes.Nor:
-                NorGateLogic(outputPin, inputPins);
-                break;
-            case ICTypes.Nand:
-                NandGateLogic(outputPin, inputPins);
-                break;
-            case ICTypes.ThreeInputNand:
-                ThreeInputNandLogic(outputPin, inputPins);
-                break;
-            default:
-                Debug.Log("IC Logic Not given");
-                break;
-        }
-        if (outputPin.value == PinValue.Null)
-            return;
-        if (oldOutputPinValue != PinValue.Null && oldOutputPinValue != outputPin.value)
-        {
-            EventService.Instance.InvokeOutputPinValueChange(outputPin);
-            return;
-        }
-        ValuePropagateService.Instance.TransferData(outputPin);
-    }
-
-
 
     #endregion
 
@@ -190,5 +217,6 @@ public class ICController : GateLogic
         if (messageBubble != null)
             MessageBubblePoolService.Instance.ReturnBubble(messageBubble);
     }
+
     #endregion
 }

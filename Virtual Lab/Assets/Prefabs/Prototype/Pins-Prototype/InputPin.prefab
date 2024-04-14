@@ -88,7 +88,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!61 &5993620344200623841
@@ -135,4 +135,4 @@ MonoBehaviour:
     PinNumber: 0
     pinConnection: {fileID: 0}
   Wires: []
-  wireGameObject: {fileID: 672502254965901130, guid: cda496722f5381943aabdb0782fd1ca3, type: 3}
+  _spriteRenderer: {fileID: 4234848526961563139}

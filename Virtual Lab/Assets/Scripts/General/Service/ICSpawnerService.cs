@@ -42,7 +42,7 @@ public class ICSpawnerService : MonoGenericSingelton<ICSpawnerService>
     private void SetIcSpawnerActive(bool value) {
         icSpawner.transform.gameObject.SetActive(value);
     }
-    public void SpawnIC(IC iCData)
+    public void SpawnIC(IcData iCData)
     {
         iCThatDrags.IcData = iCData;
         Vector2 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);

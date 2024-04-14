@@ -199,6 +199,7 @@ MonoBehaviour:
     PinNumber: 0
     pinConnection: {fileID: 0}
   Wires: []
+  _spriteRenderer: {fileID: 6968485173513293337}
 --- !u!61 &3027045708194580098
 BoxCollider2D:
   m_ObjectHideFlags: 0

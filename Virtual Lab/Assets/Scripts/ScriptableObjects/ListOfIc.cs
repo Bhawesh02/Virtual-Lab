@@ -5,6 +5,6 @@ using UnityEngine;
 [CreateAssetMenu(fileName ="NewICList")]
 public class ListOfIc : ScriptableObject
 {
-    public List<IC> IcList;
+    public List<IcData> IcList;
 
 }

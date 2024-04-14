@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using Unity.VisualScripting;
 
-public class GateLogic
+public static class GateLogic
 {
-    protected void NandGateLogic(PinController outputPin, List<PinController> inputPins)
+    public static void NandGateLogic(PinController outputPin, List<PinController> inputPins)
     {
         PinValue input1Value = inputPins[0].value;
         PinValue input2Value = inputPins[1].value;
@@ -16,7 +16,7 @@ public class GateLogic
         }
         outputPin.value = PinValue.Negative;
     }
-    protected void NorGateLogic(PinController outputPin, List<PinController> inputPins)
+    public static void NorGateLogic(PinController outputPin, List<PinController> inputPins)
     {
         PinValue input1Value = inputPins[0].value;
         PinValue input2Value = inputPins[1].value;
@@ -29,7 +29,7 @@ public class GateLogic
         outputPin.value = PinValue.Negative;
     }
 
-    protected void AndGateLogic(PinController outputPin, List<PinController> inputPins)
+    public static void AndGateLogic(PinController outputPin, List<PinController> inputPins)
     {
         PinValue input1Value = inputPins[0].value;
         PinValue input2Value = inputPins[1].value;
@@ -42,7 +42,7 @@ public class GateLogic
         outputPin.value = PinValue.Positive;
     }
 
-    protected void OrGateLogic(PinController outputPin, List<PinController> inputPins)
+    public static void OrGateLogic(PinController outputPin, List<PinController> inputPins)
     {
         PinValue input1Value = inputPins[0].value;
         PinValue input2Value = inputPins[1].value;
@@ -56,7 +56,7 @@ public class GateLogic
 
     }
 
-    protected void NotGateLogic(PinController outputPin, List<PinController> inputPins)
+    public static void NotGateLogic(PinController outputPin, List<PinController> inputPins)
     {
 
         if (inputPins[0].value == PinValue.Negative)
@@ -64,7 +64,7 @@ public class GateLogic
         else
             outputPin.value = PinValue.Negative;
     }
-    protected void XorGateLogic(PinController outputPin, List<PinController> inputPins)
+    public static void XorGateLogic(PinController outputPin, List<PinController> inputPins)
     {
         PinValue inputValue1 = inputPins[0].value;
         PinValue inputValue2 = inputPins[1].value;
@@ -79,7 +79,7 @@ public class GateLogic
         }
     }
 
-    protected void ThreeInputNandLogic(PinController outputPin, List<PinController> inputPins)
+    public static void ThreeInputNandLogic(PinController outputPin, List<PinController> inputPins)
     {
         PinValue inputValue1 = inputPins[0].value;
         PinValue inputValue2 = inputPins[1].value;

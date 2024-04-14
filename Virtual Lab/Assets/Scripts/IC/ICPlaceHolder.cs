@@ -4,7 +4,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 public class ICPlaceHolder : MonoBehaviour, IPointerDownHandler
 {
-    public IC IcData;
+    public IcData IcData;
 
     private Image image;
 

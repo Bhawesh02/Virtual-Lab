@@ -13,10 +13,4 @@ MonoBehaviour:
   m_Name: ICList
   m_EditorClassIdentifier: 
   IcList:
-  - {fileID: 11400000, guid: b837ecf0dc13c4844b5a2573d78ee10f, type: 2}
-  - {fileID: 11400000, guid: 5cef27beddaf9a64bb5a0deaa62896e7, type: 2}
-  - {fileID: 11400000, guid: cf7913c90c1a97648b696558a1bccc80, type: 2}
-  - {fileID: 11400000, guid: d5340cd5831c45a4183405dbeb5e3fbc, type: 2}
-  - {fileID: 11400000, guid: 6d8471530fdb59045b478c9a1bc28581, type: 2}
-  - {fileID: 11400000, guid: 9306ac6b2d5c88a4395cfc1d20e78ebc, type: 2}
-  - {fileID: 11400000, guid: 5a78139e3ce3e3d46bad9a898ac6570e, type: 2}
+  - {fileID: 11400000, guid: 82d2122fd30584541bab250a78e1bf58, type: 2}

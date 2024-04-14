@@ -111,6 +111,7 @@ MonoBehaviour:
     PinNumber: 1
     pinConnection: {fileID: 0}
   Wires: []
+  _spriteRenderer: {fileID: 2343669442623279285}
 --- !u!114 &-3384411790511376759
 MonoBehaviour:
   m_ObjectHideFlags: 0
