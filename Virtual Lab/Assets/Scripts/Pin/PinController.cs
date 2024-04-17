@@ -21,7 +21,6 @@ public class PinController : MonoBehaviour
 
     private void Awake()
     {
-        value = PinValue.Null;
         CurrentPinInfo.pinConnection = this;
         ShowColor = null;
     }
@@ -29,10 +28,6 @@ public class PinController : MonoBehaviour
     {
         simulationManager = SimulatorManager.Instance;
         wireService = WireService.Instance;
-
-        if (CurrentPinInfo.Type == PinType.Input)
-            value = PinValue.Negative;
-
         if (CurrentPinInfo.Type == PinType.Vcc)
             value = PinValue.Vcc;
         if (CurrentPinInfo.Type == PinType.Gnd)

@@ -1,7 +1,7 @@
 using System;
 
 [Serializable]
-public class BasicGatePinMapping
+public struct BasicGatePinMapping
 {
     public int OutputPin;
     public int[] InputPin;

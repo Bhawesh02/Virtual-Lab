@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 367920104137611472}
   - component: {fileID: 944902366410160673}
   m_Layer: 0
-  m_Name: 'Gnd Pin '
+  m_Name: Gnd Pin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

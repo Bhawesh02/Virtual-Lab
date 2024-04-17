@@ -9,6 +9,7 @@ public class ICController
     private IcState currentIcState;
     private IcState basicGateIcState;
     private IcState muxIcState;
+    private IcState flipFlopIcState;
     private bool isSmallIcInBigbase;
 
 
@@ -24,6 +25,7 @@ public class ICController
         SimulatorManager.Instance.ICModels.Add(Model);
         basicGateIcState = new BasicGateIcState(this);
         muxIcState = new MuxIcState(this);
+        flipFlopIcState = new FlipFlopIcState(this);
         EventService.Instance.ChangeIC += ChangeIc;
     }
 
@@ -62,6 +64,9 @@ public class ICController
                 break;
             case ICTypes.MUX:
                 currentIcState = muxIcState;
+                break;
+            case ICTypes.FLIP_FLOP:
+                currentIcState = flipFlopIcState;
                 break;
         }
 

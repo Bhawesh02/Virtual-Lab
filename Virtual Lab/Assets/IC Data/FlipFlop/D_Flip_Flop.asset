@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a22a47b9dd344a9a45454b0bf99ad7a, type: 3}
+  m_Name: D_Flip_Flop
+  m_EditorClassIdentifier: 
+  IcSprite: {fileID: 21300000, guid: 71561182e5c40b84ca0b66e617055c54, type: 3}
+  TruthTable: {fileID: 0}
+  ICType: 3
+  NoOfPins: 14
+  VccPin: 14
+  GndPin: 7
+  FlipFlopType: 2
+  FlipFlopPinMappings:
+  - InputPins: 02000000
+    OutputPins: 0500000006000000
+    ClockPin: 3
+    PresetPin: 4
+    ClearPin: 1
+  - InputPins: 0c000000
+    OutputPins: 0900000008000000
+    ClockPin: 11
+    PresetPin: 10
+    ClearPin: 13
