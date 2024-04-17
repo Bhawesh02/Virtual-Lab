@@ -193,13 +193,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bce882e7e8f69364d822dab1d09afd7f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  value: 0
+  value: 2
   CurrentPinInfo:
     Type: 1
     PinNumber: 0
     pinConnection: {fileID: 0}
   Wires: []
-  _spriteRenderer: {fileID: 6968485173513293337}
 --- !u!61 &3027045708194580098
 BoxCollider2D:
   m_ObjectHideFlags: 0

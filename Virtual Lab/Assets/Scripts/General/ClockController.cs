@@ -16,8 +16,6 @@ public class ClockController : MonoBehaviour
     private void Start()
     {
         monoShotButton.onClick.AddListener(TransferMonoData);
-        highPin.value = PinValue.Negative;
-        lowPin.value = PinValue.Positive;
     }
 
     private void TransferMonoData()
@@ -32,7 +30,7 @@ public class ClockController : MonoBehaviour
 
     private IEnumerator ChangeToNull()
     {
-        yield return new WaitForSeconds(changeToNullDelay);
+        yield return new WaitForEndOfFrame();
         highPin.value = PinValue.Negative;
         lowPin.value = PinValue.Positive;
     }

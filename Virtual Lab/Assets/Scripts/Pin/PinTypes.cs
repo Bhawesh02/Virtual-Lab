@@ -1,4 +1,3 @@
-
 using System;
 
 public enum PinType
@@ -30,6 +29,7 @@ public enum PinValue
     Vcc,
     Gnd
 }
+
 [Serializable]
 public class PinInfo
 {

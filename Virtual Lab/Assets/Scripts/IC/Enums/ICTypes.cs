@@ -2,5 +2,6 @@ public enum ICTypes
 {
     NULL,
     BASIC_GATES,
-    MUX
+    MUX,
+    FLIP_FLOP
 }
