@@ -105,13 +105,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bce882e7e8f69364d822dab1d09afd7f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  value: 0
+  value: 2
   CurrentPinInfo:
     Type: 2
     PinNumber: 1
     pinConnection: {fileID: 0}
   Wires: []
-  _spriteRenderer: {fileID: 2343669442623279285}
 --- !u!114 &-3384411790511376759
 MonoBehaviour:
   m_ObjectHideFlags: 0

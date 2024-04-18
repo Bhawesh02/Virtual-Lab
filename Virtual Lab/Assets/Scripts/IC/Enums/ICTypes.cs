@@ -3,5 +3,6 @@ public enum ICTypes
     NULL,
     BASIC_GATES,
     MUX,
-    FLIP_FLOP
+    FLIP_FLOP,
+    ASYNC_COUNTERS
 }
