@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfac057df5ab49ae9c6dc108efe977ac, type: 3}
+  m_Name: MOD_10
+  m_EditorClassIdentifier: 
+  IcSprite: {fileID: 21300000, guid: d764f4c4ca224e84d9b73f58076286b0, type: 3}
+  TruthTable: {fileID: 0}
+  ICType: 4
+  NoOfPins: 14
+  VccPin: 5
+  GndPin: 10
+  AsynchronousCountersType: 3
+  asynchronousCounterPinMappings:
+  - AsynchronousCountersType: 1
+    ClockPin: 14
+    OutputPins: 0c000000
+    SetPin: 6
+    ResetPin: 2
+    TimesClocksChanged: 0
+    HasEncounteredHighState: 0
+  - AsynchronousCountersType: 2
+    ClockPin: 1
+    OutputPins: 09000000080000000b000000
+    SetPin: 7
+    ResetPin: 3
+    TimesClocksChanged: 0
+    HasEncounteredHighState: 0

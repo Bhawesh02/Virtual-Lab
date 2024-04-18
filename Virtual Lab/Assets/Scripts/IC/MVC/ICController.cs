@@ -10,6 +10,7 @@ public class ICController
     private IcState basicGateIcState;
     private IcState muxIcState;
     private IcState flipFlopIcState;
+    private IcState asynConterIcState;
     private bool isSmallIcInBigbase;
 
 
@@ -26,6 +27,7 @@ public class ICController
         basicGateIcState = new BasicGateIcState(this);
         muxIcState = new MuxIcState(this);
         flipFlopIcState = new FlipFlopIcState(this);
+        asynConterIcState = new AsynchronousCounterIcState(this);
         EventService.Instance.ChangeIC += ChangeIc;
     }
 
@@ -67,6 +69,9 @@ public class ICController
                 break;
             case ICTypes.FLIP_FLOP:
                 currentIcState = flipFlopIcState;
+                break;
+            case ICTypes.ASYNC_COUNTERS:
+                currentIcState = asynConterIcState;
                 break;
         }
 
@@ -158,10 +163,11 @@ public class ICController
         return pinNumber;
     }
 
-    public void ChangePinType(int PinNumber, PinType type)
+    public void ChangePinType(int pinNumber, PinType type)
     {
-        PinInfo currentPinInfo = Model.Pins[PinNumber].CurrentPinInfo;
-        currentPinInfo.PinNumber = PinNumber + 1;
+        Debug.Log(pinNumber);
+        PinInfo currentPinInfo = Model.Pins[pinNumber].CurrentPinInfo;
+        currentPinInfo.PinNumber = pinNumber + 1;
         currentPinInfo.Type = type;
     }
 
@@ -228,6 +234,8 @@ public class ICController
         PinController outputPinController = Model.Pins[outputPinNumber].GetComponent<PinController>();
         outputPinController.value = PinValue.Negative;
         ValuePropagateService.Instance.IcOutputPins.Add(outputPinController);
+        EventService.Instance.InvokeOutputPinValueChange(outputPinController);
+        ValuePropagateService.Instance.TransferData(outputPinController);
     }
 
     #region Message Bubble

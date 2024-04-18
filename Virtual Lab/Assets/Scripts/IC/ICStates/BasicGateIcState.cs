@@ -39,7 +39,8 @@ public class BasicGateIcState : IcState
             int pinNumber;
             for (int pinIndex = 0; pinIndex < basicGatePinMapping.InputPin.Length; pinIndex++)
             {
-               _icController.SetAsInputPin(pinIndex);
+                pinNumber = basicGatePinMapping.InputPin[pinIndex];
+               _icController.SetAsInputPin(pinNumber);
             }
             _icController.SetAsOutputPin(basicGatePinMapping.OutputPin);
         }
