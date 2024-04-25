@@ -16,11 +16,10 @@ public class SimulatorManager : MonoGenericSingelton<SimulatorManager>
 
     public bool SimulationRunning;
 
-    public Sprite PinPostive;
+    public Color PinPostive;
 
-    public Sprite PinNegative;
+    public Color PinNegative;
 
-    public Sprite PinNull;
 
 
 

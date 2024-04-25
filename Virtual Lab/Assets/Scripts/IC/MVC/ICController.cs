@@ -165,7 +165,6 @@ public class ICController
 
     public void ChangePinType(int pinNumber, PinType type)
     {
-        Debug.Log(pinNumber);
         PinInfo currentPinInfo = Model.Pins[pinNumber].CurrentPinInfo;
         currentPinInfo.PinNumber = pinNumber + 1;
         currentPinInfo.Type = type;

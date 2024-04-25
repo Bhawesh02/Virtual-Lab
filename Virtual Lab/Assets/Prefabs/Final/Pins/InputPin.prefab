@@ -121,6 +121,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2844023280850261906}
+  - {fileID: 7078048033217602458}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -199,6 +200,7 @@ MonoBehaviour:
     PinNumber: 0
     pinConnection: {fileID: 0}
   Wires: []
+  colorLight: {fileID: 3710594966073537163}
 --- !u!61 &3027045708194580098
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -225,3 +227,76 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.5700392, y: 0.98903465}
   m_EdgeRadius: 0
+--- !u!1001 &7921826902143249460
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 8331559604035333755}
+    m_Modifications:
+    - target: {fileID: 1141025578690269102, guid: 7a2cdb4c65d5534449c92327ccd174bc, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1141025578690269102, guid: 7a2cdb4c65d5534449c92327ccd174bc, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.018
+      objectReference: {fileID: 0}
+    - target: {fileID: 1141025578690269102, guid: 7a2cdb4c65d5534449c92327ccd174bc, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.461
+      objectReference: {fileID: 0}
+    - target: {fileID: 1141025578690269102, guid: 7a2cdb4c65d5534449c92327ccd174bc, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1141025578690269102, guid: 7a2cdb4c65d5534449c92327ccd174bc, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1141025578690269102, guid: 7a2cdb4c65d5534449c92327ccd174bc, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1141025578690269102, guid: 7a2cdb4c65d5534449c92327ccd174bc, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1141025578690269102, guid: 7a2cdb4c65d5534449c92327ccd174bc, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1141025578690269102, guid: 7a2cdb4c65d5534449c92327ccd174bc, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1141025578690269102, guid: 7a2cdb4c65d5534449c92327ccd174bc, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1141025578690269102, guid: 7a2cdb4c65d5534449c92327ccd174bc, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1721525939938458695, guid: 7a2cdb4c65d5534449c92327ccd174bc, type: 3}
+      propertyPath: m_Name
+      value: Pin Light
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 7a2cdb4c65d5534449c92327ccd174bc, type: 3}
+--- !u!114 &3710594966073537163 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6814322195105046207, guid: 7a2cdb4c65d5534449c92327ccd174bc, type: 3}
+  m_PrefabInstance: {fileID: 7921826902143249460}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 073797afb82c5a1438f328866b10b3f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &7078048033217602458 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1141025578690269102, guid: 7a2cdb4c65d5534449c92327ccd174bc, type: 3}
+  m_PrefabInstance: {fileID: 7921826902143249460}
+  m_PrefabAsset: {fileID: 0}
