@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78d03bd7cbaf43d0aca61ae979b48aab, type: 3}
   m_Name: Basic_3NAND
   m_EditorClassIdentifier: 
-  IcSprite: {fileID: 21300000, guid: 2148b3b4cabcf4b4b8b4cff7d21fe29d, type: 3}
+  IcSprite: {fileID: 21300000, guid: 90deba71d814fe449ac372c5de7a1967, type: 3}
   TruthTable: {fileID: 0}
   ICType: 1
   NoOfPins: 14

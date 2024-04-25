@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 267b3e2600d54d73ac67222e53ebf67c, type: 3}
   m_Name: Mux_8x1
   m_EditorClassIdentifier: 
-  IcSprite: {fileID: 21300000, guid: 2148b3b4cabcf4b4b8b4cff7d21fe29d, type: 3}
+  IcSprite: {fileID: 21300000, guid: e32b69870672dfd40a375bff75a5f51e, type: 3}
   TruthTable: {fileID: 0}
   ICType: 2
   NoOfPins: 16
