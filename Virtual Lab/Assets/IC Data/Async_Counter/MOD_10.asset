@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfac057df5ab49ae9c6dc108efe977ac, type: 3}
   m_Name: MOD_10
   m_EditorClassIdentifier: 
-  IcSprite: {fileID: 21300000, guid: d764f4c4ca224e84d9b73f58076286b0, type: 3}
+  IcSprite: {fileID: 21300000, guid: 2148b3b4cabcf4b4b8b4cff7d21fe29d, type: 3}
   TruthTable: {fileID: 0}
   ICType: 4
   NoOfPins: 14

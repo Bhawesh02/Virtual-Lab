@@ -22,7 +22,7 @@ public class ICController
     public ICController(ICView view)
     {
         View = view;
-        Model = new(view.GetComponent<SpriteRenderer>(), this);
+        Model = new(view.IcSprite, this);
         SimulatorManager.Instance.ICModels.Add(Model);
         basicGateIcState = new BasicGateIcState(this);
         muxIcState = new MuxIcState(this);
@@ -165,7 +165,6 @@ public class ICController
 
     public void ChangePinType(int pinNumber, PinType type)
     {
-        Debug.Log(pinNumber);
         PinInfo currentPinInfo = Model.Pins[pinNumber].CurrentPinInfo;
         currentPinInfo.PinNumber = pinNumber + 1;
         currentPinInfo.Type = type;

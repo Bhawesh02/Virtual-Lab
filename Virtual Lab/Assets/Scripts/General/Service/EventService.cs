@@ -29,7 +29,7 @@ public class EventService : MonoGenericSingelton<EventService>
     {
         InputValueChanged?.Invoke();
     }
-    public void InvokeShowICTT(IcData icData)
+    public void InvokeShowICTruthTable(IcData icData)
     {
         ShowICTT?.Invoke(icData);
     }

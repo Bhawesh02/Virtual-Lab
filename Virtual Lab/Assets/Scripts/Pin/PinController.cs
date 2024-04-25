@@ -1,6 +1,6 @@
-
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class PinController : MonoBehaviour
 {
@@ -8,8 +8,7 @@ public class PinController : MonoBehaviour
     public PinInfo CurrentPinInfo;
     public List<WireController> Wires = new();
 
-
-    private SpriteRenderer ShowColor;
+    [SerializeField] private Light2D colorLight;
 
     private SimulatorManager simulationManager;
 
@@ -22,8 +21,8 @@ public class PinController : MonoBehaviour
     private void Awake()
     {
         CurrentPinInfo.pinConnection = this;
-        ShowColor = null;
     }
+
     private void Start()
     {
         simulationManager = SimulatorManager.Instance;
@@ -35,10 +34,9 @@ public class PinController : MonoBehaviour
 
         SendReferenceToValuePropagator();
 
-        if (CurrentPinInfo.Type == PinType.Input || CurrentPinInfo.Type == PinType.Output)
+        if (colorLight != null)
         {
-            ShowColor = transform.GetChild(0).GetComponent<SpriteRenderer>();
-            ShowColor.sortingOrder = 1;
+            colorLight.color = Color.black;
         }
     }
 
@@ -63,6 +61,7 @@ public class PinController : MonoBehaviour
                 break;
         }
     }
+
     private void Update()
     {
         ChangeSpriteBasedOnValue();
@@ -70,22 +69,22 @@ public class PinController : MonoBehaviour
 
     private void ChangeSpriteBasedOnValue()
     {
-        if (ShowColor == null)
+        if (!colorLight)
         {
             return;
         }
+
         switch (value)
         {
             case PinValue.Null:
-                ShowColor.sprite = null;
+                colorLight.color = Color.black;
                 break;
             case PinValue.Positive:
-                ShowColor.sprite = simulationManager.PinPostive;
+                colorLight.color = simulationManager.PinPostive;
                 break;
             case PinValue.Negative:
-                ShowColor.sprite = simulationManager.PinNegative;
+                colorLight.color = simulationManager.PinNegative;
                 break;
-
         }
     }
 
@@ -98,13 +97,16 @@ public class PinController : MonoBehaviour
             wireService.CreateNewWire(this);
             return;
         }
+
         wireService.CompleteExsistingWire(this);
     }
 
     public void SetPinIndex(int index) => pinIndex = index;
+
     private void OnMouseEnter()
     {
-        if (!simulationManager.SimulationRunning || (CurrentPinInfo.Type != PinType.Input && CurrentPinInfo.Type != PinType.Output) || Wires.Count == 0)
+        if (!simulationManager.SimulationRunning ||
+            (CurrentPinInfo.Type != PinType.Input && CurrentPinInfo.Type != PinType.Output) || Wires.Count == 0)
             return;
         messageBubble = MessageBubblePoolService.Instance.GetBubble();
         messageBubble.transform.SetParent(transform);
@@ -113,10 +115,10 @@ public class PinController : MonoBehaviour
             messageBubbleOffset.x = 0.5f;
         messageBubble.transform.position = (Vector2)transform.position + messageBubbleOffset;
     }
+
     private void OnMouseExit()
     {
         if (messageBubble != null)
             MessageBubblePoolService.Instance.ReturnBubble(messageBubble);
-
     }
 }
