@@ -15,7 +15,7 @@ public class ICSpawnerService : MonoGenericSingelton<ICSpawnerService>
 
     private Vector2 infintePos = new(999f, 999f);
 
-    private ICDragAndDrop iCThatDrags;
+    private ICDragAndDrop iCBeingDraged;
 
     private void Start()
     {
@@ -33,28 +33,28 @@ public class ICSpawnerService : MonoGenericSingelton<ICSpawnerService>
             iCPlaceHolderPrefab.IcData = Ics.IcList[i];
             Instantiate(iCPlaceHolderPrefab, icSpawner.transform);
         }
-        iCThatDrags = Instantiate(iCPrefab, infintePos, iCPrefab.transform.rotation);
-        iCThatDrags.transform.parent = transform;
-        iCThatDrags.gameObject.SetActive(false);
+        iCBeingDraged = Instantiate(iCPrefab, infintePos, iCPrefab.transform.rotation);
+        iCBeingDraged.transform.parent = transform;
+        iCBeingDraged.gameObject.SetActive(false);
         
     }
 
     private void SetIcSpawnerActive(bool value) {
-        icSpawner.transform.gameObject.SetActive(value);
+        icSpawner.gameObject.SetActive(value);
     }
     public void SpawnIC(IcData iCData)
     {
-        iCThatDrags.IcData = iCData;
-        Vector2 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        iCThatDrags.transform.position = pos;
-        iCThatDrags.gameObject.SetActive(true);
-        icSpawner.gameObject.SetActive(false);
+        iCBeingDraged.IcData = iCData;
+        Vector2 newIcPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        iCBeingDraged.transform.position = newIcPosition;
+        iCBeingDraged.gameObject.SetActive(true);
+        SetIcSpawnerActive(false);
     }
     public void TakeBackIc()
     {
-        iCThatDrags.transform.position = infintePos;
-        iCThatDrags.gameObject.SetActive(false);
-        icSpawner.gameObject.SetActive(true);
+        iCBeingDraged.transform.position = infintePos;
+        iCBeingDraged.gameObject.SetActive(false);
+        SetIcSpawnerActive(true);
     }
     private void OnDestroy()
     {

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a22a47b9dd344a9a45454b0bf99ad7a, type: 3}
   m_Name: D_Flip_Flop
   m_EditorClassIdentifier: 
-  IcSprite: {fileID: 21300000, guid: 71561182e5c40b84ca0b66e617055c54, type: 3}
+  IcSprite: {fileID: 21300000, guid: 2148b3b4cabcf4b4b8b4cff7d21fe29d, type: 3}
   TruthTable: {fileID: 0}
   ICType: 3
   NoOfPins: 14
