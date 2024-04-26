@@ -266,6 +266,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6733403880340452566}
     m_Modifications:
+    - target: {fileID: 425219897712506234, guid: 887ace6e43853af459f5aaea3cb321d5, type: 3}
+      propertyPath: value
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4360534144300442067, guid: 887ace6e43853af459f5aaea3cb321d5, type: 3}
       propertyPath: m_Name
       value: IC-Pin-3
@@ -350,6 +354,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6733403880340452566}
     m_Modifications:
+    - target: {fileID: 425219897712506234, guid: 887ace6e43853af459f5aaea3cb321d5, type: 3}
+      propertyPath: value
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4360534144300442067, guid: 887ace6e43853af459f5aaea3cb321d5, type: 3}
       propertyPath: m_Name
       value: IC-Pin-6
@@ -434,6 +442,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6733403880340452566}
     m_Modifications:
+    - target: {fileID: 425219897712506234, guid: 887ace6e43853af459f5aaea3cb321d5, type: 3}
+      propertyPath: value
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4360534144300442067, guid: 887ace6e43853af459f5aaea3cb321d5, type: 3}
       propertyPath: m_Name
       value: IC-Pin-9
@@ -518,6 +530,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6733403880340452566}
     m_Modifications:
+    - target: {fileID: 425219897712506234, guid: 887ace6e43853af459f5aaea3cb321d5, type: 3}
+      propertyPath: value
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4360534144300442067, guid: 887ace6e43853af459f5aaea3cb321d5, type: 3}
       propertyPath: m_Name
       value: IC-Pin-5
@@ -602,6 +618,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6733403880340452566}
     m_Modifications:
+    - target: {fileID: 425219897712506234, guid: 887ace6e43853af459f5aaea3cb321d5, type: 3}
+      propertyPath: value
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4360534144300442067, guid: 887ace6e43853af459f5aaea3cb321d5, type: 3}
       propertyPath: m_Name
       value: IC-Pin-7
@@ -686,6 +706,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6733403880340452566}
     m_Modifications:
+    - target: {fileID: 425219897712506234, guid: 887ace6e43853af459f5aaea3cb321d5, type: 3}
+      propertyPath: value
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4360534144300442067, guid: 887ace6e43853af459f5aaea3cb321d5, type: 3}
       propertyPath: m_Name
       value: IC-Pin-2
@@ -770,6 +794,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6733403880340452566}
     m_Modifications:
+    - target: {fileID: 425219897712506234, guid: 887ace6e43853af459f5aaea3cb321d5, type: 3}
+      propertyPath: value
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4360534144300442067, guid: 887ace6e43853af459f5aaea3cb321d5, type: 3}
       propertyPath: m_Name
       value: IC-Pin-8
@@ -854,6 +882,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6733403880340452566}
     m_Modifications:
+    - target: {fileID: 425219897712506234, guid: 887ace6e43853af459f5aaea3cb321d5, type: 3}
+      propertyPath: value
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4360534144300442067, guid: 887ace6e43853af459f5aaea3cb321d5, type: 3}
       propertyPath: m_Name
       value: IC-Pin-15
@@ -938,6 +970,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6733403880340452566}
     m_Modifications:
+    - target: {fileID: 425219897712506234, guid: 887ace6e43853af459f5aaea3cb321d5, type: 3}
+      propertyPath: value
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4360534144300442067, guid: 887ace6e43853af459f5aaea3cb321d5, type: 3}
       propertyPath: m_Name
       value: IC-Pin-4
@@ -1022,6 +1058,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6733403880340452566}
     m_Modifications:
+    - target: {fileID: 425219897712506234, guid: 887ace6e43853af459f5aaea3cb321d5, type: 3}
+      propertyPath: value
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4360534144300442067, guid: 887ace6e43853af459f5aaea3cb321d5, type: 3}
       propertyPath: m_Name
       value: IC-Pin-14
@@ -1106,6 +1146,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6733403880340452566}
     m_Modifications:
+    - target: {fileID: 425219897712506234, guid: 887ace6e43853af459f5aaea3cb321d5, type: 3}
+      propertyPath: value
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4360534144300442067, guid: 887ace6e43853af459f5aaea3cb321d5, type: 3}
       propertyPath: m_Name
       value: IC-Pin-1
@@ -1190,6 +1234,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6733403880340452566}
     m_Modifications:
+    - target: {fileID: 425219897712506234, guid: 887ace6e43853af459f5aaea3cb321d5, type: 3}
+      propertyPath: value
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4360534144300442067, guid: 887ace6e43853af459f5aaea3cb321d5, type: 3}
       propertyPath: m_Name
       value: IC-Pin-12
@@ -1274,6 +1322,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6733403880340452566}
     m_Modifications:
+    - target: {fileID: 425219897712506234, guid: 887ace6e43853af459f5aaea3cb321d5, type: 3}
+      propertyPath: value
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4360534144300442067, guid: 887ace6e43853af459f5aaea3cb321d5, type: 3}
       propertyPath: m_Name
       value: IC-Pin-13
@@ -1358,6 +1410,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6733403880340452566}
     m_Modifications:
+    - target: {fileID: 425219897712506234, guid: 887ace6e43853af459f5aaea3cb321d5, type: 3}
+      propertyPath: value
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4360534144300442067, guid: 887ace6e43853af459f5aaea3cb321d5, type: 3}
       propertyPath: m_Name
       value: IC-Pin-16
@@ -1442,6 +1498,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6733403880340452566}
     m_Modifications:
+    - target: {fileID: 425219897712506234, guid: 887ace6e43853af459f5aaea3cb321d5, type: 3}
+      propertyPath: value
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4360534144300442067, guid: 887ace6e43853af459f5aaea3cb321d5, type: 3}
       propertyPath: m_Name
       value: IC-Pin-11
@@ -1526,6 +1586,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6733403880340452566}
     m_Modifications:
+    - target: {fileID: 425219897712506234, guid: 887ace6e43853af459f5aaea3cb321d5, type: 3}
+      propertyPath: value
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4360534144300442067, guid: 887ace6e43853af459f5aaea3cb321d5, type: 3}
       propertyPath: m_Name
       value: IC-Pin-10

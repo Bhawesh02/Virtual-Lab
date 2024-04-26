@@ -8,4 +8,5 @@
     public abstract void SetData();
     public abstract void RunLogic();
     public abstract void SetPins();
+    public abstract void PropagateOutputPinValues();
 }

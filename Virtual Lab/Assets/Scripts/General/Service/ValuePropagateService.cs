@@ -1,4 +1,5 @@
 
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -62,15 +63,17 @@ public class ValuePropagateService : MonoGenericSingelton<ValuePropagateService>
         }
         for (int i = 0; i < ICViews.Count; i++)
         {
+            print("Run Logic");
             ICViews[i].Controller.RunIcLogic();
+        }
+        for (int i = 0; i < ICViews.Count; i++)
+        {
+            ICViews[i].Controller.TransferOutputPinValue();
         }
         EventService.Instance.InvokeAllValuePropagated();
     }
-
-
     private void TransferNewOutputValue(PinController pin)
     {
-        
         ResetValueProgatedForWiresInPin(pin);
         TransferData(pin);
     }

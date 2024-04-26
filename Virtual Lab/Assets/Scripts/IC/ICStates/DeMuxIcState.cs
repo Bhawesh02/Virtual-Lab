@@ -25,12 +25,13 @@ public class DeMuxIcState : IcState
                 outputPinNumber = OneXEightLogic(_icController.Model.Pins, deMuxIcData);
                 break;
         }
+
         SetOutPutValues(outputPinNumber);
     }
 
     private void SetOutPutValues(int outputPinNumber)
     {
-        Debug.Assert(outputPinNumber != -1,$"Got output -1");
+        Debug.Assert(outputPinNumber != -1, $"Got output -1");
         PinController outputPin;
         PinController inputPin = _icController.Model.Pins[deMuxIcData.InputPin - 1];
         foreach (int outputPinIndex in deMuxIcData.OutputPins)
@@ -44,6 +45,7 @@ public class DeMuxIcState : IcState
             {
                 outputPin.value = PinValue.Negative;
             }
+
             EventService.Instance.InvokeOutputPinValueChange(outputPin);
             ValuePropagateService.Instance.TransferData(outputPin);
         }
@@ -62,5 +64,10 @@ public class DeMuxIcState : IcState
         }
 
         _icController.SetAsInputPin(deMuxIcData.InputPin);
+    }
+
+    public override void PropagateOutputPinValues()
+    {
+        //Do Nothing
     }
 }

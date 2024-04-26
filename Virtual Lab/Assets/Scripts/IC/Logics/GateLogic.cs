@@ -88,6 +88,6 @@ public static class GateLogic
         if(inputValue1 == PinValue.Negative||inputValue2==PinValue.Negative||inputValue3 == PinValue.Negative)
             outputPin.value=PinValue.Positive;
         else
-        outputPin.value = PinValue.Negative;
+            outputPin.value = PinValue.Negative;
     }
 }
