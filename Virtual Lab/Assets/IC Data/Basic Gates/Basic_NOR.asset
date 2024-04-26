@@ -20,11 +20,11 @@ MonoBehaviour:
   GndPin: 7
   BasicGateType: 3
   PinMapping:
-  - OutputPin: 3
-    InputPin: 0100000002000000
+  - OutputPin: 1
+    InputPin: 0200000003000000
   - OutputPin: 4
     InputPin: 0500000006000000
+  - OutputPin: 13
+    InputPin: 0c0000000b000000
   - OutputPin: 10
     InputPin: 0900000008000000
-  - OutputPin: 11
-    InputPin: 0c0000000d000000
