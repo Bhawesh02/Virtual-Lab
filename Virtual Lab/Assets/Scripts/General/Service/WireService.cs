@@ -1,4 +1,4 @@
-
+using System;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -6,20 +6,20 @@ public class WireService : MonoGenericSingelton<WireService>
 {
     public bool doingConnection = false;
 
-    
 
-    [SerializeField]
-    private WireController wirePrefab;
+    [SerializeField] private WireController wirePrefab;
 
 
     private WireController NewWireMakingConnection;
 
     private WirePool wirePool;
+
     private void Start()
     {
         wirePool = new(wirePrefab);
         EventService.Instance.RemoveWireConnection += RemoveWireConnection;
     }
+
     private void Update()
     {
         if (doingConnection)
@@ -57,6 +57,7 @@ public class WireService : MonoGenericSingelton<WireService>
         NewWireMakingConnection.finalPin = finalPinController;
         NewWireMakingConnection.ConfirmConnection();
     }
+
     public void ReturnWire(WireController wireToReturn)
     {
         wirePool.ReturnItem(wireToReturn);
@@ -64,8 +65,14 @@ public class WireService : MonoGenericSingelton<WireService>
 
 
     #region Remove Connected Wire
+
     public void RemoveWireConnection(WireController wire)
     {
+        if (SimulatorManager.Instance.SimulationRunning)
+        {
+            return;
+        }
+
         PinController inititalPin = wire.initialPin;
         PinController finalPin = wire.finalPin;
         ResetPinValue(inititalPin);
@@ -76,24 +83,23 @@ public class WireService : MonoGenericSingelton<WireService>
         finalPin.Wires.Remove(wire);
         ReturnWire(wire);
     }
+
     private static void ResetPinValue(PinController pin)
     {
+        
         switch (pin.CurrentPinInfo.Type)
         {
-            case PinType.Input:
+            case PinType.Output:
                 pin.value = PinValue.Negative;
                 break;
-            case PinType.Vcc:
-                pin.value = PinValue.Vcc;
-                break;
-            case PinType.Gnd:
-                pin.value = PinValue.Gnd;
-                break;
-            default:
+            case PinType.IcInput:
+            case PinType.IcVcc:
+            case PinType.IcGnd:
                 pin.value = PinValue.Null;
                 break;
         }
     }
+
     private void RemoveInputPinConnected(WireController wire)
     {
         switch (wire.connectionDirection)
@@ -107,6 +113,7 @@ public class WireService : MonoGenericSingelton<WireService>
                 MakeIsInputConnectedFalse(wire.initialPin);
                 break;
         }
+
         wire.connectionDirection = ConnectionDirection.Null;
     }
 
@@ -128,10 +135,10 @@ public class WireService : MonoGenericSingelton<WireService>
             else
             {
                 MakeIsInputConnectedFalse(wire.initialPin);
-
             }
         }
     }
+
     #endregion
 
     private void OnDestroy()
