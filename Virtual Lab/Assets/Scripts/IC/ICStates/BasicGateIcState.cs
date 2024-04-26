@@ -16,19 +16,34 @@ public class BasicGateIcState : IcState
 
     public override void RunLogic()
     {
+        List<PinController> inputPins = new();
+        PinController outputPin;
         foreach (BasicGatePinMapping gate in basicGateIcData.PinMapping)
         {
-            int OutputPinIndex = gate.OutputPin - 1;
-            PinController OutputPin = _icController.Model.Pins[OutputPinIndex];
-            List<PinController> InputPins = new();
-            if (CheckAnyInputNotHaveWire(gate, InputPins))
+            SetInputAndOutputPins(inputPins,out outputPin, gate);
+            if (CheckAnyInputNotHaveWire(inputPins))
             {
-                OutputPin.value = PinValue.Null;
+                outputPin.value = PinValue.Null;
                 continue;
             }
 
-            if (CheckAnyInputHasValue(gate))
-                GenerateOutputValue(OutputPin, InputPins);
+            if (CheckAnyInputHasValue(inputPins))
+                GenerateOutputValue(outputPin, inputPins);
+        }
+    }
+
+    private void SetInputAndOutputPins(List<PinController> inputPins,out PinController outputPin, BasicGatePinMapping gate)
+    {
+        inputPins.Clear();
+        int outputPinIndex = gate.OutputPin - 1;
+        outputPinIndex = _icController.Skip8and9ifApplicable(outputPinIndex);
+        outputPin = _icController.Model.Pins[outputPinIndex];
+        int inputPinIndex;
+        foreach (int inputPinNumber in gate.InputPin)
+        {
+            inputPinIndex = inputPinNumber - 1;
+            inputPinIndex = _icController.Skip8and9ifApplicable(inputPinIndex);
+            inputPins.Add(_icController.Model.Pins[inputPinIndex]);
         }
     }
 
@@ -46,35 +61,27 @@ public class BasicGateIcState : IcState
         }
     }
 
-    private bool CheckAnyInputNotHaveWire(BasicGatePinMapping gate, List<PinController> InputPins)
+    private bool CheckAnyInputNotHaveWire(List<PinController> inputPins)
     {
-        for (int i = 0; i < gate.InputPin.Length; i++)
+        foreach (PinController inputPin in inputPins)
         {
-            int InputPinIndex = gate.InputPin[i] - 1;
-            PinController InputPin = _icController.Model.Pins[InputPinIndex];
-            if (InputPin.Wires.Count == 0)
+            if (inputPin.Wires.Count == 0)
             {
                 return true;
             }
-
-            InputPins.Add(InputPin);
         }
-
         return false;
     }
 
-    private bool CheckAnyInputHasValue(BasicGatePinMapping gate)
+    private bool CheckAnyInputHasValue(List<PinController> inputPins)
     {
-        for (int i = 0; i < gate.InputPin.Length; i++)
+        foreach (PinController inputPin in inputPins)
         {
-            int InputPinIndex = gate.InputPin[i] - 1;
-            PinController InputPin = _icController.Model.Pins[InputPinIndex];
-            if (InputPin.value != PinValue.Null)
+            if (inputPin.value != PinValue.Null)
             {
                 return true;
             }
         }
-
         return false;
     }
 
