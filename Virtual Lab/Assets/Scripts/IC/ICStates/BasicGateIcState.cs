@@ -5,7 +5,7 @@ using static GateLogic;
 public class BasicGateIcState : IcState
 {
     private BasicGateIcData basicGateIcData;
-
+    private PinController outputPin;
     public BasicGateIcState(ICController icController) : base(icController)
     {
     }
@@ -17,18 +17,10 @@ public class BasicGateIcState : IcState
     public override void RunLogic()
     {
         List<PinController> inputPins = new();
-        PinController outputPin;
         foreach (BasicGatePinMapping gate in basicGateIcData.PinMapping)
         {
             SetInputAndOutputPins(inputPins,out outputPin, gate);
-            if (CheckAnyInputNotHaveWire(inputPins))
-            {
-                outputPin.value = PinValue.Null;
-                continue;
-            }
-
-            if (CheckAnyInputHasValue(inputPins))
-                GenerateOutputValue(outputPin, inputPins);
+            GenerateOutputValue(inputPins);
         }
     }
 
@@ -61,33 +53,19 @@ public class BasicGateIcState : IcState
         }
     }
 
-    private bool CheckAnyInputNotHaveWire(List<PinController> inputPins)
+    public override void PropagateOutputPinValues()
     {
-        foreach (PinController inputPin in inputPins)
+        List<PinController> inputPins = new();
+        foreach (BasicGatePinMapping basicGatePinMapping in basicGateIcData.PinMapping)
         {
-            if (inputPin.Wires.Count == 0)
-            {
-                return true;
-            }
+            SetInputAndOutputPins(inputPins,out outputPin,basicGatePinMapping);
+            EventService.Instance.InvokeOutputPinValueChange(outputPin);
+            ValuePropagateService.Instance.TransferData(outputPin);
         }
-        return false;
+       
     }
-
-    private bool CheckAnyInputHasValue(List<PinController> inputPins)
+    private void GenerateOutputValue(List<PinController> inputPins)
     {
-        foreach (PinController inputPin in inputPins)
-        {
-            if (inputPin.value != PinValue.Null)
-            {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private void GenerateOutputValue(PinController outputPin, List<PinController> inputPins)
-    {
-        PinValue oldOutputPinValue = outputPin.value;
         switch (basicGateIcData.BasicGateType)
         {
             case BasicGateTypes.Not:
@@ -116,14 +94,6 @@ public class BasicGateIcState : IcState
                 break;
         }
 
-        if (outputPin.value == PinValue.Null)
-            return;
-        if (oldOutputPinValue != PinValue.Null && oldOutputPinValue != outputPin.value)
-        {
-            EventService.Instance.InvokeOutputPinValueChange(outputPin);
-            return;
-        }
-
-        ValuePropagateService.Instance.TransferData(outputPin);
+        
     }
 }

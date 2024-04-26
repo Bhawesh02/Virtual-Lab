@@ -52,7 +52,7 @@ public class SimulatorManager : MonoGenericSingelton<SimulatorManager>
     private void Update()
     {
         RightClickControl();
-        RunValuePropagatinAfterDelay();
+        //RunValuePropagatinAfterDelay();
     }
 
     private void RunValuePropagatinAfterDelay()

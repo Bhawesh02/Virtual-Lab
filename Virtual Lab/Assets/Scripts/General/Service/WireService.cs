@@ -95,7 +95,7 @@ public class WireService : MonoGenericSingelton<WireService>
             case PinType.IcInput:
             case PinType.IcVcc:
             case PinType.IcGnd:
-                pin.value = PinValue.Null;
+                pin.value = PinValue.Negative;
                 break;
         }
     }

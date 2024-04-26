@@ -21,6 +21,7 @@ public class FlipFlopIcState : IcState
             {
                 _icController.SetAsInputPin(inputPin);
             }
+
             _icController.SetAsInputPin(flipFlopPinMapping.ClockPin);
             _icController.SetAsInputPin(flipFlopPinMapping.PresetPin);
             _icController.SetAsInputPin(flipFlopPinMapping.ClearPin);
@@ -30,18 +31,20 @@ public class FlipFlopIcState : IcState
             }
         }
     }
-
     public override void RunLogic()
     {
         switch (flipFlopData.FlipFlopType)
         {
             case TypeOfFlipFlops.J_K:
-                JKLogic(flipFlopData,_icController);
+                JKLogic(flipFlopData, _icController);
                 break;
             case TypeOfFlipFlops.D:
-                DLogic(flipFlopData,_icController);
+                DLogic(flipFlopData, _icController);
                 break;
         }
+    }
+    public override void PropagateOutputPinValues()
+    {
         PinController outputPinController;
         foreach (FlipFlopPinMapping flipFlopPinMapping in flipFlopData.FlipFlopPinMappings)
         {
@@ -49,9 +52,8 @@ public class FlipFlopIcState : IcState
             {
                 outputPinController = _icController.Model.Pins[outputPin - 1];
                 EventService.Instance.InvokeOutputPinValueChange(outputPinController);
-                ValuePropagateService.Instance.TransferData(outputPinController);
             }
         }
-        
     }
+
 }

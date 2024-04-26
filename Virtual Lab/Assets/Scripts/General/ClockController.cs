@@ -33,5 +33,6 @@ public class ClockController : MonoBehaviour
         yield return new WaitForEndOfFrame();
         highPin.value = PinValue.Negative;
         lowPin.value = PinValue.Positive;
+        EventService.Instance.InvokeInputValueChanged();
     }
 }

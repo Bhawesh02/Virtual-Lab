@@ -52,6 +52,14 @@ public class MuxIcState : IcState
         }
     }
 
+    public override void PropagateOutputPinValues()
+    {
+        EventService.Instance.InvokeOutputPinValueChange(_outputPinCotroller);
+        EventService.Instance.InvokeOutputPinValueChange(_complimentOutputPinCotroller);
+        ValuePropagateService.Instance.TransferData(_outputPinCotroller);
+        ValuePropagateService.Instance.TransferData(_complimentOutputPinCotroller);
+    }
+
 
     private void SetOutPutValue(PinValue outputPinValue)
     {
@@ -63,9 +71,5 @@ public class MuxIcState : IcState
         _outputPinCotroller.value = outputPinValue;
         _complimentOutputPinCotroller.value =
             outputPinValue == PinValue.Positive ? PinValue.Negative : PinValue.Positive;
-        EventService.Instance.InvokeOutputPinValueChange(_outputPinCotroller);
-        EventService.Instance.InvokeOutputPinValueChange(_complimentOutputPinCotroller);
-        ValuePropagateService.Instance.TransferData(_outputPinCotroller);
-        ValuePropagateService.Instance.TransferData(_complimentOutputPinCotroller);
     }
 }

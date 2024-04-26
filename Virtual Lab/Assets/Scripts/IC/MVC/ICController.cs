@@ -177,10 +177,10 @@ public class ICController
 
     public void RunIcLogic()
     {
-        if (!SimulatorManager.Instance.SimulationRunning)
+        if (!Model.IcData)
+        {
             return;
-        if (Model.IcData == null)
-            return;
+        }
         int vccPinNumber = Model.IcData.VccPin - 1;
         int gndPinNumber = Model.IcData.GndPin - 1;
         GetVccAndGndPinInIC(vccPinNumber, gndPinNumber, out PinController VccPinInIc, out PinController GndPinInIc);
@@ -195,6 +195,12 @@ public class ICController
         currentIcState.RunLogic();
     }
 
+    public void TransferOutputPinValue()
+    {
+        if (Model.IcData == null)
+            return;
+        currentIcState.PropagateOutputPinValues();
+    }
     private void GetVccAndGndPinInIC(int VccPinNumber, int GndPinNumber, out PinController VccPinInIc,
         out PinController GndPinInIc)
     {
