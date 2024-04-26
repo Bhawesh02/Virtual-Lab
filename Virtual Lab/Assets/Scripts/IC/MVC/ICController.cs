@@ -57,6 +57,10 @@ public class ICController
     private void SetIcData(IcData icData)
     {
         Model.IcData = icData;
+        if (!icData)
+        {
+            return;
+        }
         switch (icData.ICType)
         {
             case ICTypes.NULL:
@@ -93,7 +97,6 @@ public class ICController
         {
             RemoveWiresConnectedToIcBase();
         }
-
         SetIcData(data);
         if (data != null)
         {
@@ -129,9 +132,7 @@ public class ICController
 
     private bool Is14pinbeingputin16pin(int numOfPinsInSelectedIcBase, int numOfPinsInSelecetedIC)
     {
-        if (numOfPinsInSelectedIcBase == 16 && numOfPinsInSelecetedIC == 14)
-            return true;
-        return false;
+        return numOfPinsInSelectedIcBase == 16 && numOfPinsInSelecetedIC == 14;
     }
 
 
@@ -219,7 +220,7 @@ public class ICController
         int inputPinNumber = inputPin - 1;
         inputPinNumber = Skip8and9ifApplicable(inputPinNumber);
         ChangePinType(inputPinNumber, PinType.IcInput);
-        PinController inputPinController = Model.Pins[inputPinNumber].GetComponent<PinController>();
+        PinController inputPinController = Model.Pins[inputPinNumber];
         inputPinController.value = PinValue.Negative;
         ValuePropagateService.Instance.IcInputPins.Add(inputPinController);
         Model.Pins[inputPinNumber].gameObject.AddComponent<OutputPinConnectionCheck>();
@@ -230,7 +231,7 @@ public class ICController
         int outputPinNumber = outputPin - 1;
         outputPinNumber = Skip8and9ifApplicable(outputPinNumber);
         ChangePinType(outputPinNumber, PinType.IcOutput);
-        PinController outputPinController = Model.Pins[outputPinNumber].GetComponent<PinController>();
+        PinController outputPinController = Model.Pins[outputPinNumber];
         outputPinController.value = PinValue.Negative;
         ValuePropagateService.Instance.IcOutputPins.Add(outputPinController);
         EventService.Instance.InvokeOutputPinValueChange(outputPinController);
