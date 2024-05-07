@@ -75,18 +75,16 @@ public class WireService : MonoGenericSingelton<WireService>
 
         PinController inititalPin = wire.initialPin;
         PinController finalPin = wire.finalPin;
-        ResetPinValue(inititalPin);
-        ResetPinValue(finalPin);
         RemoveInputPinConnected(wire);
         SimulatorManager.Instance.WiresInSystem.Remove(wire);
         inititalPin.Wires.Remove(wire);
         finalPin.Wires.Remove(wire);
         ReturnWire(wire);
+        ResetPinValue(finalPin);
     }
 
     private static void ResetPinValue(PinController pin)
     {
-        
         switch (pin.CurrentPinInfo.Type)
         {
             case PinType.Output:
@@ -107,34 +105,35 @@ public class WireService : MonoGenericSingelton<WireService>
             case ConnectionDirection.Null:
                 return;
             case ConnectionDirection.InititalToFinal:
-                MakeIsInputConnectedFalse(wire.finalPin);
+                MakeIsInputConnectedFalse(wire.finalPin, wire);
                 break;
             case ConnectionDirection.FinalToInitial:
-                MakeIsInputConnectedFalse(wire.initialPin);
+                MakeIsInputConnectedFalse(wire.initialPin, wire);
                 break;
         }
 
         wire.connectionDirection = ConnectionDirection.Null;
     }
 
-    private void MakeIsInputConnectedFalse(PinController pin)
+    private void MakeIsInputConnectedFalse(PinController pin, WireController exsistingWire)
     {
         OutputPinConnectionCheck outputPin = pin.GetComponent<OutputPinConnectionCheck>();
         if (outputPin == null)
             return;
         outputPin.IsInputPinConnected = false;
+        ResetPinValue(pin);
         foreach (WireController wire in pin.Wires)
         {
-            if (wire.connectionDirection == ConnectionDirection.Null)
+            if (wire.connectionDirection == ConnectionDirection.Null || wire == exsistingWire)
                 continue;
             wire.connectionDirection = ConnectionDirection.Null;
             if (pin == wire.initialPin)
             {
-                MakeIsInputConnectedFalse(wire.finalPin);
+                MakeIsInputConnectedFalse(wire.finalPin, wire);
             }
             else
             {
-                MakeIsInputConnectedFalse(wire.initialPin);
+                MakeIsInputConnectedFalse(wire.initialPin, wire);
             }
         }
     }
