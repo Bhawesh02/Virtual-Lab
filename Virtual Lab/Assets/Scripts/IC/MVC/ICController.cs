@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,7 +13,8 @@ public class ICController
     private IcState flipFlopIcState;
     private IcState asynConterIcState;
     private bool isSmallIcInBigbase;
-
+    private bool haslogicRanTwice = false;
+    private Coroutine runLogicAgainCoroutine;
 
     public ICView View { get; }
     public ICModel Model { get; }
@@ -192,9 +194,27 @@ public class ICController
 
         if (Model.IcData.ICType == ICTypes.NULL)
             return;
+        if (runLogicAgainCoroutine != null)
+        {
+            View.StopCoroutine(runLogicAgainCoroutine);
+        }
+        haslogicRanTwice = false;
         currentIcState.RunLogic();
+        runLogicAgainCoroutine = View.StartCoroutine(RungLogicAgain());
     }
 
+    private IEnumerator RungLogicAgain()
+    {
+        if (haslogicRanTwice)
+        {
+            yield break;
+        }
+        WaitForEndOfFrame waitForEndOfFrame = new WaitForEndOfFrame();
+        yield return waitForEndOfFrame;
+        currentIcState.RunLogic();
+        TransferOutputPinValue();
+        haslogicRanTwice = true;
+    }
     public void TransferOutputPinValue()
     {
         if (Model.IcData == null)
