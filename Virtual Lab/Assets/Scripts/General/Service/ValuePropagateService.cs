@@ -1,11 +1,9 @@
-
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ValuePropagateService : MonoGenericSingelton<ValuePropagateService> 
+public class ValuePropagateService : MonoGenericSingelton<ValuePropagateService>
 {
-
     public List<PinController> OutputPins;
     public List<PinController> InputPins;
     public List<PinController> VccPins;
@@ -18,22 +16,21 @@ public class ValuePropagateService : MonoGenericSingelton<ValuePropagateService>
     public List<PinController> ClockPins;
 
     private SimulatorManager simulatorManager;
+
     private void Start()
     {
-        simulatorManager =SimulatorManager.Instance;
+        simulatorManager = SimulatorManager.Instance;
         EventService.Instance.SimulationStarted += StartTransfer;
         EventService.Instance.InputValueChanged += StartTransfer;
         EventService.Instance.OutputPinValueChange += TransferNewOutputValue;
     }
+
     private void SetWiresValuePropagetedToFalse()
     {
-
         for (int i = 0; i < simulatorManager.WiresInSystem.Count; i++)
         {
             simulatorManager.WiresInSystem[i].valuePropagated = false;
         }
-
-
     }
 
     public void StartTransfer()
@@ -43,6 +40,7 @@ public class ValuePropagateService : MonoGenericSingelton<ValuePropagateService>
             EventService.Instance.InvokeShowError("NO wires connected");
             return;
         }
+
         SetWiresValuePropagetedToFalse();
         for (int i = 0; i < VccPins.Count; i++)
         {
@@ -53,25 +51,30 @@ public class ValuePropagateService : MonoGenericSingelton<ValuePropagateService>
         {
             TransferData(GndPins[i]);
         }
-        for(int i=0;i<ClockPins.Count; i++)
+
+        for (int i = 0; i < ClockPins.Count; i++)
         {
             TransferData(ClockPins[i]);
         }
+
         for (int i = 0; i < InputPins.Count; i++)
         {
             TransferData(InputPins[i]);
         }
+
         for (int i = 0; i < ICViews.Count; i++)
         {
-            print("Run Logic");
             ICViews[i].Controller.RunIcLogic();
         }
+
         for (int i = 0; i < ICViews.Count; i++)
         {
             ICViews[i].Controller.TransferOutputPinValue();
         }
+
         EventService.Instance.InvokeAllValuePropagated();
     }
+
     private void TransferNewOutputValue(PinController pin)
     {
         ResetValueProgatedForWiresInPin(pin);
@@ -84,7 +87,10 @@ public class ValuePropagateService : MonoGenericSingelton<ValuePropagateService>
         foreach (WireController wire in pin.Wires)
         {
             if (!wire.valuePropagated)
-            { continue; }
+            {
+                continue;
+            }
+
             if (wire.connectionDirection == ConnectionDirection.InititalToFinal)
                 transferedToPin = wire.finalPin;
             else if (wire.connectionDirection == ConnectionDirection.FinalToInitial)
@@ -95,15 +101,15 @@ public class ValuePropagateService : MonoGenericSingelton<ValuePropagateService>
     }
 
     public void TransferData(PinController pin)
-    {/*
-        if (pin.value == PinValue.Null)
-            return;*/
+    {
+        /*
+            if (pin.value == PinValue.Null)
+                return;*/
         if (pin.Wires.Count == 0)
             return;
-        PinController transferFromPin = null,transferToPin = null;
+        PinController transferFromPin = null, transferToPin = null;
         foreach (WireController wire in pin.Wires)
         {
-
             if (wire.valuePropagated)
                 continue;
             if (wire.connectionDirection == ConnectionDirection.InititalToFinal)
@@ -116,6 +122,7 @@ public class ValuePropagateService : MonoGenericSingelton<ValuePropagateService>
                 transferFromPin = wire.finalPin;
                 transferToPin = wire.initialPin;
             }
+
             TransferValue(transferFromPin, transferToPin, wire);
         }
     }

@@ -96,11 +96,8 @@ public class WireController : MonoBehaviour
             SetIsInputPinConnectedToTrue(finalPin);
             connectionDirection = ConnectionDirection.InititalToFinal;
             ChangeDirectionForConnectedWires(finalPin);
-
         }
-
         //Initial Pin - Output , FinalPin - Input
-
         if (IsAInputPin(finalPin) && IsAOutputPin(initialPin))
         {
             if (initialPin.gameObject.GetComponent<OutputPinConnectionCheck>().IsInputPinConnected)
@@ -111,13 +108,8 @@ public class WireController : MonoBehaviour
             SetIsInputPinConnectedToTrue(initialPin);
             connectionDirection = ConnectionDirection.FinalToInitial;
             ChangeDirectionForConnectedWires(initialPin);
-
-
         }
-
         //Initial Pin - Output , FinalPin - Output
-
-
         if (IsAOutputPin(initialPin) && IsAOutputPin(finalPin))
         {
             if (initialPin.gameObject.GetComponent<OutputPinConnectionCheck>().IsInputPinConnected && finalPin.gameObject.GetComponent<OutputPinConnectionCheck>().IsInputPinConnected)
@@ -130,7 +122,6 @@ public class WireController : MonoBehaviour
                 SetIsInputPinConnectedToTrue(finalPin);
                 connectionDirection = ConnectionDirection.InititalToFinal;
                 ChangeDirectionForConnectedWires(finalPin);
-
             }
             else if (finalPin.gameObject.GetComponent<OutputPinConnectionCheck>().IsInputPinConnected)
             {
@@ -144,6 +135,7 @@ public class WireController : MonoBehaviour
         finalPin.Wires.Add(this);
         /*SimulatorManager.Instance.WiresConnectionChecked.Clear();*/
         SetEdgeCollider();
+        Debug.Log(gameObject + "Direction: " + connectionDirection);
     }
 
     private void ChangeDirectionForConnectedWires(PinController pin)
