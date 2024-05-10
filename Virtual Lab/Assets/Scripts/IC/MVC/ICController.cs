@@ -16,8 +16,7 @@ public class ICController
     private bool haslogicRanTwice = false;
     private bool haslogicRanOnce = false;
     private Coroutine runLogicAgainCoroutine;
-    private bool isClockSet = false;
-    
+
     public ICView View { get; }
     public ICModel Model { get; }
 
@@ -33,29 +32,12 @@ public class ICController
         flipFlopIcState = new FlipFlopIcState(this);
         asynConterIcState = new AsynchronousCounterIcState(this);
         EventService.Instance.ChangeIC += ChangeIc;
-        EventService.Instance.ClockHasBeenSet += ClockValueChange;
     }
 
-    private void ClockValueChange(bool clockSet)
-    {
-        Debug.Log($"Set clock : {clockSet}");
-        if (clockSet)
-        {
-            isClockSet = true;
-            if (runLogicAgainCoroutine != null)
-            {
-                View.StopCoroutine(runLogicAgainCoroutine);
-            }
-            return;
-        }
-        isClockSet = false;
-        RunLogic();
-    }
 
     ~ICController()
     {
         EventService.Instance.ChangeIC -= ChangeIc;
-        EventService.Instance.ClockHasBeenSet -= ClockValueChange;
     }
 
     public void SetPins(GameObject pinsGameObject)
@@ -83,6 +65,7 @@ public class ICController
         {
             return;
         }
+
         switch (icData.ICType)
         {
             case ICTypes.NULL:
@@ -119,6 +102,7 @@ public class ICController
         {
             RemoveWiresConnectedToIcBase();
         }
+
         SetIcData(data);
         if (data != null)
         {
@@ -203,6 +187,7 @@ public class ICController
         {
             return;
         }
+
         int vccPinNumber = Model.IcData.VccPin - 1;
         int gndPinNumber = Model.IcData.GndPin - 1;
         GetVccAndGndPinInIC(vccPinNumber, gndPinNumber, out PinController VccPinInIc, out PinController GndPinInIc);
@@ -218,7 +203,9 @@ public class ICController
         {
             View.StopCoroutine(runLogicAgainCoroutine);
         }
+
         haslogicRanTwice = false;
+        Debug.Log("Run Ic Logic : " + View.name);
         currentIcState.RunLogic();
         haslogicRanOnce = true;
         runLogicAgainCoroutine = View.StartCoroutine(RungLogicAgain());
@@ -226,21 +213,18 @@ public class ICController
 
     private IEnumerator RungLogicAgain()
     {
-        if (isClockSet)
-        {
-            yield break;
-        }
         yield return new WaitForEndOfFrame();
         RunLogic();
     }
 
     private void RunLogic()
     {
-        if (haslogicRanTwice || !haslogicRanOnce)
+        if (haslogicRanTwice || !haslogicRanOnce || currentIcState.IcType == ICTypes.FLIP_FLOP)
         {
             return;
         }
-        Debug.Log("Second Logic");
+
+        Debug.Log("Second Logic : " + View.name);
         currentIcState.RunLogic();
         TransferOutputPinValue();
         haslogicRanTwice = true;
@@ -253,6 +237,7 @@ public class ICController
             return;
         currentIcState.PropagateOutputPinValues();
     }
+
     private void GetVccAndGndPinInIC(int VccPinNumber, int GndPinNumber, out PinController VccPinInIc,
         out PinController GndPinInIc)
     {

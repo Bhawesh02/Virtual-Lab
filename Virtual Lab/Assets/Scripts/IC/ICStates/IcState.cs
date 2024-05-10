@@ -1,6 +1,8 @@
 ﻿public abstract class IcState
 {
     protected ICController _icController;
+
+    public ICTypes IcType => _icController.Model.IcData.ICType;
     protected IcState(ICController icController)
     {
         _icController = icController;
