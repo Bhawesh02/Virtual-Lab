@@ -107,4 +107,5 @@ public static class FlipFlopLogic
             outputComplimentPin.value = GetComplimentValue(outputPin.value);
         }
     }
+    
 }

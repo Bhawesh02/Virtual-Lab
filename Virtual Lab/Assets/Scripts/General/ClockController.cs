@@ -27,6 +27,7 @@ public class ClockController : MonoBehaviour
         highPin.value = PinValue.Positive;
         lowPin.value = PinValue.Negative;
         EventService.Instance.InvokeInputValueChanged();
+        EventService.Instance.InvokeClocHasBeenSet(true);
         StartCoroutine(ChangeToNull());
     }
 
@@ -36,5 +37,7 @@ public class ClockController : MonoBehaviour
         highPin.value = PinValue.Negative;
         lowPin.value = PinValue.Positive;
         EventService.Instance.InvokeInputValueChanged();
+        EventService.Instance.InvokeClocHasBeenSet(false);
+
     }
 }

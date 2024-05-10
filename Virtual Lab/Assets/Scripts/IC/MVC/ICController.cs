@@ -14,6 +14,7 @@ public class ICController
     private IcState asynConterIcState;
     private bool isSmallIcInBigbase;
     private bool haslogicRanTwice = false;
+    private bool haslogicRanOnce = false;
     private Coroutine runLogicAgainCoroutine;
 
     public ICView View { get; }
@@ -32,6 +33,7 @@ public class ICController
         asynConterIcState = new AsynchronousCounterIcState(this);
         EventService.Instance.ChangeIC += ChangeIc;
     }
+
 
     ~ICController()
     {
@@ -63,6 +65,7 @@ public class ICController
         {
             return;
         }
+
         switch (icData.ICType)
         {
             case ICTypes.NULL:
@@ -99,6 +102,7 @@ public class ICController
         {
             RemoveWiresConnectedToIcBase();
         }
+
         SetIcData(data);
         if (data != null)
         {
@@ -183,6 +187,7 @@ public class ICController
         {
             return;
         }
+
         int vccPinNumber = Model.IcData.VccPin - 1;
         int gndPinNumber = Model.IcData.GndPin - 1;
         GetVccAndGndPinInIC(vccPinNumber, gndPinNumber, out PinController VccPinInIc, out PinController GndPinInIc);
@@ -198,29 +203,41 @@ public class ICController
         {
             View.StopCoroutine(runLogicAgainCoroutine);
         }
+
         haslogicRanTwice = false;
+        Debug.Log("Run Ic Logic : " + View.name);
         currentIcState.RunLogic();
+        haslogicRanOnce = true;
         runLogicAgainCoroutine = View.StartCoroutine(RungLogicAgain());
     }
 
     private IEnumerator RungLogicAgain()
     {
-        if (haslogicRanTwice)
+        yield return new WaitForEndOfFrame();
+        RunLogic();
+    }
+
+    private void RunLogic()
+    {
+        if (haslogicRanTwice || !haslogicRanOnce || currentIcState.IcType == ICTypes.FLIP_FLOP)
         {
-            yield break;
+            return;
         }
-        WaitForEndOfFrame waitForEndOfFrame = new WaitForEndOfFrame();
-        yield return waitForEndOfFrame;
+
+        Debug.Log("Second Logic : " + View.name);
         currentIcState.RunLogic();
         TransferOutputPinValue();
         haslogicRanTwice = true;
+        haslogicRanOnce = false;
     }
+
     public void TransferOutputPinValue()
     {
         if (Model.IcData == null)
             return;
         currentIcState.PropagateOutputPinValues();
     }
+
     private void GetVccAndGndPinInIC(int VccPinNumber, int GndPinNumber, out PinController VccPinInIc,
         out PinController GndPinInIc)
     {

@@ -1,6 +1,7 @@
 
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEngine;
 
 public static class GateLogic
 {
@@ -89,5 +90,6 @@ public static class GateLogic
             outputPin.value=PinValue.Positive;
         else
             outputPin.value = PinValue.Negative;
+        Debug.Log($"outPutPin {outputPin.CurrentPinInfo.PinNumber} : {outputPin.value}");
     }
 }
