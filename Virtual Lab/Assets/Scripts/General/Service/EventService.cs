@@ -13,6 +13,8 @@ public class EventService : MonoGenericSingelton<EventService>
     public event Action<ICView, IcData> ChangeIC;
     public event Action<PinController> OutputPinValueChange;
     public event Action<String> ShowError;
+    public event Action<bool> ClockHasBeenSet;
+    
     public void InvokeSimulationStarted()
     {
         SimulationStarted?.Invoke();
@@ -50,5 +52,10 @@ public class EventService : MonoGenericSingelton<EventService>
     public void InvokeOutputPinValueChange(PinController pin)
     {
         OutputPinValueChange?.Invoke(pin);
+    }
+
+    public void InvokeClocHasBeenSet(bool clockSet)
+    {
+        ClockHasBeenSet?.Invoke(clockSet);
     }
 }

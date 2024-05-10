@@ -14,8 +14,10 @@ public class ICController
     private IcState asynConterIcState;
     private bool isSmallIcInBigbase;
     private bool haslogicRanTwice = false;
+    private bool haslogicRanOnce = false;
     private Coroutine runLogicAgainCoroutine;
-
+    private bool isClockSet = false;
+    
     public ICView View { get; }
     public ICModel Model { get; }
 
@@ -31,11 +33,29 @@ public class ICController
         flipFlopIcState = new FlipFlopIcState(this);
         asynConterIcState = new AsynchronousCounterIcState(this);
         EventService.Instance.ChangeIC += ChangeIc;
+        EventService.Instance.ClockHasBeenSet += ClockValueChange;
+    }
+
+    private void ClockValueChange(bool clockSet)
+    {
+        Debug.Log($"Set clock : {clockSet}");
+        if (clockSet)
+        {
+            isClockSet = true;
+            if (runLogicAgainCoroutine != null)
+            {
+                View.StopCoroutine(runLogicAgainCoroutine);
+            }
+            return;
+        }
+        isClockSet = false;
+        RunLogic();
     }
 
     ~ICController()
     {
         EventService.Instance.ChangeIC -= ChangeIc;
+        EventService.Instance.ClockHasBeenSet -= ClockValueChange;
     }
 
     public void SetPins(GameObject pinsGameObject)
@@ -200,21 +220,33 @@ public class ICController
         }
         haslogicRanTwice = false;
         currentIcState.RunLogic();
+        haslogicRanOnce = true;
         runLogicAgainCoroutine = View.StartCoroutine(RungLogicAgain());
     }
 
     private IEnumerator RungLogicAgain()
     {
-        if (haslogicRanTwice)
+        if (isClockSet)
         {
             yield break;
         }
-        WaitForEndOfFrame waitForEndOfFrame = new WaitForEndOfFrame();
-        yield return waitForEndOfFrame;
+        yield return new WaitForEndOfFrame();
+        RunLogic();
+    }
+
+    private void RunLogic()
+    {
+        if (haslogicRanTwice || !haslogicRanOnce)
+        {
+            return;
+        }
+        Debug.Log("Second Logic");
         currentIcState.RunLogic();
         TransferOutputPinValue();
         haslogicRanTwice = true;
+        haslogicRanOnce = false;
     }
+
     public void TransferOutputPinValue()
     {
         if (Model.IcData == null)
